@@ -41,6 +41,8 @@
 																		OT.ValorFrete,
 																		OT.ValorBoleto,
 																		OT.ValorRestanteOrca,
+																		OT.ValorExtraOrca,
+																		OT.ValorSomaOrca,
 																		OT.FormaPagamento,
 																		OT.Descricao,
 																		AP.idApp_Produto,
@@ -77,10 +79,11 @@
 										$total_valor += $sub_total;
 										$sub_total_produtos = $read_produto_view['QtdIncrementoProduto'] * $read_produto_view['QtdProduto'];
 										$total_produtos += $sub_total_produtos;
+										$extra_orca = $read_produto_view['ValorExtraOrca'];
 										$total_orca = $read_produto_view['ValorRestanteOrca'];
 										$valor_frete = $read_produto_view['ValorFrete'];
 										$valor_boleto = $read_produto_view['ValorBoleto'];
-										$valor_total = ($total_orca + $valor_frete + $valor_boleto);
+										$valor_total = ($extra_orca + $total_orca + $valor_frete + $valor_boleto);
 										$cont_item++;
 										?>		
 										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
@@ -125,7 +128,11 @@
 								<strong><?php echo $total_produtos;?> Unid.</strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
-								<span>Valor: </span>
+								<span>Extra: </span>
+								<strong>R$ <?php echo number_format($extra_orca,2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>Produtos & Serviços: </span>
 								<strong>R$ <?php echo number_format($total_valor,2,",",".");?></strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
