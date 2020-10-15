@@ -180,7 +180,7 @@ if($btnLogin){
 										FROM 
 											App_Cliente 
 										WHERE
-											CelularUsuario = '" .$celular. "' AND
+											CelularCliente = '" .$celular. "' AND
 											idSis_Empresa = '" .$idSis_Empresa. "'
 										LIMIT 1";
 					$resultado_cliente_celular = mysqli_query($conn, $result_cliente_celular);
