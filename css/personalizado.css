@@ -1,0 +1,166 @@
+.header-menu{
+    background-color: #444444;
+    color: #fff;
+    font-size: 15px;
+}
+
+.nome-nav{	
+	padding-left: 25px;
+	padding-top: 20px;
+}
+
+.fundo{
+    background-color: #bcbcbc;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoCinza{
+    background-color: #F5F5F5;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoAzulClaro{
+    background-color: #B0E0E6;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoAzulEscuro{
+    background-color: #4682B4;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoVerde{
+    background-color: #7FFFD4;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoAmarelo{
+    background-color: #FFFACD;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundoVermelho{
+    background-color: #FFE4E1;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundo-carrinho{    
+	background-color: #d2d2d2;
+    color: #fff;
+    font-size: 15px;
+}
+
+.fundo-entrega-carrinho{    
+	background-color: #d2d2d2;
+    color: #fff;
+    font-size: 15px;
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 20px; 
+	border: 1px solid #999;
+	margin: 0px 1%;
+
+}
+
+.espaco-topo{
+    margin-top: 20px;
+    color: #fff;
+}
+
+.espaco-topo-2{
+    margin-top: 40px;
+    color: #fff;
+}
+
+.logo-small {
+    color: #1aad72;
+    font-size: 50px;
+}
+
+.logo {
+    color: #1aad72;
+    font-size: 200px;
+}
+
+.paragrafo{
+    color: #000000;
+    font-size: 20px;
+}
+
+.img-produtos{
+	padding-left: 25px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 20px; 
+	border: 1px solid #999;
+	margin: 10px 1.0%;	
+}
+
+.img-prod-pag{
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 20px; 
+	border: 1px solid #999;
+	margin: 0px 1%;	
+}
+
+.img-prod{
+
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 20px; 
+	border: 1px solid #999;
+	margin: 0px 1%;	
+}
+
+.img-prod2{
+
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 20px; 
+
+	margin: 0px 1%;	
+}
+
+.img-band{
+    padding-right: 2px;
+}
+
+.img-link{
+    padding-top: 5px;
+}
+
+.select-qnt-parcelas{
+    display: none;
+}
+
+*{margin: 0; box-sizing: border-box;}
+
+.contorno{
+	float:left; 
+	width: 23%; 
+	margin: 10px 1.0%; 
+	border-radius: 10px; 
+	border: 3px solid #999; 
+	font-size: 18px; 
+	font-weight: bold;
+}
+.Titulo{
+	float:left; 
+	width: 100%; 
+	border-radius: 10px 10px 0 0; 
+	font-weight: bold; color: #fff; 
+	background: #000; 
+	text-align: center;
+}
