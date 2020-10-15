@@ -127,6 +127,9 @@
 														Estado,
 														Descricao,
 														ValorDinheiro,
+														ValorExtraOrca,
+														Cli_Forn_Orca,
+														Prd_Srv_Orca,
 														AprovadoOrca) 
 												VALUES(	'1',
 														'2',
@@ -163,6 +166,9 @@
 														'".$estado."',
 														'".$descricao."',
 														'".$valordinheiro."',
+														'0.00',
+														'S',
+														'S',
 														'N')";
 			mysqli_query($conn, $insert_pedido);
 			
@@ -394,8 +400,9 @@
 									QtdPrdOrca = '".$qtd_produtoorca_produto."',
 									ValorOrca = '".$total_venda_produto."',
 									QtdSrvOrca = '".$qtd_produtoorca_servico."',
-									ValorDev = '".$total_venda_servico."',  
+									ValorDev = '".$total_venda_servico."',
 									ValorRestanteOrca = '".$total_venda_prsr."',
+									ValorSomaOrca = '".$total_venda_prsr."',
 									ValorTotalOrca = '".$valor_fatura."',
 									ValorTroco = '".$valor_troco_final."',
 									ValorFatura = '".$valor_fatura."',
