@@ -27,7 +27,6 @@
 								SET 
 									AprovadoOrca = 'N',
 									CanceladoOrca = 'S',
-									FinalizadoOrca = 'S',
 									ObsOrca = 'Cancelado pelo Cliente, na hora da confirmacao.'
 								WHERE 
 									idApp_OrcaTrata = '".$id_pedido."'
