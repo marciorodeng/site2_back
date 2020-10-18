@@ -17,15 +17,35 @@
 			<div class="row">
 				<div class="row">	
 					<div class="col-md-12">	
-						<div class="col-md-8">
+						<div class="col-md-6">
 							<h2 class="ser-title">Meus Pedidos!</h2>
 							<hr class="botm-line">
 						</div>
-						<div class="col-md-4 card-body text-right">
-							<a href="meus_pedidos.php" class="btn btn-warning">Atualizar Status dos Pedidos</a>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<a href="meus_pedidos.php" class="btn btn-warning btn-block">
+										<span class="glyphicon glyphicon-search"></span> Atualizar Status
+									</a>
+								</span>
+								<span class="input-group-btn">	
+								<?php if($loja_aberta){ ?>	
+									<?php if($row_empresa['EComerce'] == 'S'){ ?>		
+										<a href="produtos.php" class="btn btn-success btn-block">
+											<span class="glyphicon glyphicon-plus"></span> Novo Pedido
+										</a>
+									<?php } ?>
+								<?php } else { ?>											
+									<button class="btn btn-success btn-block ">
+										<span class="glyphicon glyphicon-ban-circle"></span>Loja Fechada
+									</button>
+								<?php } ?>
+								</span>
+							</div>
 						</div>
 					</div>	
-				</div>	
+				</div>
+				<br>
 				<div class="col-lg-1"></div>
 					<div class="col-lg-10">
 					<div class="col-md-12 order-md-2 mb-4">
@@ -361,6 +381,13 @@
 															<h5 class="my-0"><span class="text-muted" style="color: #000000">Pedido: </span><?php echo $pedido;?></h5>  
 														</div>
 													</div>
+													<div class="row">
+															<div class="col-md-9 ">
+																<h5 class="my-0"><span class="text-muted" style="color: #000000">Motivo:</span>
+																	<span><?php echo utf8_encode($read_pedido_view['ObsOrca']);?></span>
+																</h5>
+															</div>
+													</div>
 												<?php } ?>
 												
 												<?php if(!($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N') || (($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')) {?>
@@ -420,58 +447,50 @@
 																<?php } ?>
 															</h5>
 														</div>
-														<?php if($read_pedido_view['CanceladoOrca'] == 'N'){ ?>
-															<div class="col-md-3 ">
-																<h5 class="my-0"><span class="text-muted" style="color: #000000">Produtos:</span>
-																	<?php if($read_pedido_view['AprovadoOrca'] == 'S'){ ?>	
-																		<?php if($read_pedido_view['ProntoOrca'] == 'S'){ ?>
-																			<span>Prontos para Entrega</span>
-																		<?php } else {?>
-																			<span>Sendo Separados</span>
-																		<?php } ?>
+														
+														<div class="col-md-3 ">
+															<h5 class="my-0"><span class="text-muted" style="color: #000000">Produtos:</span>
+																<?php if($read_pedido_view['AprovadoOrca'] == 'S'){ ?>	
+																	<?php if($read_pedido_view['ProntoOrca'] == 'S'){ ?>
+																		<span>Prontos para Entrega</span>
+																	<?php } else {?>
+																		<span>Sendo Separados</span>
+																	<?php } ?>
+																<?php } else {?>
+																	<span>Aguardando</span>
+																<?php } ?>	
+															</h5>
+														</div>
+														<div class="col-md-3 ">
+															<h5 class="my-0"><span class="text-muted" style="color: #000000">Expedição:</span>
+																<?php if($read_pedido_view['TipoFrete'] == '1'){ ?>
+																	<?php if($read_pedido_view['ConcluidoOrca'] == 'N'){ ?>
+																		<span>Aguardando Retirada</span>
+																	<?php } else {?>
+																		<span>Entregue</span>
+																	<?php } ?>
+																<?php } else {?>
+																	<?php if($read_pedido_view['EnviadoOrca'] == 'S'){ ?>
+																		<span>Enviado</span>
 																	<?php } else {?>
 																		<span>Aguardando</span>
-																	<?php } ?>	
-																</h5>
-															</div>
-															<div class="col-md-3 ">
-																<h5 class="my-0"><span class="text-muted" style="color: #000000">Expedição:</span>
-																	<?php if($read_pedido_view['TipoFrete'] == '1'){ ?>
-																		<?php if($read_pedido_view['ConcluidoOrca'] == 'N'){ ?>
-																			<span>Aguardando Retirada</span>
-																		<?php } else {?>
-																			<span>Entregue</span>
-																		<?php } ?>
-																	<?php } else {?>
-																		<?php if($read_pedido_view['EnviadoOrca'] == 'S'){ ?>
-																			<span>Enviado</span>
-																		<?php } else {?>
-																			<span>Aguardando</span>
-																		<?php } ?>
 																	<?php } ?>
-																</h5>
-															</div>
-															<div class="col-md-3 ">
-																<h5 class="my-0"><span class="text-muted" style="color: #000000">Entrega:</span>
-																	<?php if($read_pedido_view['CanceladoOrca'] == 'N'){ ?>	
-																		<?php if($read_pedido_view['ConcluidoOrca'] == 'S'){ ?>
-																			<span>Entregue</span>
-																		<?php } else {?>
-																			<span>Aguardando</span>
-																		<?php } ?>
+																<?php } ?>
+															</h5>
+														</div>
+														<div class="col-md-3 ">
+															<h5 class="my-0"><span class="text-muted" style="color: #000000">Entrega:</span>
+																<?php if($read_pedido_view['CanceladoOrca'] == 'N'){ ?>	
+																	<?php if($read_pedido_view['ConcluidoOrca'] == 'S'){ ?>
+																		<span>Entregue</span>
 																	<?php } else {?>
-																		<span>Cancelado</span>
-																	<?php } ?>	
-																</h5>
-															</div>
-														<?php } else {?>
-															
-															<div class="col-md-9 ">
-																<h5 class="my-0"><span class="text-muted" style="color: #000000">Motivo:</span>
-																	<span><?php echo utf8_encode($read_pedido_view['ObsOrca']);?></span>
-																</h5>
-															</div>
-														<?php } ?>
+																		<span>Aguardando</span>
+																	<?php } ?>
+																<?php } else {?>
+																	<span>Cancelado</span>
+																<?php } ?>	
+															</h5>
+														</div>
 													</div>
 												<?php }	?>
 											</div>
@@ -509,6 +528,7 @@
 							?>
 			
 						</ul>
+						<!--
 						<?php if($loja_aberta){ ?>	
 							<?php if($row_empresa['EComerce'] == 'S'){ ?>
 								<div class="card-body text-right">
@@ -518,6 +538,7 @@
 						<?php } else { ?>
 							<button class="btn btn-warning btn-block "  >Loja Fechada</button>
 						<?php } ?>
+						-->
 					</div>
 				</div>
 			</div>
