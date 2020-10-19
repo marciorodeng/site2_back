@@ -77,6 +77,7 @@
 																		OT.ValorRestanteOrca,
 																		OT.ValorFrete,
 																		OT.ValorBoleto,
+																		OT.ValorTotalOrca,
 																		OT.CombinadoFrete,
 																		OT.FormaPagamento,
 																		OT.pedido_data_hora,
@@ -127,7 +128,7 @@
 								}																
 								if(mysqli_num_rows($read_pedido) > '0'){
 									foreach($read_pedido as $read_pedido_view){
-										
+										$valortotalorca = $read_pedido_view['ValorTotalOrca'];
 										$total = $read_pedido_view['ValorRestanteOrca'] + $read_pedido_view['ValorFrete'] + $read_pedido_view['ValorBoleto'] ;
 										
 										if($read_pedido_view['AVAP'] == 'V'){
@@ -302,7 +303,7 @@
 																		R$ <?php echo number_format($read_pedido_view['ValorFrete'], 2, ",", ".");?>
 																	</h5>		
 																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span>
-																		R$ <?php echo number_format($total, 2, ",", ".");?>
+																		R$ <?php echo number_format($valortotalorca, 2, ",", ".");?>
 																	</h5>
 																</div>
 																<!--
@@ -393,7 +394,7 @@
 												<?php if(!($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N') || (($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')) {?>
 													<div class="row">
 														<div class="col-md-3 ">
-															<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span> R$ <?php echo number_format($total, 2, ",", ".");?> </h5>
+															<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span> R$ <?php echo number_format($valortotalorca, 2, ",", ".");?> </h5>
 														</div>
 														<div class="col-md-3 ">
 															<h5 class="my-0"><span class="text-muted" style="color: #000000">Pagar: </span><?php echo $pagar;?></h5>  

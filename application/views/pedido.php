@@ -35,7 +35,7 @@
 						</h4>
 						<ul class="list-group mb-3 ">										
 							<?php
-								$read_produto = mysqli_query($conn, "
+								$read_orcatrata = mysqli_query($conn, "
 																	SELECT 
 																		OT.ValorTotalOrca,
 																		OT.ValorFrete,
@@ -44,7 +44,17 @@
 																		OT.ValorExtraOrca,
 																		OT.ValorSomaOrca,
 																		OT.FormaPagamento,
-																		OT.Descricao,
+																		OT.Descricao
+																	FROM 
+																		App_OrcaTrata AS OT
+																	WHERE 
+																		OT.idApp_OrcaTrata = '".$id_pedido."'  
+																	ORDER BY 
+																		OT.idApp_OrcaTrata ASC
+																	");
+								
+								$read_produto = mysqli_query($conn, "
+																	SELECT 
 																		AP.idApp_Produto,
 																		AP.ValorProduto, 
 																		AP.QtdProduto,
@@ -59,8 +69,7 @@
 																		TOP1.Opcao,
 																		CONCAT(TPS.Nome_Prod, ' ' ,TOP2.Opcao, ' ' ,TOP1.Opcao) AS Produtos
 																	FROM 
-																		App_OrcaTrata AS OT
-																			LEFT JOIN App_Produto  AS AP ON AP.idApp_OrcaTrata = OT.idApp_OrcaTrata
+																		App_Produto  AS AP 
 																			LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = AP.idTab_Produtos_Produto
 																			LEFT JOIN Tab_Opcao AS TOP2 ON TOP2.idTab_Opcao = TPS.Opcao_Atributo_1
 																			LEFT JOIN Tab_Opcao AS TOP1 ON TOP1.idTab_Opcao = TPS.Opcao_Atributo_2
@@ -69,51 +78,56 @@
 																	ORDER BY 
 																		AP.idApp_Produto ASC
 																	");
-								if(mysqli_num_rows($read_produto) > '0'){
-									$total_valor = 0;
-									$total_produtos = 0;
-									$cont_item = 0;
-									foreach($read_produto as $read_produto_view){
-										$descricao = $read_produto_view['Descricao'];
-										$sub_total = $read_produto_view['ValorProduto'] * $read_produto_view['QtdProduto'];
-										$total_valor += $sub_total;
-										$sub_total_produtos = $read_produto_view['QtdIncrementoProduto'] * $read_produto_view['QtdProduto'];
-										$total_produtos += $sub_total_produtos;
-										$extra_orca = $read_produto_view['ValorExtraOrca'];
-										$total_orca = $read_produto_view['ValorRestanteOrca'];
-										$valor_frete = $read_produto_view['ValorFrete'];
-										$valor_boleto = $read_produto_view['ValorBoleto'];
-										$valor_total = ($extra_orca + $total_orca + $valor_frete + $valor_boleto);
-										$cont_item++;
-										?>		
-										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
-											
-												<div class="row img-prod-pag">	
-													<div class="col-md-3 ">	
-														<div class="col-md-4 ">
-															<span class="text-muted">Item <?php echo $cont_item;?> </span> 
-														</div>
-														<div class="col-md-8 ">
-															<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='50' >
-														</div>														
-													</div>
-													<div class="col-md-9 ">
-														<div class="row">
-															<h4 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h4>
-															<!--<small class="text-muted">Brief description</small>-->
+								
+								if(mysqli_num_rows($read_orcatrata) > '0'){
+									foreach($read_orcatrata as $read_orcatrata_view){
+										$descricao = $read_orcatrata_view['Descricao'];
+										$valortotalorca = $read_orcatrata_view['ValorTotalOrca'];
+										$extra_orca = $read_orcatrata_view['ValorExtraOrca'];
+										$total_orca = $read_orcatrata_view['ValorRestanteOrca'];
+										$valor_frete = $read_orcatrata_view['ValorFrete'];
+										$valor_boleto = $read_orcatrata_view['ValorBoleto'];
+										$total_valor = 0;
+										$total_produtos = 0;
+										$cont_item = 0;
+										if(mysqli_num_rows($read_produto) > '0'){
+											foreach($read_produto as $read_produto_view){
+												$sub_total = $read_produto_view['ValorProduto'] * $read_produto_view['QtdProduto'];
+												$total_valor += $sub_total;
+												$sub_total_produtos = $read_produto_view['QtdIncrementoProduto'] * $read_produto_view['QtdProduto'];
+												$total_produtos += $sub_total_produtos;
+												$cont_item++;
+												?>		
+												<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
+													
+														<div class="row img-prod-pag">	
+															<div class="col-md-3 ">	
+																<div class="col-md-4 ">
+																	<span class="text-muted">Item <?php echo $cont_item;?> </span> 
+																</div>
+																<div class="col-md-8 ">
+																	<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='50' >
+																</div>														
 															</div>
-														<div class="row">	
-															<!--<span class="text-muted">Valor = R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> / </span>--> 
-															<span class="text-muted">SubQtd = <?php echo $sub_total_produtos;?> Un. / </span>
-															<span class="text-muted">SubTotal = R$ <?php echo number_format($sub_total,2,",",".");?></span>																
+															<div class="col-md-9 ">
+																<div class="row">
+																	<h4 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h4>
+																	<!--<small class="text-muted">Brief description</small>-->
+																	</div>
+																<div class="row">	
+																	<!--<span class="text-muted">Valor = R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> / </span>--> 
+																	<span class="text-muted">SubQtd = <?php echo $sub_total_produtos;?> Un. / </span>
+																	<span class="text-muted">SubTotal = R$ <?php echo number_format($sub_total,2,",",".");?></span>																
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-												
-										</li>
-										<?php
-									}
-								}
+														
+												</li>
+												<?php
+											}
+										}
+									}	
+								}	
 							?>
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Observações </span>
@@ -137,17 +151,17 @@
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Valor do Frete: </span>
-								<strong>R$ <?php echo number_format($read_produto_view['ValorFrete'],2,",",".");?></strong>
+								<strong>R$ <?php echo number_format($valor_frete,2,",",".");?></strong>
 							</li>
-							<?php if($read_produto_view['FormaPagamento'] == 2) { ?>	
+							<?php if($read_orcatrata_view['FormaPagamento'] == 2) { ?>	
 								<li class="list-group-item d-flex justify-content-between fundo">
 									<span>Valor do Boleto: </span>
-									<strong>R$ <?php echo number_format($read_produto_view['ValorBoleto'],2,",",".");?></strong>
+									<strong>R$ <?php echo number_format($valor_boleto,2,",",".");?></strong>
 								</li>
 							<?php } ?>	
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Total: </span>
-								<strong>R$ <?php echo number_format($valor_total,2,",",".");?></strong>
+								<strong>R$ <?php echo number_format($valortotalorca,2,",",".");?></strong>
 							</li>
 						</ul>
 					</div>
