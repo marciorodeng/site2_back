@@ -78,7 +78,6 @@
 																	ORDER BY 
 																		AP.idApp_Produto ASC
 																	");
-								
 								if(mysqli_num_rows($read_orcatrata) > '0'){
 									foreach($read_orcatrata as $read_orcatrata_view){
 										$descricao = $read_orcatrata_view['Descricao'];
@@ -113,7 +112,7 @@
 																<div class="row">
 																	<h4 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h4>
 																	<!--<small class="text-muted">Brief description</small>-->
-																	</div>
+																</div>
 																<div class="row">	
 																	<!--<span class="text-muted">Valor = R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> / </span>--> 
 																	<span class="text-muted">SubQtd = <?php echo $sub_total_produtos;?> Un. / </span>
@@ -163,6 +162,49 @@
 								<span>Total: </span>
 								<strong>R$ <?php echo number_format($valortotalorca,2,",",".");?></strong>
 							</li>
+							<?php								
+								$read_parcelas = mysqli_query($conn, "
+																	SELECT 
+																		*
+																	FROM 
+																		App_Parcelas  AS PRC 
+																	WHERE 
+																		PRC.idApp_OrcaTrata = '".$id_pedido."'  
+																	ORDER BY 
+																		PRC.idApp_Parcelas ASC
+																	");
+										
+								$total_parcelas = 0;
+								$cont_parcelas = 0;
+								if(mysqli_num_rows($read_parcelas) > '0'){
+									foreach($read_parcelas as $read_parcelas_view){
+										if($read_parcelas_view['Quitado'] == "S"){
+											$quitado = "Pago";
+										}elseif($read_parcelas_view['Quitado'] == "N"){
+											$quitado = "Aguardando";
+										}else{
+											$quitado = "Outros";
+										}
+										$cont_parcelas++;
+										?>		
+										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
+											<div class="row img-prod-pag">	
+												<div class="row">
+													<div class="col-md-3 ">	
+														<h4 class="my-0">Parcela <?php echo utf8_encode ($read_parcelas_view['Parcela']);?> </h4>													
+													</div>
+													<div class="col-md-6 ">	
+														<span class="my-0">R$ <?php echo number_format($read_parcelas_view['ValorParcela'],2,",",".");?></span> |
+														<span class="my-0">Vnc.  <?php echo date_format(new DateTime($read_parcelas_view['DataVencimento']),'d/m/Y');?></span> |
+														<span class="my-0"> <?php echo $quitado;?> </span>
+													</div>
+												</div>	
+											</div>
+										</li>
+										<?php
+									}
+								}	
+							?>
 						</ul>
 					</div>
 				</div>
