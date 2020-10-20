@@ -48,14 +48,14 @@
 						<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
 							<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a><br><br>							
 						<?php } else { ?>	
-							<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>
+							<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
 						<?php } ?>
 						
 							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
 							<!--
 							<a class="dropdown-item" href="login_associado.php">Associado</a><br><br>
 							-->
-							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Funcionários</a><br>
+							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Plataforma</a><br>
 							
 						</div>
 					</li>
