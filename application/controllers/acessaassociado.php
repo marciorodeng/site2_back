@@ -7,18 +7,18 @@
 		$result_usuario = "SELECT 
 								TSUO.idSis_Empresa,
 								TSUO.Codigo,
-								TSUO.idSis_Usuario,
-								TSUO.Inativo,
+								TSUO.idSis_Usuario_5,
+								TSUO.ClienteConsultor,
 								TSU.Nome,
 								TSU.Arquivo,
 								TSU.Email
 							FROM 
-								Sis_Usuario_Online AS TSUO
-									LEFT JOIN Sis_Usuario AS TSU ON TSU.idSis_Usuario = TSUO.idSis_Usuario
+								App_Cliente AS TSUO
+									LEFT JOIN Sis_Usuario AS TSU ON TSU.idSis_Usuario = TSUO.idSis_Usuario_5
 							WHERE 
 								'".$idSis_Empresa."' = '".$emp."' AND
 								TSUO.Codigo = '".$usuario."' AND
-								TSUO.Inativo = '2'
+								TSUO.ClienteConsultor = 'S'
 							LIMIT 1";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
 		
@@ -34,13 +34,10 @@
 			//header("Location: ../inicial.php");
 			header("Location: ../produtos.php");
 		}else{		
-			$_SESSION['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
+			unset($_SESSION['id_Usuario'.$idSis_Empresa], $_SESSION['Nome_Usuario'.$idSis_Empresa], $_SESSION['Arquivo_Usuario'.$idSis_Empresa]);
+			$_SESSION['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario_5'];
 			$_SESSION['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
 			$_SESSION['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];
-			
-			//print_r($_SESSION['Nome_Usuario']);
-			//echo '<script> window.location = "../inicial.php" </script>';
-			//header("Location: ../inicial.php");
 			header("Location: ../produtos.php");
 		}
 	} else{

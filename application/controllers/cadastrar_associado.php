@@ -16,13 +16,17 @@ if($btnCadUsuario){
 		$erro = true;
 		$_SESSION['msg'] = "Necessário preencher todos os campos";
 	}else{
-		$result_usuario = "SELECT idSis_Usuario_Online FROM Sis_Usuario_Online WHERE idSis_Empresa='". $dados['idSis_Empresa'] ."' AND idSis_Usuario = '". $dados['idSis_Usuario'] ."'";
+		$result_usuario = "SELECT idApp_Cliente FROM App_Cliente WHERE idSis_Empresa='". $dados['idSis_Empresa'] ."' AND idSis_Usuario_5 = '". $dados['idSis_Usuario'] ."'";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
 		if(($resultado_usuario) AND ($resultado_usuario->num_rows != 0)){
 			
 			$erro = true;
 			$_SESSION['msg'] = "Este usuário já está cadastrado nesta empresa!";
 			header("Location: cadastro_realizado.php?emp=".$dados['idSis_Empresa']."&usuario=".$dados['idSis_Usuario']."");
+		} else {
+		
+			$erro = true;
+			$_SESSION['msg'] = "Este usuário ainda não é cliente desta empresa!";
 		}
 	}
 	

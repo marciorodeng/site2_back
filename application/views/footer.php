@@ -14,7 +14,7 @@
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['Nome_Usuario'.$idSis_Empresa])){ ?>
 								<div class="col-md-3">
-									<img class="img-circle " width='80' src="../contapessoal/5/usuarios/miniatura/<?php echo $_SESSION['Arquivo_Usuario'.$idSis_Empresa]; ?>" alt="">					
+									<img class="img-circle " width='80' src="../associados/5/usuarios/miniatura/<?php echo $_SESSION['Arquivo_Usuario'.$idSis_Empresa]; ?>" alt="">					
 								</div>
 								<div class="col-md-9 ">
 									<a class="white no-padding" ><?php echo $_SESSION['Nome_Usuario'.$idSis_Empresa]; ?></a>

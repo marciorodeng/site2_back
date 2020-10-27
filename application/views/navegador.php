@@ -15,7 +15,7 @@
 			<a class="navbar-brand" href="inicial.php"><img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_documento['Logo_Nav']; ?>"></a>
 			
 			<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>
-				<a class="navbar-brand-nome"style="color: #FFFFFF" href=""><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></a>
+				<a class="navbar-brand-nome"style="color: #FFFFFF" href="login_associado.php"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></a>
 			<?php }else{ ?>
 				<a class="navbar-brand-nome "style="color: #FFFFFF" href="login_cliente.php">!! Login do Cliente !!</a>
 			<?php } ?>
@@ -51,10 +51,10 @@
 							<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
 						<?php } ?>
 						
-							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
-							<!--
-							<a class="dropdown-item" href="login_associado.php">Associado</a><br><br>
-							-->
+							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>
+							
+							<a class="dropdown-item" href="login_associado.php">Link de Associado</a><br><br>-->
+							
 							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Plataforma</a><br>
 							
 						</div>
