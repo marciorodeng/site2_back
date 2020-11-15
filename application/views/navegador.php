@@ -51,9 +51,9 @@
 							<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
 						<?php } ?>
 						
-							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>
+							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
 							
-							<a class="dropdown-item" href="login_associado.php">Link de Associado</a><br><br>-->
+							<a class="dropdown-item" href="login_associado.php">Link de Associado</a><br><br>
 							
 							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Plataforma</a><br>
 							
