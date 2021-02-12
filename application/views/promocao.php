@@ -7,6 +7,7 @@
 				);	
 	}
 	$dataatual = date('Y-m-d', time());
+	$dia_da_semana = date('N');
 ?>
 <section id="service" class="section-padding">
 	<div class="container">
@@ -132,10 +133,13 @@
 							FROM 
 								Tab_Promocao AS TPM
 									LEFT JOIN Tab_Valor AS TV ON TV.idTab_Promocao = TPM.idTab_Promocao
+									LEFT JOIN Tab_Dia_Prom AS TD ON TD.idTab_Promocao = TPM.idTab_Promocao
 							WHERE 
 								TPM.idSis_Empresa = '".$idSis_Empresa."' AND 
 								TPM.DataInicioProm <= '".$dataatual."' AND 
-								TPM.DataFimProm >= '".$dataatual."' AND
+								TPM.DataFimProm >= '".$dataatual."' AND 
+								TD.id_Dia_Prom = '".$dia_da_semana."' AND
+								TD.Aberto_Prom = 'S' AND
 								TPM.Ativo = 'S' AND
 								TPM.VendaSite = 'S' AND
 								TV.AtivoPreco = 'S' AND

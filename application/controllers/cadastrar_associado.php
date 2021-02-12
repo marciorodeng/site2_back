@@ -29,7 +29,7 @@ if($btnCadUsuario){
 			$_SESSION['msg'] = "Este usuário ainda não é cliente desta empresa!";
 		}
 	}
-	
+	/*
 	//var_dump($dados);
 	if(!$erro){
 		$codigo = md5(uniqid(time() . rand()));
@@ -43,18 +43,19 @@ if($btnCadUsuario){
 		$resultado_usario = mysqli_query($conn, $result_usuario);
 		if(mysqli_insert_id($conn)){
 			$_SESSION['msgcad'] = "Solicitação realizada com sucesso";
-			/*
+			
 			unset(	$_SESSION['id_Associado'], 
 					$_SESSION['Nome_Associado'], 
 					$_SESSION['Email_Associado']
 					);
-					*/
+					
 			//header("Location: inicial.php");
 			header("Location: cadastro_realizado.php?emp=".$dados['idSis_Empresa']."&usuario=".$dados['idSis_Usuario']."");
 		}else{
 			$_SESSION['msg'] = "Erro ao realizar a solicitação! Entre em contato com a empresa!";
 		}
 	}
+	*/
 	
 }	
 ?>

@@ -27,6 +27,8 @@
 												TPS.ValorProdutoSite,
 												TPS.PesoProduto,
 												TPS.ObsProduto,
+												TPS.Estoque,
+												TPS.Produtos_Descricao,
 												TOP2.Opcao AS Opcao2,
 												TOP1.Opcao AS Opcao1,
 												CONCAT(TPS.Nome_Prod, ' ' ,TOP2.Opcao, ' ' ,TOP1.Opcao) AS Produtos,
@@ -57,6 +59,7 @@
 												
 													$idTab_Produto = $read_produto_carrinho_view['idTab_Produtos'];
 													$quantidade_produto_incremento = $read_produto_carrinho_view['QtdProdutoIncremento'];
+													$quantidade_estoque = $read_produto_carrinho_view['Estoque'];
 													$sub_total_qtd_produto = $quantidade_produto_carrinho * $quantidade_produto_incremento;
 													$total_produtos += $sub_total_qtd_produto;
 													$sub_total_peso = $quantidade_produto_carrinho * $read_produto_carrinho_view['PesoProduto'];
@@ -64,7 +67,7 @@
 													$sub_total_produto_carrinho = $quantidade_produto_carrinho * $read_produto_carrinho_view['ValorProduto'];
 													$total_venda += $sub_total_produto_carrinho;
 													$total = number_format($total_venda, 2, ",", ".");
-
+													/*
 													$compra = mysqli_query($conn, "
 															SELECT
 															SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdCompra,
@@ -113,7 +116,7 @@
 													}
 													
 													$qtdestoque = $qtdcompra - $qtdvenda;												
-													
+													*/
 												}
 													
 												
@@ -131,9 +134,12 @@
 															</div>
 															<div class="row ">	
 																<div class="col-md-12 ">
-																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h5>
+																	<h5 class="card-title"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?><br> 
+																							<?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?>
+																	</h5>
+																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h5>
 																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></h5>
-																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Descricao']);?></h5>-->
+																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Descricao']);?></h5>-->
 																</div>
 															</div>
 														</div>
@@ -147,11 +153,13 @@
 														<div class="col-md-3">
 															<div class="row ">	
 																<div class="col-md-12 ">
-																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br> 
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Opcao2']);?>
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Opcao1']);?></h5>
+																	<h5 class="card-title"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br> 
+																							<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?><br>
+																							<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																	</h5>
+																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
 																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h5>
-																	<!--<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>-->
+																	<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>-->
 																</div>
 															</div>															
 														</div>	
@@ -166,7 +174,7 @@
 															<div class="row ">
 																<!--
 																<div class="col-md-3 ">
-																	<h4 class="my-0">Estoque:<br> <?php echo $qtdestoque;?></h4> 
+																	<h4 class="my-0">Estoque:<br> <?php echo $quantidade_estoque;?></h4> 
 																</div>
 																														
 																<div class="col-md-6 ">
@@ -182,7 +190,7 @@
 																<div class="col-md-4 ">
 																	<h4 class="my-0"><a href="deletar_produto_carrinho.php?id=<?php echo $id_produto_carrinho ?>">Excluir</a></h4> 
 																</div>															
-																<?php if($quantidade_produto_carrinho > $qtdestoque){?>
+																<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
 																	<div class="col-md-4 ">
 																		<h4 class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</h4>
 																	</div>

@@ -209,32 +209,37 @@
 										}
 										
 										if($read_pedido_view['CanceladoOrca'] == 'N'){
-											if($read_pedido_view['AprovadoOrca'] == 'S'){
-												if($read_pedido_view['ProntoOrca'] == 'N' && $read_pedido_view['EnviadoOrca'] == 'N' && $read_pedido_view['ConcluidoOrca'] == 'N' ){
-													$cor = 'fundoAzulClaro';
-												}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'N' && $read_pedido_view['ConcluidoOrca'] == 'N'){
-													$cor = 'fundoVerde';
-												}elseif($read_pedido_view['AVAP'] != 'O' && $read_pedido_view['QuitadoOrca'] != 'N'){
-													$cor = 'fundoAmarelo';
-												}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'N'){
-													$cor = 'fundoAmarelo';
-												}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'S' && $read_pedido_view['QuitadoOrca'] == 'N'){
-													$cor = 'fundoAmarelo';
-												}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'N' && $read_pedido_view['QuitadoOrca'] == 'S'){
+											if($read_pedido_view['CombinadoFrete'] == 'S'){
+												if($read_pedido_view['AprovadoOrca'] == 'S'){
+													if($read_pedido_view['ProntoOrca'] == 'N' && $read_pedido_view['EnviadoOrca'] == 'N' && $read_pedido_view['ConcluidoOrca'] == 'N' ){
+														$cor = 'fundoAzulClaro';
+													}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'N' && $read_pedido_view['ConcluidoOrca'] == 'N'){
+														$cor = 'fundoVerde';
+													}elseif($read_pedido_view['AVAP'] != 'O' && $read_pedido_view['QuitadoOrca'] != 'N'){
+														$cor = 'fundoAmarelo';
+													}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'N'){
+														$cor = 'fundoAmarelo';
+													}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'S' && $read_pedido_view['QuitadoOrca'] == 'N'){
+														$cor = 'fundoAmarelo';
+													}elseif($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'N' && $read_pedido_view['QuitadoOrca'] == 'S'){
+														$cor = 'fundoAmarelo';
+													}
+												} else {
+													$cor = 'fundoVermelho';
+												}
+												if($read_pedido_view['AVAP'] == 'O' && $read_pedido_view['QuitadoOrca'] == 'N'){
 													$cor = 'fundoAmarelo';
 												}
-											} else {
-												$cor = 'fundoVermelho';
-											}
-											if($read_pedido_view['CombinadoFrete'] == 'N' && $read_pedido_view['Tipo_Orca'] == 'O' && $read_pedido_view['TipoFrete'] == '2'){
-												$cor = 'fundoVermelho';
-											}
-											if($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AVAP'] == 'O' && $read_pedido_view['QuitadoOrca'] == 'N'){
-												$cor = 'fundoAmarelo';
-											}
-											if($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'S' && $read_pedido_view['QuitadoOrca'] == 'S'){
-												$cor = 'fundoAzulEscuro';
-											}
+												if($read_pedido_view['ProntoOrca'] == 'S' && $read_pedido_view['EnviadoOrca'] == 'S' && $read_pedido_view['ConcluidoOrca'] == 'S' && $read_pedido_view['QuitadoOrca'] == 'S'){
+													$cor = 'fundoAzulEscuro';
+												}
+											}else{
+												if($read_pedido_view['Tipo_Orca'] == 'O' && $read_pedido_view['TipoFrete'] == '2'){
+													$cor = 'fundoVermelho';
+												}else{
+													$cor = 'fundoVermelho';
+												}
+											}	
 										} else {
 											$cor = '';
 										}
@@ -547,4 +552,4 @@
 		
 	</section>
 
-<?php } ?>
+<?php } else { echo "<script>window.location = 'login_cliente.php'</script>"; } ?>

@@ -150,6 +150,7 @@
 						TPS.Nome_Prod,
 						TPS.Arquivo,
 						TPS.Valor_Produto,
+						TPS.Estoque,
 						TOP2.Opcao AS Opcao2,
 						TOP1.Opcao AS Opcao1,
 						(TV.ValorProduto) AS SubTotal2
@@ -198,9 +199,10 @@
 											$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
 											$valortotal2 	= $subtotal2;
 											$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
+											$qtd_estoque = $read_produtos_derivados_view['Estoque'];
 											$id_produto = $read_produtos_derivados_view['idTab_Produtos'];
+											/*
 											$qtdestoque = $qtdcompra = $qtdvenda = 0;
-											
 											$compra = mysqli_query($conn, "
 													SELECT
 													SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdCompra,
@@ -246,16 +248,15 @@
 												}
 											}
 											$qtdestoque = $qtdcompra - $qtdvenda;
-											$total_estoque = $qtdestoque - $qtd_incremento;
+											*/
+											$total_estoque = $qtd_estoque - $qtd_incremento;
 											?>		
 												<div class="col-lg-4 col-md-4 col-sm-6 mb-4">
 													<div class="img-produtos ">
 														<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" >
 														<div class="card-body">
 															<h5 class="card-title">
-																<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> 
-																<?php echo utf8_encode ($read_produtos_derivados_view['Opcao2']);?><br>
-																<?php echo utf8_encode ($read_produtos_derivados_view['Opcao1']);?> - 
+																<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> - 
 																<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
 															</h5>
 															<h4><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?></h4>

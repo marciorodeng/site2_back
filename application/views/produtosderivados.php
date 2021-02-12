@@ -149,6 +149,8 @@
 								TPS.Nome_Prod,
 								TPS.Arquivo,
 								TPS.Valor_Produto,
+								TPS.Estoque,
+								TPS.Produtos_Descricao,
 								TOP2.Opcao AS Opcao2,
 								TOP1.Opcao AS Opcao1,
 								(TV.ValorProduto) AS SubTotal2
@@ -157,14 +159,14 @@
 									LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TV.idTab_Produtos
 									LEFT JOIN Tab_Promocao AS TPR ON TPR.idTab_Promocao = TV.idTab_Promocao
 									LEFT JOIN Tab_Produto AS TP ON TP.idTab_Produto = TPS.idTab_Produto
-									LEFT JOIN Tab_Opcao AS TOP2 ON TOP2.idTab_Opcao = TPS.Opcao_Atributo_1
-									LEFT JOIN Tab_Opcao AS TOP1 ON TOP1.idTab_Opcao = TPS.Opcao_Atributo_2
+									LEFT JOIN Tab_Opcao AS TOP2 ON TOP2.idTab_Opcao = TPS.Opcao_Atributo_2
+									LEFT JOIN Tab_Opcao AS TOP1 ON TOP1.idTab_Opcao = TPS.Opcao_Atributo_1
 
 							WHERE 
 								TV.idTab_Modelo = '".$id_modelo."' AND
 								TV.Desconto = '1' AND
-								TPR.Ativo = 'S' AND
-								TPR.VendaSite = 'S' AND
+								TP.Ativo = 'S' AND
+								TP.VendaSite = 'S' AND
 								TV.AtivoPreco = 'S' AND
 								TV.VendaSitePreco = 'S'
 							ORDER BY 
@@ -174,9 +176,11 @@
 							if(mysqli_num_rows($read_produtos_derivados) > '0'){
 								foreach($read_produtos_derivados as $read_produtos_derivados_view){
 									$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
-									$id_produto = $read_produtos_derivados_view['idTab_Produtos'];
+									$id_produto 	= $read_produtos_derivados_view['idTab_Produtos'];
 									$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
 									$valortotal2 	= $subtotal2;
+									$qtd_estoque 	= $read_produtos_derivados_view['Estoque'];
+									/*
 									$qtdestoque = $qtdcompra = $qtdvenda = 0;
 									$compra = mysqli_query($conn, "
 											SELECT
@@ -223,15 +227,15 @@
 										}
 									}
 									$qtdestoque = $qtdcompra - $qtdvenda;
+									*/
 									?>		
 									<div class="col-lg-4 col-md-4 col-sm-6 mb-4">
 										<div class="img-produtos ">
 											<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" >					 
 											<div class="card-body">
-												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> 
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Opcao2']);?><br>
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Opcao1']);?> - 
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> - 
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?><br>
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 												</h5>
 												<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. R$ <?php echo number_format($valortotal2,2,",",".");?></h5>
 											</div>
@@ -239,7 +243,7 @@
 												<div class="card-body">
 													<?php if($row_empresa['EComerce'] == 'S'){ ?>
 														<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-															<?php 	if($qtdestoque >= $qtd_incremento){ ?>
+															<?php 	if($qtd_estoque >= $qtd_incremento){ ?>
 																<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $read_produtos_derivados_view['idTab_Valor'];?>" class="btn btn-success" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar ao Carrinho</a>
 																<!--<a href="meu_carrinho.php?id=<?php echo $id_valor;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Adicionar ao Carrinho</a>-->								
 															<?php } else { ?>
