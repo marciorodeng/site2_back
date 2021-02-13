@@ -27,8 +27,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Produtos</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Produtos
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -47,8 +52,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Serviços</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Serviços
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -62,40 +72,34 @@
 				<?php	
 				}
 				?>
-				<!--
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title ">Categorias</h2>
-						<hr class="botm-line">
-						<div class="list-group">
-							<?php
-								$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprod ASC ";
-								$read_categoria = mysqli_query($conn, $result_categoria);
-								if(mysqli_num_rows($read_categoria) > '0'){
-									foreach($read_categoria as $read_categoria_view){
-										echo '<a href="produtos.php?cat='.$read_categoria_view['idTab_Catprod'].'" class="list-group-item">'.$read_categoria_view['Catprod'].'</a>';
-									}
+				<?php
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$read_categoria = mysqli_query($conn, $result_categoria);
+				if(mysqli_num_rows($read_categoria) > '0'){?>
+					<div class="row">	
+						<div class="col-lg-12">
+							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="promocao.php?">
+									Promoções
+								</a>
+							</h2>
+							<br>
+							<div class="list-group">
+								<?php
+								foreach($read_categoria as $read_categoria_view){
+									echo '<a href="promocao.php?cat='.$read_categoria_view['idTab_Catprom'].'" class="list-group-item">'.$read_categoria_view['Catprom'].'</a>';
 								}
-							?>
+								?>
+								
+							</div>
 						</div>
 					</div>
-				</div>
-				-->
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title "><a href="promocao.php">Promoções</a></h2>
-						<hr class="botm-line">
-					</div>
-				</div>	
+				<?php	
+				}
+				?>
 			</div>
 			<div class="col-md-9">
-					
-				<!--
-				<div class="col-md-4">
-					<h2 class="ser-title">Produtos</h2>
-					<hr class="botm-line">
-				</div>
-				-->
 				<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
 					<div class="row">	
 						<div class="col-md-12">	
@@ -128,6 +132,7 @@
 				<?php } ?>
 				<div class="row">
 					<div class="col-md-12">
+						<hr class="botm-line">
 						<?php
 							$read_produtos_derivados = mysqli_query($conn, "
 							SELECT 
@@ -170,7 +175,7 @@
 								TV.AtivoPreco = 'S' AND
 								TV.VendaSitePreco = 'S'
 							ORDER BY 
-								TPS.idTab_Produtos ASC
+								TPS.Nome_Prod ASC
 							");
 							$valortotal2 = '0';
 							if(mysqli_num_rows($read_produtos_derivados) > '0'){
@@ -228,12 +233,13 @@
 									}
 									$qtdestoque = $qtdcompra - $qtdvenda;
 									*/
-									?>		
+									?>
+									
 									<div class="col-lg-4 col-md-4 col-sm-6 mb-4">
 										<div class="img-produtos ">
 											<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" >					 
 											<div class="card-body">
-												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> - 
+												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> 
 																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?><br>
 																			<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 												</h5>

@@ -17,8 +17,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Produtos</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Produtos
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -37,8 +42,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Serviços</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Serviços
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -51,32 +61,33 @@
 					</div>
 				<?php	
 				}
-				?>				
-				<!--
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title ">Categorias</h2>
-						<hr class="botm-line">
-						<div class="list-group">
-							<?php
-								$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprod ASC ";
-								$read_categoria = mysqli_query($conn, $result_categoria);
-								if(mysqli_num_rows($read_categoria) > '0'){
-									foreach($read_categoria as $read_categoria_view){
-										echo '<a href="produtos.php?cat='.$read_categoria_view['idTab_Catprod'].'" class="list-group-item">'.$read_categoria_view['Catprod'].'</a>';
-									}
+				?>
+				<?php
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$read_categoria = mysqli_query($conn, $result_categoria);
+				if(mysqli_num_rows($read_categoria) > '0'){?>
+					<div class="row">	
+						<div class="col-lg-12">
+							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="promocao.php?">
+									Promoções
+								</a>
+							</h2>
+							<br>
+							<div class="list-group">
+								<?php
+								foreach($read_categoria as $read_categoria_view){
+									echo '<a href="promocao.php?cat='.$read_categoria_view['idTab_Catprom'].'" class="list-group-item">'.$read_categoria_view['Catprom'].'</a>';
 								}
-							?>
+								?>
+								
+							</div>
 						</div>
 					</div>
-				</div>
-				-->
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title "><a href="promocao.php">Promoções</a></h2>
-						<hr class="botm-line">
-					</div>
-				</div>	
+				<?php	
+				}
+				?>
 			</div>
 			<div class="col-lg-9">
 				<div class="row">
@@ -144,7 +155,7 @@
 											TP.VendaSite = 'S' 
 										ORDER BY 
 											TP.idTab_Produto ASC";
-									$resultado_carousel = mysqli_query($conn, $result_carousel);
+											$resultado_carousel = mysqli_query($conn, $result_carousel);
 									while($row_carousel = mysqli_fetch_assoc($resultado_carousel)){ 
 										if($controle_ativo == 2){ ?>
 											<div class="item active">

@@ -17,8 +17,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Produtos</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Produtos
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -37,8 +42,13 @@
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
 						<div class="col-lg-12">
-							<h2 class="ser-title ">Serviços</h2>
 							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="produtos.php?">
+									Serviços
+								</a>
+							</h2>
+							<br>
 							<div class="list-group">
 								<?php
 								foreach($read_categoria as $read_categoria_view){
@@ -51,41 +61,35 @@
 					</div>
 				<?php	
 				}
-				?>				
-				<!--
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title ">Categorias</h2>
-						<hr class="botm-line">
-						<div class="list-group">
-							<?php
-								$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprod ASC ";
-								$read_categoria = mysqli_query($conn, $result_categoria);
-								if(mysqli_num_rows($read_categoria) > '0'){
-									foreach($read_categoria as $read_categoria_view){
-										echo '<a href="produtos.php?cat='.$read_categoria_view['idTab_Catprod'].'" class="list-group-item">'.$read_categoria_view['Catprod'].'</a>';
-									}
+				?>
+				<?php
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$read_categoria = mysqli_query($conn, $result_categoria);
+				if(mysqli_num_rows($read_categoria) > '0'){?>
+					<div class="row">	
+						<div class="col-lg-12">
+							<hr class="botm-line">
+							<h2 class="ser-title ">
+								<a href="promocao.php?">
+									Promoções
+								</a>
+							</h2>
+							<br>
+							<div class="list-group">
+								<?php
+								foreach($read_categoria as $read_categoria_view){
+									echo '<a href="promocao.php?cat='.$read_categoria_view['idTab_Catprom'].'" class="list-group-item">'.$read_categoria_view['Catprom'].'</a>';
 								}
-							?>
+								?>
+							</div>
 						</div>
 					</div>
-				</div>
-				-->
-				<div class="row">	
-					<div class="col-lg-12">
-						<h2 class="ser-title "><a href="promocao.php">Promoções</a></h2>
-						<hr class="botm-line">
-					</div>
-				</div>	
+				<?php	
+				}
+				?>
 			</div>
 			<div class="col-lg-9">
-				<div class="row">	
-					<!--
-					<div class="col-md-4">
-						<h2 class="ser-title">Produtos</h2>
-						<hr class="botm-line">
-					</div>
-					-->
+				<div class="row">
 					<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
@@ -172,56 +176,6 @@
 								}
 							}
 						}
-						$result_produto = "SELECT * 
-											FROM 
-												Tab_Produto as TP
-													LEFT JOIN Tab_Catprod AS TCP ON TCP.idTab_Catprod = TP.Prodaux3
-											WHERE 
-												TP.idTab_Produto != '' AND 
-												TP.Ativo = 'S' AND
-												TP.VendaSite = 'S' AND
-												TP.idSis_Empresa = '".$idSis_Empresa."' 
-												{$sql_categoria} 
-											ORDER BY 
-												TP.Prodaux3 ASC ";
-						$read_produto = mysqli_query($conn, $result_produto);
-						if(mysqli_num_rows($read_produto) > '0'){
-							
-							foreach($read_produto as $read_produto_view){
-								//$read_categoria = $read_produto_view['Catprod'];
-								?>
-								<!--
-								<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
-									<div class="img-produtos ">
-										<a href="produtosderivados.php?id_modelo=<?php echo $read_produto_view['idTab_Produto'];?>"><img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" ></a>					 
-										<div class="card-body">
-											<h5 class="card-title">
-												<a href="produtosderivados.php?id_modelo=<?php echo $read_produto_view['idTab_Produto'];?>"><?php echo utf8_encode ($read_produto_view['Produtos']);?></a>
-											</h5>
-										</div>
-									</div>
-								</div>
-								-->
-								<!--
-								<div class="col-lg-4 col-md-6 mb-4">
-									<div class="card h-100">
-										<a href="#"><img class="card-img-top" src="<?php echo $idSis_Empresa; ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" ></a>
-										<div class="card-body">
-											<h4 class="card-title">
-												<a href="#"><?php echo $read_produto_view['Produtos'] ;?></a>
-											</h4>
-											<h5>$24.99</h5>
-											<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-										</div>
-										<div class="card-footer">
-											<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-										</div>
-									</div>
-								</div>
-								-->
-								<?php
-							}
-						}		
 					?>
 				</div>
 			</div>

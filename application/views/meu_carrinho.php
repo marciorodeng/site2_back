@@ -93,64 +93,6 @@
 													$sub_total_produto_carrinho = $quantidade_produto_carrinho * $read_produto_carrinho_view['ValorProduto'];
 													$total_venda += $sub_total_produto_carrinho;
 													$total = number_format($total_venda, 2, ",", ".");
-
-													/*
-													$compra = mysqli_query($conn, "
-															SELECT
-															SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdCompra,
-																TPS.idTab_Produtos
-															FROM
-																App_Produto AS APV
-																	LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-																	LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-																	LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-															WHERE
-																OT.AprovadoOrca ='S' AND
-																APV.idTab_Produtos_Produto = '".$idTab_Produto."' AND
-																APV.idSis_Empresa = '".$idSis_Empresa."' AND
-																APV.idTab_TipoRD = '1'
-													");
-													
-													if(mysqli_num_rows($compra) > '0'){
-														foreach($compra as $compra_view){
-															$qtdcompra = $compra_view['QtdCompra'];
-														}
-													}
-													
-													$venda = mysqli_query($conn, "
-															SELECT
-																SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdVenda,
-																TPS.idTab_Produtos
-															FROM
-																App_Produto AS APV
-																	LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-																	LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-																	LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-															WHERE
-																OT.AprovadoOrca ='S' AND
-																APV.idTab_Produtos_Produto = '".$idTab_Produto."' AND
-																APV.idSis_Empresa = '".$idSis_Empresa."' AND
-																APV.idTab_TipoRD = '2'
-																
-
-													");
-													if(mysqli_num_rows($venda) > '0'){
-														foreach($venda as $venda_view){
-															$qtdvenda = $venda_view['QtdVenda'];
-														}
-													}
-													$qtdestoque = $qtdcompra - $qtdvenda;
-													*/
-													/*
-													echo "<pre>";
-													echo $qtdcompra;
-													echo "<br>";
-													echo $qtdvenda;
-													echo "<br>";
-													echo $qtdestoque;
-													echo "</pre>";
-													exit();
-													*/
 												}
 											} 
 										?>		
