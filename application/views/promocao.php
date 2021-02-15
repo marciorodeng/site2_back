@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."'AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -39,7 +39,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -65,7 +65,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -134,7 +134,16 @@
 							$sql_categoria_id = '';
 						}
 						
-						$result_categoria_id = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' {$sql_categoria_id} ORDER BY Catprom ASC ";
+						$result_categoria_id = "
+												SELECT * 
+												FROM 
+													Tab_Catprom 
+												WHERE 
+													idSis_Empresa = '".$idSis_Empresa."' AND
+													Site_Catprom = 'S'
+													{$sql_categoria_id} 
+												ORDER BY 
+													Catprom ASC ";
 						$read_categoria_id = mysqli_query($conn, $result_categoria_id);
 								
 						if(mysqli_num_rows($read_categoria_id) > '0'){
@@ -154,7 +163,6 @@
 											TPM.DataFimProm >= '".$dataatual."' AND 
 											TD.id_Dia_Prom = '".$dia_da_semana."' AND
 											TD.Aberto_Prom = 'S' AND
-											TPM.Ativo = 'S' AND
 											TPM.VendaSite = 'S' AND
 											TPM.idSis_Empresa = '".$idSis_Empresa."' AND
 											TPM.idTab_Catprom = '".$id_catprom."' 

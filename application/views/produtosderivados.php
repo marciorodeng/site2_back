@@ -22,7 +22,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -47,7 +47,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -73,7 +73,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -185,59 +185,11 @@
 									$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
 									$valortotal2 	= $subtotal2;
 									$qtd_estoque 	= $read_produtos_derivados_view['Estoque'];
-									/*
-									$qtdestoque = $qtdcompra = $qtdvenda = 0;
-									$compra = mysqli_query($conn, "
-											SELECT
-											SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdCompra,
-												TPS.idTab_Produtos
-											FROM
-												App_Produto AS APV
-													LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-													LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-													LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-											WHERE
-												OT.AprovadoOrca ='S' AND
-												APV.idTab_Produtos_Produto = '".$id_produto."' AND
-												APV.idSis_Empresa = '".$idSis_Empresa."' AND
-												APV.idTab_TipoRD = '1'
-									");
-									
-									if(mysqli_num_rows($compra) > '0'){
-										foreach($compra as $compra_view){
-											$qtdcompra = $compra_view['QtdCompra'];
-										}
-									}
-									
-									$venda = mysqli_query($conn, "
-											SELECT
-												SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdVenda,
-												TPS.idTab_Produtos
-											FROM
-												App_Produto AS APV
-													LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-													LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-													LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-											WHERE
-												OT.AprovadoOrca ='S' AND
-												APV.idTab_Produtos_Produto = '".$id_produto."' AND
-												APV.idSis_Empresa = '".$idSis_Empresa."' AND
-												APV.idTab_TipoRD = '2'
-												
-
-									");
-									if(mysqli_num_rows($venda) > '0'){
-										foreach($venda as $venda_view){
-											$qtdvenda = $venda_view['QtdVenda'];
-										}
-									}
-									$qtdestoque = $qtdcompra - $qtdvenda;
-									*/
 									?>
 									
 									<div class="col-lg-4 col-md-4 col-sm-6 mb-4">
 										<div class="img-produtos ">
-											<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" >					 
+											<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" class="img-circle img-responsive" width='120'>					 
 											<div class="card-body">
 												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> 
 																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?><br>
@@ -266,7 +218,7 @@
 															</div>
 															-->
 														<?php } else { ?>
-															<a href="login_cliente.php" class="btn btn-success " name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adicionar ao Carrinho</a>
+															<a href="login_cliente.php" class="btn btn-success " name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adic. ao Carrinho</a>
 															<!--
 															<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
 															  Aguarde um instante! Estamos processando sua solicitação!

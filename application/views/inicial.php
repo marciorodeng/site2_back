@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -37,7 +37,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
@@ -63,7 +63,7 @@
 				}
 				?>
 				<?php
-				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' ORDER BY Catprom ASC ";
+				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
 					<div class="row">	
