@@ -73,7 +73,7 @@
 					<?php
 						if(isset($_GET['cat']) && $_GET['cat'] != ''){
 							$id_cat = addslashes($_GET['cat']);
-							$sql_categoria = "AND Prodaux3 = '".$id_cat."'";
+							$sql_categoria = "AND idTab_Catprod = '".$id_cat."'";
 						}else{
 							$sql_categoria = '';
 						}

@@ -122,7 +122,7 @@
 					<?php
 						if(isset($_GET['cat']) && $_GET['cat'] != ''){
 							$id_cat = addslashes($_GET['cat']);
-							$sql_categoria = "AND TP.Prodaux3 = '".$id_cat."'";
+							$sql_categoria = "AND TP.idTab_Catprod = '".$id_cat."'";
 							$sql_categoria_id = "AND idTab_Catprod = '".$id_cat."'";
 						}else{
 							$sql_categoria = '';
@@ -138,13 +138,13 @@
 								$result_produto_id = "SELECT * 
 										FROM 
 											Tab_Produto as TP
-												LEFT JOIN Tab_Catprod AS TCP ON TCP.idTab_Catprod = TP.Prodaux3
+												LEFT JOIN Tab_Catprod AS TCP ON TCP.idTab_Catprod = TP.idTab_Catprod
 										WHERE 
 											TP.idTab_Produto != '' AND
 											TP.Ativo = 'S' AND
 											TP.VendaSite = 'S' AND 
 											TP.idSis_Empresa = '".$idSis_Empresa."' AND
-											TP.Prodaux3 = '".$id_catprod."' 
+											TP.idTab_Catprod = '".$id_catprod."' 
 										ORDER BY 
 											TP.Produtos ASC ";
 								
