@@ -147,7 +147,7 @@
 					$read_produtos_derivados = mysqli_query($conn, "
 						SELECT 
 							TV.idTab_Valor,
-							TV.idTab_Modelo,
+							TV.idTab_Produto,
 							TV.ValorProduto,
 							TV.QtdProdutoDesconto,
 							TV.QtdProdutoIncremento,

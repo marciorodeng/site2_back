@@ -92,8 +92,9 @@
 			<div class="col-lg-9">
 				<div class="row">
 					<div class="col-lg-12">	
-						<h2 class="ser-title">Nossos Produtos!</h2>
 						<hr class="botm-line">
+						<h2 class="ser-title">Nossos Produtos!</h2>
+						<br>
 					</div>
 				</div>	
 				<div class="row">
@@ -105,23 +106,22 @@
 								<?php
 									$controle_ativo = 2;		
 									$controle_num_slide = 1;
-									$result_carousel = "SELECT 
-									TP.idTab_Produto,
-									TP.Produtos,
-									TP.idSis_Empresa,
-									TP.Arquivo,
-									TP.VendaSite,
-									TP.ValorProdutoSite,
-									TV.ValorProduto
+									$result_carousel = "
+									SELECT 
+										TP.idTab_Produto,
+										TP.Produtos,
+										TP.idSis_Empresa,
+										TP.Arquivo,
+										TP.VendaSite
 									FROM 
-									Tab_Produto AS TP
-									LEFT JOIN Tab_Valor AS TV ON TV.idTab_Produto = TP.idTab_Produto
+										Tab_Produto AS TP
+											LEFT JOIN Tab_Valor AS TV ON TV.idTab_Produto = TP.idTab_Produto
 									WHERE 
-									TP.idSis_Empresa = '".$idSis_Empresa."' AND 
-									TP.Ativo = 'S' AND
-									TP.VendaSite = 'S' 
+										TP.idSis_Empresa = '".$idSis_Empresa."' AND 
+										TP.Ativo = 'S' AND
+										TP.VendaSite = 'S' 
 									ORDER BY 
-									TP.idTab_Produto ASC";
+										TP.idTab_Produto ASC";
 									$resultado_carousel = mysqli_query($conn, $result_carousel);
 									while($row_carousel = mysqli_fetch_assoc($resultado_carousel)){ 
 										if($controle_ativo == 2){ ?>
@@ -145,8 +145,7 @@
 											TP.Produtos,
 											TP.idSis_Empresa,
 											TP.Arquivo,
-											TP.VendaSite,
-											TP.ValorProdutoSite
+											TP.VendaSite
 										FROM 
 											Tab_Produto AS TP
 										WHERE 
@@ -155,7 +154,7 @@
 											TP.VendaSite = 'S' 
 										ORDER BY 
 											TP.idTab_Produto ASC";
-											$resultado_carousel = mysqli_query($conn, $result_carousel);
+									$resultado_carousel = mysqli_query($conn, $result_carousel);
 									while($row_carousel = mysqli_fetch_assoc($resultado_carousel)){ 
 										if($controle_ativo == 2){ ?>
 											<div class="item active">

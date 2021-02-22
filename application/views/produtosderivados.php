@@ -137,7 +137,7 @@
 							$read_produtos_derivados = mysqli_query($conn, "
 							SELECT 
 								TV.idTab_Valor,
-								TV.idTab_Modelo,
+								TV.idTab_Produto,
 								TV.ValorProduto,
 								TV.QtdProdutoDesconto,
 								TV.QtdProdutoIncremento,
@@ -168,7 +168,7 @@
 									LEFT JOIN Tab_Opcao AS TOP1 ON TOP1.idTab_Opcao = TPS.Opcao_Atributo_1
 
 							WHERE 
-								TV.idTab_Modelo = '".$id_modelo."' AND
+								TV.idTab_Produto = '".$id_modelo."' AND
 								TV.Desconto = '1' AND
 								TP.Ativo = 'S' AND
 								TP.VendaSite = 'S' AND

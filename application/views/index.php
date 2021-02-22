@@ -150,8 +150,8 @@
 								
 								echo'
 								<div class="col-md-12">
-									<h2 class="ser-title">'.$read_categoria_view_id['Catprod'].'</h2>
 									<hr class="botm-line">
+									<h2 class="ser-title">'.$read_categoria_view_id['Catprod'].'</h2>
 								</div>';
 								
 								$read_produto_id = mysqli_query($conn, $result_produto_id);

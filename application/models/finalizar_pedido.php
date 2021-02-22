@@ -280,12 +280,12 @@
 					if(mysqli_num_rows($read_prsr_carrinho) > '0'){
 						foreach($read_prsr_carrinho as $read_prsr_carrinho_view){
 							$prod_serv = $read_prsr_carrinho_view['Prod_Serv'];
-							$nome_produtos = $read_prsr_carrinho_view['NomeProdutos'];
+							$nome_produtos = $read_prsr_carrinho_view['Nome_Prod'];
 							$opicao2 = $read_prsr_carrinho_view['Opcao2'];
 							$opicao1 = $read_prsr_carrinho_view['Opcao1'];
 							$nome_convdesc = $read_prsr_carrinho_view['Convdesc'];
 							$qtd_incremento = $read_prsr_carrinho_view['QtdProdutoIncremento'];
-							$nome_produto = $nome_produtos.' - '.$opicao2.' - '.$opicao1.' - '.$nome_convdesc;
+							$nome_produto = $nome_produtos.' - '.$nome_convdesc;
 							$id_produto_tab_produto = $read_prsr_carrinho_view['idProduto'];
 							$sub_total_qtd = $qtd_produto * $qtd_incremento;
 							//$qtd_produtoorca += $sub_total_qtd_produto;
