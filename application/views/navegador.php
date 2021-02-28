@@ -55,7 +55,7 @@
 							
 							<a class="dropdown-item" href="login_associado.php">Link de Associado</a><br><br>
 							
-							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Plataforma</a><br>
+							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Administracao</a><br>
 							
 						</div>
 					</li>

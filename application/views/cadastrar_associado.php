@@ -15,7 +15,7 @@
 				<?php if(isset($_SESSION['Nome_Associado'])){ ?>
 					Eu, <a class="navbar-brand-nome" href=""><?php echo utf8_encode($_SESSION['Nome_Associado']);?></a>
 				<?php } ?>			
-				<h3>Solicito o meu cadastro de Associado a Empresa " <?php echo utf8_encode($row_empresa['NomeEmpresa']); ?> ",<br> para ser um(a) divulgador(a) dos seus Produtos e/ou Serviços</h3>
+				<h3>Solicito o meu Link de Associado a Empresa:<br> " <?php echo utf8_encode($row_empresa['NomeEmpresa']); ?> ",<br> para ser um(a) divulgador(a) dos seus Produtos e/ou Serviços</h3>
 				<?php
 					if(isset($_SESSION['msg'])){
 						echo $_SESSION['msg'];

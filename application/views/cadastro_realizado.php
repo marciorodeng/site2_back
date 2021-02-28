@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-md-12" align="center">
 				<div style="overflow: auto; height: 550px; ">
-					<a href="../<?php echo $row_empresa['Site'] ?>/associado.php/?emp=<?php echo $row_link['idSis_Empresa'] ?>&usuario=<?php echo $row_link['Codigo'] ?>">https://www.enkontraki.com.br/<?php echo $row_empresa['Site'] ?>/associado.php/?emp=<?php echo $row_link['idSis_Empresa'] ?>&usuario=<?php echo $row_link['Codigo'] ?></a>
+					<a href="../<?php echo $row_empresa['Site'] ?>/associado.php/?emp=<?php echo $row_link['idSis_Empresa'] ?>&usuario=<?php echo $row_link['idSis_Usuario_5'] ?>">https://www.enkontraki.com.br/<?php echo $row_empresa['Site'] ?>/associado.php/?emp=<?php echo $row_link['idSis_Empresa'] ?>&usuario=<?php echo $row_link['idSis_Usuario_5'] ?></a>
 				</div>
 			</div>				
 		</div>

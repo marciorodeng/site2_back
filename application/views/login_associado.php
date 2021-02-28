@@ -25,10 +25,10 @@
 			?>
 			<br>
 			<form method="POST" action="valida_associado.php">
-				<!--<label>Usuário</label>-->
-				<input type="text" name="CelularUsuario" placeholder="Digite o Celular/login" maxlength="11" class="form-control"><br>
+				<label>Digite o Celular(Login), com DDD</label>
+				<input type="text" name="CelularUsuario" placeholder="Ex: 21987654321" maxlength="11" class="form-control"><br>
 				
-				<!--<label>Senha</label>-->
+				<label>Digite a Senha</label>
 				<input type="password" name="Senha" placeholder="Digite a sua senha" class="form-control"><br>
 				
 				<input type="submit" name="btnLogin" class="btn btn-success" value="Acessar Link">
