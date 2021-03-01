@@ -225,7 +225,7 @@
 														$cor = 'fundoAmarelo';
 													}
 												} else {
-													$cor = 'fundoVermelho';
+													$cor = 'fundoAmarelo';
 												}
 												if($read_pedido_view['AVAP'] == 'O' && $read_pedido_view['QuitadoOrca'] == 'N'){
 													$cor = 'fundoAmarelo';
