@@ -45,11 +45,11 @@
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
 						
-						<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
-							<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a><br><br>							
-						<?php } else { ?>	
-							<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
-						<?php } ?>
+							<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
+								<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a><br><br>							
+							<?php } else { ?>	
+								<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
+							<?php } ?>
 						
 							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
 							

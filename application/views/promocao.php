@@ -12,8 +12,112 @@
 <section id="service" class="section-padding">
 	<div class="container">
 		<div class="row">
+		
+			<div class="col-lg-12">
+				<nav class="navbar navbar-inverse navbar-fixed" role="banner">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<div class="col-lg-12">
+								<button type="button" class="navbar-toggle navbar-brand btn-block" data-toggle="collapse" data-target="#myNavbar">
+									<span class="">Categorias</span> <span class="caret"></span>
+									<!--
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									-->	
+								</button>
+							</div>	
+						</div>
+						<div class="collapse navbar-collapse" id="myNavbar">
+							<ul class="nav navbar-nav navbar">
+								<?php
+									$result_categoria_produtos = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
+									$read_categoria_produtos = mysqli_query($conn, $result_categoria_produtos);
+									if(mysqli_num_rows($read_categoria_produtos) > '0'){?>
+										<li class="btn-toolbar navbar-form" role="toolbar" aria-label="...">
+											<div class="btn-group">
+												<a  class="dropdown-toggle" data-toggle="dropdown">
+													<h2>Produtos <span class="caret"></span></h2>
+												</a>
+												<ul class="dropdown-menu" role="menu">
+													<?php
+														foreach($read_categoria_produtos as $read_categoria_produtos_view){
+															echo '	<li>
+																		<a href="produtos.php?cat='.$read_categoria_produtos_view['idTab_Catprod'].'" >
+																			'.$read_categoria_produtos_view['Catprod'].'
+																		</a>
+																	</li>
+																	<li role="separator" class="divider"></li>';
+														}
+													?>
+												</ul>
+											</div>									
+										</li>
+										<?php 
+									} 
+								?>
+								<?php
+									$result_categoria_servicos = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
+									$read_categoria_servicos = mysqli_query($conn, $result_categoria_servicos);
+									
+									if(mysqli_num_rows($read_categoria_servicos) > '0'){?>
+										<li class="btn-toolbar navbar-form" role="toolbar" aria-label="...">
+											<div class="btn-group">
+												<a  class="dropdown-toggle" data-toggle="dropdown">
+													<h2>Serviços <span class="caret"></span></h2>
+												</a>
+												<ul class="dropdown-menu" role="menu">
+													<?php
+														foreach($read_categoria_servicos as $read_categoria_servicos_view){
+															echo '	<li>
+																		<a href="produtos.php?cat='.$read_categoria_servicos_view['idTab_Catprod'].'" >
+																			'.$read_categoria_servicos_view['Catprod'].'
+																		</a>
+																	</li>
+																	<li role="separator" class="divider"></li>';
+														}
+													?>
+												</ul>
+											</div>									
+										</li>
+										<?php 
+									} 
+								?>
+								<?php
+									$result_categoria_promocao = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
+									$read_categoria_promocao = mysqli_query($conn, $result_categoria_promocao);
+									if(mysqli_num_rows($read_categoria_promocao) > '0'){?>
+										<li class="btn-toolbar navbar-form" role="toolbar" aria-label="...">
+											<div class="btn-group">
+												<a  class="dropdown-toggle" data-toggle="dropdown">
+													<h2>Promoções <span class="caret"></span></h2>
+												</a>
+												<ul class="dropdown-menu" role="menu">
+													<?php
+														foreach($read_categoria_promocao as $read_categoria_promocao_view){
+															echo '	<li>
+																		<a href="promocao.php?cat='.$read_categoria_promocao_view['idTab_Catprom'].'" >
+																			'.$read_categoria_promocao_view['Catprom'].'
+																		</a>
+																	</li>
+																	<li role="separator" class="divider"></li>';
+														}
+													?>
+												</ul>
+											</div>									
+										</li>
+										<?php 
+									} 
+								?>	
+							</ul>
+						</div>
+					</div>
+				</nav>	
+			</div>		
+			<!--
 			<div class="col-lg-3">
 				<?php
+				/*
 				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."'AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
@@ -37,8 +141,10 @@
 					</div>
 				<?php	
 				}
+				*/
 				?>
 				<?php
+				/*
 				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
@@ -63,8 +169,10 @@
 					</div>
 				<?php	
 				}
+				*/
 				?>
 				<?php
+				/*
 				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
 				$read_categoria = mysqli_query($conn, $result_categoria);
 				if(mysqli_num_rows($read_categoria) > '0'){?>
@@ -89,9 +197,11 @@
 					</div>
 				<?php	
 				}
+				*/
 				?>
 			</div>
-			<div class="col-md-9">
+			-->
+			<div class="col-md-12">
 				<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
 					<div class="row">	
 						<div class="col-md-12">	
@@ -172,7 +282,7 @@
 								echo'
 								<div class="col-md-12">
 									<hr class="botm-line">
-									<h2 class="ser-title">'.$read_categoria_view_id['Catprom'].'</h2>
+									<h2 class="ser-title">Promoções - '.$read_categoria_view_id['Catprom'].'</h2>
 								</div>';
 								
 								$read_produto_id = mysqli_query($conn, $result_produto_id);
