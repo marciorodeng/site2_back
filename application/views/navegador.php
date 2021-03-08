@@ -41,26 +41,31 @@
 						<a class="nav-link" href="meus_pedidos.php">Meus Pedidos</a>
 					</li>
 				<?php } ?>	
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01">
-						
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Login <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="dropdown01">
+						<li>
 							<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
-								<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a><br><br>							
+								<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a>							
 							<?php } else { ?>	
-								<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a><br><br>
+								<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a>
 							<?php } ?>
-						
-							<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
-							
-							<a class="dropdown-item" href="login_associado.php">Link de Associado</a><br><br>
-							
-							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Administracao</a><br>
-							
-						</div>
-					</li>
-					<!--<li><a href="login_cliente.php">Login</a></li>-->					
-
+					
+						<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
+						</li>
+						<li role="separator" class="divider"></li>
+						<li>
+							<a class="dropdown-item" href="login_associado.php">Link de Associado</a>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li>
+							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Administracao</a>
+						</li>
+					</ul>
+				</li>
+				<!--<li><a href="login_cliente.php">Login</a></li>-->
 			</ul>
 		</div>		
 	</div>
