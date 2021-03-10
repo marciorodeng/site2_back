@@ -21,7 +21,7 @@
 		if($tipofrete == 1){
 			//$pagar = "O";
 			$tipofretepagseguro = "3";
-			$combinadofrete = "S";
+			$combinadofrete = "N";
 			$valorfrete = "0.00";
 			$prazoentrega = "0";
 			$dataentrega = date('Y-m-d');

@@ -256,19 +256,18 @@
 							foreach($read_categoria_id as $read_categoria_view_id){
 								$id_catprod = $read_categoria_view_id['idTab_Catprod'];
 								$tipo_catprod = $read_categoria_view_id['TipoCatprod'];
-								$result_produto_id = 
-								"SELECT * 
-								FROM 
-									Tab_Produto as TP
-										LEFT JOIN Tab_Catprod AS TCP ON TCP.idTab_Catprod = TP.idTab_Catprod
-								WHERE 
-									TP.idTab_Produto != '' AND
-									TP.Ativo = 'S' AND
-									TP.VendaSite = 'S' AND
-									TP.idSis_Empresa = '".$idSis_Empresa."' AND
-									TP.idTab_Catprod = '".$id_catprod."' 
-								ORDER BY
-									TP.Produtos ASC ";
+								$result_produto_id = "SELECT * 
+														FROM 
+															Tab_Produto as TP
+																LEFT JOIN Tab_Catprod AS TCP ON TCP.idTab_Catprod = TP.idTab_Catprod
+														WHERE 
+															TP.idTab_Produto != '' AND
+															TP.Ativo = 'S' AND
+															TP.VendaSite = 'S' AND
+															TP.idSis_Empresa = '".$idSis_Empresa."' AND
+															TP.idTab_Catprod = '".$id_catprod."' 
+														ORDER BY
+															TP.Produtos ASC ";
 								
 								if($tipo_catprod == "P"){
 									$tipocategoria = 'Produtos';
