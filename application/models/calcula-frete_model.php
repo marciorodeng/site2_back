@@ -27,16 +27,16 @@
 
 		$dados 			= calcula_frete($CepOrigem,$CepDestino,$Peso,$Formato,$Comprimento,$Altura,$Largura,$MaoPropria,$ValorDeclarado,$AvisoRecebimento,$Codigo,$Diametro);
 		$valor_frete 	= $dados->Valor;		
-		$prazo_entrega 	= $dados->PrazoEntrega;
+		$prazo_correios 	= $dados->PrazoEntrega;
 		
 		//echo $dados->Valor;
 		//exit();
 		//echo $dados->PrazoEntrega;
 		//echo $valor_frete;
-		//echo $prazo_entrega;
+		//echo $prazo_correios;
 		
 		echo "<input class='form-control Correios' type='hidden' name='valor_frete' id='valor_frete' value='".$valor_frete."'>";
 		echo "<br>";		
-		echo '<input class="form-control Correios" type="hidden" name="prazo_entrega" id="prazo_entrega" value="'.$prazo_entrega.'">';
+		echo '<input class="form-control Correios" type="hidden" name="prazo_correios" id="prazo_correios" value="'.$prazo_correios.'">';
 
 		

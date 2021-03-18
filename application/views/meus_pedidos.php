@@ -139,57 +139,62 @@
 											$pagar = 'On Line';
 										}
 										if($read_pedido_view['CanceladoOrca'] == 'N'){
-											if($read_pedido_view['AprovadoOrca'] == 'N'){
-												if($read_pedido_view['AVAP'] == 'O'){
-													$pedido = 'Aguardando Pagamento OnLine';
+											if($read_pedido_view['CombinadoFrete'] == 'N'){
+												if($read_pedido_view['AprovadoOrca'] == 'S'){
+													$pedido = 'Em Análise/Aprovado';
 												}else{
 													$pedido = 'Em Análise';
 												}
 											}else{
-												if($read_pedido_view['QuitadoOrca'] == 'S'){
-													$pedido = 'Aprovado';
-													$status_pagamento = 'Pago';
-												}else{
-													$status_pagamento = 'Aguardando';
-													
-													if($read_pedido_view['AVAP'] == 'O'){
-														if($read_pedido_view['status'] == '0'){
-															$pedido = 'Aguardando Pagamento OnLine';
-														}else{
-															$pedido = 'Em Análise';
-														}
-													}else{
+												if($read_pedido_view['AprovadoOrca'] == 'S'){
+													if($read_pedido_view['QuitadoOrca'] == 'S'){
 														$pedido = 'Aprovado';
-													}
-													
-													if($read_pedido_view['AVAP'] == 'O'){
-														if($read_pedido_view['status'] == '0'){
-															if($read_pedido_view['CombinadoFrete'] == 'N'){
-																$status_pedido = 'Combinando Entrega';
-															}else{
-																$status_pedido = 'Aguardando Pagamento';
-															}
-														}
-														if ($read_pedido_view['status'] == '1' || $read_pedido_view['status'] == '2'){
-															$status_pedido = 'Aprovado & Aguardando Confirmação do Pagamento';
-														}
-														if ($read_pedido_view['status'] == '3' || $read_pedido_view['status'] == '4'){
-															$status_pedido = 'Aprovado & Pago';
-														}
-														if ($read_pedido_view['status'] == '7'){
-															$status_pedido = 'Cancelado';
-														}
-														if ($read_pedido_view['status'] == '6' || $read_pedido_view['status'] == '8'){
-															$status_pedido = 'Devolvido';
-														}
-														if ($read_pedido_view['status'] == '9'){
-															$status_pedido = 'Retido';
-														}
-													}elseif($read_pedido_view['AVAP'] == 'P'){
-														$status_pedido = 'Aguardando';
+														$status_pagamento = 'Pago';
+													}else{
 														$status_pagamento = 'Aguardando';
+														
+														if($read_pedido_view['AVAP'] == 'O'){
+															if($read_pedido_view['status'] == '0'){
+																$pedido = 'Aguardando Pagamento OnLine';
+															}else{
+																$pedido = 'Em Análise';
+															}
+														}else{
+															$pedido = 'Aprovado';
+														}
+														
+														if($read_pedido_view['AVAP'] == 'O'){
+															if($read_pedido_view['status'] == '0'){
+																if($read_pedido_view['CombinadoFrete'] == 'N'){
+																	$status_pedido = 'Combinando Entrega';
+																}else{
+																	$status_pedido = 'Aguardando Pagamento';
+																}
+															}
+															if ($read_pedido_view['status'] == '1' || $read_pedido_view['status'] == '2'){
+																$status_pedido = 'Aprovado & Aguardando Confirmação do Pagamento';
+															}
+															if ($read_pedido_view['status'] == '3' || $read_pedido_view['status'] == '4'){
+																$status_pedido = 'Aprovado & Pago';
+															}
+															if ($read_pedido_view['status'] == '7'){
+																$status_pedido = 'Cancelado';
+															}
+															if ($read_pedido_view['status'] == '6' || $read_pedido_view['status'] == '8'){
+																$status_pedido = 'Devolvido';
+															}
+															if ($read_pedido_view['status'] == '9'){
+																$status_pedido = 'Retido';
+															}
+														}elseif($read_pedido_view['AVAP'] == 'P'){
+															$status_pedido = 'Aguardando';
+															$status_pagamento = 'Aguardando';
+														}
 													}
-												}
+												
+												}else{
+													$pedido = 'Aguardando Aprovação';
+												}	
 											}	
 										}else{
 											$pedido = 'Cancelado';
@@ -267,22 +272,49 @@
 															</div>
 														</div>
 													<?php } elseif($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N'){?>
-														<?php if(!(($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')){?>
+														<?php if(!(($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '2' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')){?>
 															<div class="row">
 																<div class="col-md-3 ">
 																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Pedido:</span>
 																		<a style="color: #000000" href="pedido.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>"><?php echo $read_pedido_view['idApp_OrcaTrata'];?></a>
 																	</h5>
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000"><p>Olá <?php echo $nomecliente;?>!<br><br>
-																																	Será um prazer<br>
-																																	preparar o seu pedido!<br><br>
-																																	A entrega custará R$<?php echo number_format($read_pedido_view['ValorFrete'], 2, ",", ".");?>.<br><br>
-																																	Por Favor, <br>
-																																	confirme a compra,<br>
-																																	para proseguirmos <br>
-																																	com a produção.</p>
-																					</span>
+																	<h5 class="my-0">
+																		<span class="text-muted" style="color: #000000">
+																			<p>Olá <?php echo $nomecliente;?>!<br><br>
+																				Será um prazer<br>
+																				preparar o seu pedido!<br><br>
+																				A entrega custará R$<?php echo number_format($read_pedido_view['ValorFrete'], 2, ",", ".");?>.
+																			</p>
+																		</span>
 																	</h5>  
+																</div>
+																<div class="col-md-3 ">
+																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Pedido: </span>
+																		<?php echo date_format(new DateTime($read_pedido_view['DataOrca']),'d/m/Y');?>
+																	</h5>
+																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Entrega.: </span>
+																		<?php echo date_format(new DateTime($read_pedido_view['DataEntregaOrca']),'d/m/Y');?>
+																	</h5>
+																	<!--
+																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Valor: </span>
+																		R$ <?php echo number_format($read_pedido_view['ValorRestanteOrca'], 2, ",", ".");?> 
+																	</h5>
+																	<h5 class="my-0"><span class="text-muted" style="color: #000000">TxEnt: </span>
+																		R$ <?php echo number_format($read_pedido_view['ValorFrete'], 2, ",", ".");?>
+																	</h5>
+																	-->
+																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span>
+																		R$ <?php echo number_format($valortotalorca, 2, ",", ".");?>
+																	</h5>
+																	<h5 class="my-0">
+																		<span class="text-muted" style="color: #000000">
+																			<p>Por Favor, <br>
+																				confirme a compra,<br>
+																				para proseguirmos <br>
+																				com a produção.
+																			</p>
+																		</span>
+																	</h5> 
 																</div>	
 																<div class="col-md-3 ">
 																	<a href="aprovar_pedido.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>">
@@ -293,23 +325,6 @@
 																	<a href="cancelar_pedido.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>">
 																		<img src="../<?php echo $sistema ?>/arquivos/imagens/cancelado.png" class="img-responsive img-link" width='100'><h3>Cancelar</h3>
 																	</a>
-																</div>
-																<div class="col-md-3 ">
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Dt.Pdd: </span>
-																		<?php echo date_format(new DateTime($read_pedido_view['DataOrca']),'d/m/Y');?>
-																	</h5>
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Dt.Ent: </span>
-																		<?php echo date_format(new DateTime($read_pedido_view['DataEntregaOrca']),'d/m/Y');?>
-																	</h5>
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Valor: </span>
-																		R$ <?php echo number_format($read_pedido_view['ValorRestanteOrca'], 2, ",", ".");?> 
-																	</h5>
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Entrega: </span>
-																		R$ <?php echo number_format($read_pedido_view['ValorFrete'], 2, ",", ".");?>
-																	</h5>		
-																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span>
-																		R$ <?php echo number_format($valortotalorca, 2, ",", ".");?>
-																	</h5>
 																</div>
 																<!--
 																<div class="col-md-3 ">
@@ -396,7 +411,7 @@
 													</div>
 												<?php } ?>
 												
-												<?php if(!($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N') || (($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')) {?>
+												<?php if(!($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N') || (($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '2' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')) {?>
 													<div class="row">
 														<div class="col-md-3 ">
 															<h5 class="my-0"><span class="text-muted" style="color: #000000">Total: </span> R$ <?php echo number_format($valortotalorca, 2, ",", ".");?> </h5>
@@ -416,8 +431,14 @@
 																		<?php if($read_pedido_view['AVAP'] == 'O'){ ?>
 																			<?php if($read_pedido_view['status'] == '0'){ ?>
 																				<?php if($read_pedido_view['CombinadoFrete'] == 'S'){ ?>
-																					<a href="pagar.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>">Pagar OnLine</a>
-																					<?php } else{ ?>
+																					<?php if($read_pedido_view['FormaPagamento'] == '1' || $read_pedido_view['FormaPagamento'] == '2' || $read_pedido_view['FormaPagamento'] == '3'){ ?>
+																						<a href="pagar.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>">Pagar OnLine</a>
+																					<?php } elseif($read_pedido_view['FormaPagamento'] == '9') { ?>
+																						<a href="">Depósito/Tranf.</a>
+																					<?php }elseif($read_pedido_view['FormaPagamento'] == '11'){ ?>
+																						<a href="">Boleto da Loja</a>
+																					<?php } ?>
+																				<?php } else{ ?>
 																					<span>Aguardando</span>
 																				<?php } ?>
 																			<?php } else if($read_pedido_view['status'] == '1'){?>

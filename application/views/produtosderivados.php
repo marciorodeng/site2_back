@@ -282,6 +282,7 @@
 								TV.Convdesc,
 								TV.idTab_Promocao,
 								TV.Desconto,
+								TV.TempoDeEntrega,
 								TPR.Promocao,
 								TPR.Descricao,
 								TPR.Ativo,
@@ -330,13 +331,34 @@
 									
 									<div class="col-lg-4 col-md-4 col-sm-6 mb-4">
 										<div class="img-produtos ">
-											<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" class="img-circle img-responsive" width='120'>					 
 											<div class="card-body">
-												<h5 class="card-title"><?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?><br> 
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?><br>
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
+												<h5 class="card-title">
+													<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?>
 												</h5>
-												<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. R$ <?php echo number_format($valortotal2,2,",",".");?></h5>
+											</div>
+											<div class="card-body">
+												<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" class="img-circle img-responsive" width='120'>					 
+											</div>
+											<div class="card-body">
+												<h5> 
+													<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+												</h5>
+												<h5> 
+													<?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. 
+													R$ <?php echo number_format($valortotal2,2,",",".");?>
+												</h5>
+												<h5 class="card-title">
+													<?php 
+														if($read_produtos_derivados_view['TempoDeEntrega'] <= 0){
+															echo 'Pronta Entrega!';
+														}else{
+															echo 'Prazo de Entrega: ' . $read_produtos_derivados_view['TempoDeEntrega'] . ' Dia(s)';
+														} 
+													?>
+												</h5>
+												<h5 class="card-title">
+													<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
+												</h5>
 											</div>
 											<?php if($loja_aberta){ ?>
 												<div class="card-body">

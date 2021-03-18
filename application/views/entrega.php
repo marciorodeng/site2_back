@@ -16,6 +16,7 @@
 									$total_peso = '0';
 									$total_produtos = '0';
 									$item_carrinho = '0';
+									$prazo_carrinho = '0';
 									if(count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){
 										foreach($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]] as $id_produto_carrinho => $quantidade_produto_carrinho){
 											$item_carrinho++;
@@ -38,6 +39,7 @@
 												TV.QtdProdutoIncremento,
 												TV.ValorProduto,
 												TV.Convdesc,
+												TV.TempoDeEntrega,
 												TPR.Promocao,
 												TPR.Descricao,
 												TDSC.Desconto
@@ -60,6 +62,7 @@
 													$idTab_Produto = $read_produto_carrinho_view['idTab_Produtos'];
 													$quantidade_produto_incremento = $read_produto_carrinho_view['QtdProdutoIncremento'];
 													$quantidade_estoque = $read_produto_carrinho_view['Estoque'];
+													$prazo_prod = $read_produto_carrinho_view['TempoDeEntrega'];
 													$sub_total_qtd_produto = $quantidade_produto_carrinho * $quantidade_produto_incremento;
 													$total_produtos += $sub_total_qtd_produto;
 													$sub_total_peso = $quantidade_produto_carrinho * $read_produto_carrinho_view['PesoProduto'];
@@ -67,58 +70,14 @@
 													$sub_total_produto_carrinho = $quantidade_produto_carrinho * $read_produto_carrinho_view['ValorProduto'];
 													$total_venda += $sub_total_produto_carrinho;
 													$total = number_format($total_venda, 2, ",", ".");
-													/*
-													$compra = mysqli_query($conn, "
-															SELECT
-															SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdCompra,
-																TPS.idTab_Produtos
-															FROM
-																App_Produto AS APV
-																	LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-																	LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-																	LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-															WHERE
-																OT.AprovadoOrca ='S' AND
-																TPS.idTab_Produtos = '".$idTab_Produto."' AND
-																APV.idSis_Empresa = '".$idSis_Empresa."' AND
-																APV.idTab_TipoRD = '1'
-																
-
-													");
 													
-													if(mysqli_num_rows($compra) > '0'){
-														foreach($compra as $compra_view){
-															$qtdcompra = $compra_view['QtdCompra'];
-														}
+													if($prazo_prod >= $prazo_carrinho){
+														$prazo_carrinho = $prazo_prod;
+													}else{
+														$prazo_carrinho = $prazo_carrinho;
 													}
 													
-													$venda = mysqli_query($conn, "
-															SELECT
-																SUM(APV.QtdProduto * APV.QtdIncrementoProduto) AS QtdVenda,
-																TPS.idTab_Produtos
-															FROM
-																App_Produto AS APV
-																	LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = APV.idApp_OrcaTrata
-																	LEFT JOIN Tab_Valor AS TVV ON TVV.idTab_Valor = APV.idTab_Produto
-																	LEFT JOIN Tab_Produtos AS TPS ON TPS.idTab_Produtos = TVV.idTab_Produtos					
-															WHERE
-																OT.AprovadoOrca ='S' AND
-																TPS.idTab_Produtos = '".$idTab_Produto."' AND
-																APV.idSis_Empresa = '".$idSis_Empresa."' AND
-																APV.idTab_TipoRD = '2'
-
-
-													");
-													if(mysqli_num_rows($venda) > '0'){
-														foreach($venda as $venda_view){
-															$qtdvenda = $venda_view['QtdVenda'];
-														}
-													}
-													
-													$qtdestoque = $qtdcompra - $qtdvenda;												
-													*/
 												}
-													
 												
 											} 
 										?>		
@@ -212,23 +171,33 @@
 								<?php if($item_carrinho > 0) { ?>
 									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Total Produtos </span>
-										<strong><span  name="TotalProd" id="TotalProd"><?php echo $total_produtos;?> Unid.</span></strong>
+										<strong>: <span  name="TotalProd" id="TotalProd"><?php echo $total_produtos;?> Unid.</span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Valor Total </span>
-										<strong>R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+										<strong>: R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+									</li>
+									<li class="list-group-item d-flex justify-content-between fundo">
+										<span>Prazo de Entrega na Loja </span>
+										<strong>: 
+											<span>
+												<?php 
+													if($prazo_carrinho == 0){
+														echo 'Pronta Entrega!';
+													}else{
+														echo $prazo_carrinho . '  Dia(s)';
+													}
+												?>
+											</span>
+										</strong>
 									</li>
 								<?php } ?>
 							</ul>
 							
 							<div class="row">
-								<div class="col-md-2 mb-3 ">
-									<label>Troco para:</label>
-									<input type="text" name="ValorDinheiro" class="form-control " id="ValorDinheiro" placeholder="Ex: 100" value="">
-								</div>
-								<div class="col-md-4 mb-3 ">
-									<br>
-									<textarea type="text" name="Descricao" class="form-control " id="Descricao" placeholder="Observações:" value=""></textarea>
+								<div class="col-md-6 mb-3 ">
+									<label>Observações:</label>
+									<textarea type="text" name="Descricao" class="form-control " id="Descricao" placeholder="Observações do Pedido:" value=""></textarea>
 								</div>
 								<div class="col-md-6">	
 									<div class="row">
@@ -264,11 +233,11 @@
 										<div class="col-lg-12 ">
 											<div class="row">
 												<div class="col-lg-12 ">	
-													<h3 class="mb-3">Selec. a Entrega</h3>
+													<h3 class="mb-3">Local e Forma da Entrega</h3>
 													<?php if ($row_empresa['RetirarLoja'] == 'S') { ?>
 													<div class="col-md-3 mb-3 ">	
 														<div class="custom-control custom-radio">
-															<input type="radio" name="tipofrete" class="custom-control-input "  id="Retirada" value="1" onclick="tipoFrete('1')" >
+															<input type="radio" name="tipofrete" class="custom-control-input "  id="Retirada" value="1" onclick="tipoFrete('1'), calculaDataEntrega()" >
 															<label class="custom-control-label" for="Retirada">Retirar na Loja</label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/loja.png" class="img-responsive img-link Retirada" width='150'>
 														</div>
@@ -277,8 +246,8 @@
 													<?php if ($row_empresa['MotoBoy'] == 'S') { ?>
 													<div class="col-md-3 mb-3 ">	
 														<div class="custom-control custom-radio">
-															<input type="radio" name="tipofrete" class="custom-control-input " id="Combinar" value="2" onclick="tipoFrete('2')" >
-															<label class="custom-control-label" for="Combinar">Entrega/MotoBoy </label>
+															<input type="radio" name="tipofrete" class="custom-control-input " id="Combinar" value="2" onclick="tipoFrete('2'), calculaDataEntrega()" >
+															<label class="custom-control-label" for="Combinar">Casa/MotoBoy </label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/combinar.png" class="img-responsive img-link Combinar" width='150'>
 														</div>
 													</div>
@@ -287,7 +256,7 @@
 														<div class="col-md-3 mb-3 ">
 														<div class="custom-control custom-radio">
 															<input type="radio" name="tipofrete" class="custom-control-input " id="Correios" value="3" onclick="tipoFrete('3')">
-															<label class="custom-control-label" for="Correios">Entrega/Correios</label>
+															<label class="custom-control-label" for="Correios">Casa/Correios</label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/correios.png" class="img-responsive img-link Correios" width='150'>
 														</div>
 													</div>
@@ -296,7 +265,7 @@
 											</div>
 											<div class="row">
 												<div class="col-lg-12">		
-													<h3 class="mb-3 Correios">Calcular Valor do Frete e Prazo de Entrega</h3>
+													<h3 class="mb-3 Correios">Calcular Valor e Prazo de Entrega</h3>
 
 													<h3 class="mb-3 Combinar">Cobinar a Entrega com o Vendedor</h3>
 													
@@ -331,7 +300,11 @@
 															</h5>
 														</div>
 													</div>
-																							
+													
+													<input type="hidden" name="PrazoPrdServ" id="PrazoPrdServ" value="<?php echo $prazo_carrinho;?>">
+													<input type="hidden" name="PrazoCorreios" id="PrazoCorreios" value="">
+													<input type="hidden" name="DataEntrega1" id="DataEntrega1" value="">
+													
 													<div class="row Desliga">
 														<div class="col-md-3 mb-3 Desliga">
 															<label class="Desliga">Cep</label>
@@ -346,8 +319,8 @@
 															<label class=" Correios Calcular">Calcula Frete.</label>
 															<label class=" Correios Recalcular">Recalcular Frete.</label>
 															<?php if(count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>	
-																<button class=" form-control Correios Calcular" type="button" onclick="LoadFrete(); Procuraendereco(); Calcular()"  >Calcular</button>	
-																<button class=" form-control Correios Recalcular" type="button" onclick="Recalcular()"  >Recalcular</button>
+																<button class=" form-control Correios Calcular btn btn-md btn-success" type="button" onclick="LoadFrete(); Procuraendereco(); Calcular()"  >Calcular</button>	
+																<button class=" form-control Correios Recalcular btn btn-md btn-warning" type="button" onclick="Recalcular()"  >Recalcular</button>
 															<?php } ?>
 														</div>
 														<div class="col-md-2 mb-3 Combinar">	
@@ -470,15 +443,15 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-md-12 fundo-entrega-carrinho">
+									<div class="col-md-12 fundo-entrega-carrinho LocalFormaPag">
 										<div class="col-lg-12 ">
 											<div class="row">
 												<div class="col-lg-12 ">	
-													<h3 class="mb-3">Selec. o Pagamento</h3>
+													<h3 class="mb-3">Local e Forma do Pagamento</h3>
 													<?php if ($row_empresa['NaLoja'] == 'S') { ?>
 													<div class="col-md-3 mb-3 ">	
-														<div class="custom-control custom-radio">
-															<input type="radio" name="localpagamento" class="custom-control-input "  id="NaLoja" value="V" onclick="localPagamento('V')" >
+														<div class="custom-control custom-radio locpagloja">
+															<input type="radio" name="localpagamento" class="custom-control-input "  id="NaLoja" value="V" onclick="localPagamento('V')"  >
 															<label class="custom-control-label" for="NaLoja">Na Loja</label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/NaLoja.png" class="img-responsive img-link NaLoja" width='150'>
 														</div>
@@ -486,16 +459,16 @@
 													<?php } ?>
 													<?php if ($row_empresa['NaEntrega'] == 'S') { ?>
 													<div class="col-md-3 mb-3 ">	
-														<div class="custom-control custom-radio">
+														<div class="custom-control custom-radio locpagcasa">
 															<input type="radio" name="localpagamento" class="custom-control-input " id="NaEntrega" value="P" onclick="localPagamento('P')" >
-															<label class="custom-control-label" for="NaEntrega">Na Entrega </label>
+															<label class="custom-control-label" for="NaEntrega">Na Casa </label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/NaEntrega.png" class="img-responsive img-link NaEntrega" width='150'>
 														</div>
 													</div>
 													<?php } ?>
 													<?php if ($row_empresa['OnLine'] == 'S') { ?>
 														<div class="col-md-3 mb-3 ">
-														<div class="custom-control custom-radio">
+														<div class="custom-control custom-radio locpagonline">
 															<input type="radio" name="localpagamento" class="custom-control-input " id="OnLine" value="O" onclick="localPagamento('O')">
 															<label class="custom-control-label" for="OnLine">On Line</label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/OnLine.png" class="img-responsive img-link OnLine" width='150'>
@@ -509,15 +482,23 @@
 													<div class="col-md-6 mb-3 FormaPag">
 														<label class="Desliga1">Forma de Pagamento</label>
 														<select name="formapagamento" class="form-control Desliga1" id="FormaPagamento" required>
-															<option class="CARTAO" value="1" selected>CARTAO</option>
+															<option class="CARTAO" value="1" >CARTAO</option>
 															<option class="DEBITO" value="3">DEBITO</option>
 															<option class="DINHEIRO" value="7">DINHEIRO</option>
-															<option class="DEPOSITO" value="9">DEPOSITO</option>
-															<option class="BOLETO" value="2">BOLETO</option>
+															<option class="DEPOSITO" value="9">DEPOSITO/TRANSF.</option>
+															<?php if ($row_empresa['TipoBoleto'] == 'L') { ?>
+																<option class="BOLETODALOJA" value="11">BOLETO DA LOJA</option>
+															<?php } elseif ($row_empresa['TipoBoleto'] == 'P') { ?>	
+																<option class="BOLETOPAGSEGURO" value="2">BOLETO PAG SEGURO</option>
+															<?php } ?>
 															<option class="CHEQUE" value="8">CHEQUE</option>
 															<option class="OUTROS" value="10">OUTROS</option>
 															<!--<option value="SP" selected>SP</option>-->
 														</select>
+													</div>
+													<div class="col-md-2 mb-3 FormaPag">
+														<label class="Desliga1">Troco para:</label>
+														<input type="text" name="ValorDinheiro" class="form-control Desliga1" id="ValorDinheiro" placeholder="Ex: 100" value="">
 													</div>
 												</div>
 											</div>

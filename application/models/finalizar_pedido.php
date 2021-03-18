@@ -4,6 +4,7 @@
 	$tipofrete = filter_input(INPUT_POST,'tipofrete');
 	$descricao = filter_input(INPUT_POST,'Descricao');
 	$valordinheiro = filter_input(INPUT_POST,'ValorDinheiro');
+	$prazo_prdperv = filter_input(INPUT_POST,'PrazoPrdServ');
 	$comissaoenkontraki = $row_empresa['ComissaoEnkontraki'];
 	/*
 	echo "<pre>";
@@ -21,10 +22,12 @@
 		if($tipofrete == 1){
 			//$pagar = "O";
 			$tipofretepagseguro = "3";
-			$combinadofrete = "N";
+			$combinadofrete = "S";
 			$valorfrete = "0.00";
-			$prazoentrega = "0";
-			$dataentrega = date('Y-m-d');
+			$prazo_correios = "0";
+			$prazoentrega = $prazo_prdperv;
+			//$dataentrega = date('Y-m-d');
+			$dataentrega = filter_input(INPUT_POST,'DataEntrega1');
 			$cep = filter_input(INPUT_POST,'RecarregaCepDestino');
 			$logradouro = filter_input(INPUT_POST,'RecarregaLogradouro');
 			$numero = filter_input(INPUT_POST,'RecarregaNumero');
@@ -40,8 +43,10 @@
 			$tipofretepagseguro = "3";
 			$combinadofrete = "N";
 			$valorfrete = "0.00";
-			$prazoentrega = "0";
-			$dataentrega = date('Y-m-d');
+			$prazo_correios = "0";
+			$prazoentrega = $prazo_prdperv;
+			//$dataentrega = date('Y-m-d');
+			$dataentrega = filter_input(INPUT_POST,'DataEntrega1');
 			$cep = filter_input(INPUT_POST,'CepDestino');
 			$logradouro = filter_input(INPUT_POST,'Logradouro');
 			$numero = filter_input(INPUT_POST,'Numero');
@@ -62,6 +67,7 @@
 			//$pagar = "O";
 			$combinadofrete = "S";
 			$valorfrete = filter_input(INPUT_POST,'valorfrete');
+			$prazo_correios = filter_input(INPUT_POST,'PrazoCorreios');
 			$prazoentrega = filter_input(INPUT_POST,'prazoentrega');
 			$dataentrega = filter_input(INPUT_POST,'dataentrega');
 			$cep = filter_input(INPUT_POST,'Cep');
@@ -131,6 +137,8 @@
 														ValorExtraOrca,
 														Cli_Forn_Orca,
 														Prd_Srv_Orca,
+														PrazoProdServ,
+														PrazoCorreios,
 														AprovadoOrca) 
 												VALUES(	'1',
 														'2',
@@ -171,6 +179,8 @@
 														'0.00',
 														'S',
 														'S',
+														'".$prazo_prdperv."',
+														'".$prazo_correios."',
 														'N')";
 			mysqli_query($conn, $insert_pedido);
 			
@@ -183,9 +193,11 @@
 				$total_venda_produto = '0';
 				$valor_comissao_produto = '0';
 				$qtd_produtoorca_produto = '0';
+				$prazo_carrinho_prod = '0';
 				$total_venda_servico = '0';
 				$valor_comissao_servico = '0';
 				$qtd_produtoorca_servico = '0';
+				$prazo_carrinho_serv = '0';
 				foreach($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]] as $id_produto => $qtd_produto){
 					/*
 					echo "<pre>";
@@ -193,6 +205,7 @@
 					echo "</pre>";
 					exit();
 					*/
+					
 					$read_prsr_carrinho = mysqli_query($conn, "
 					SELECT 
 						TPS.idTab_Produtos AS idProduto,
@@ -205,6 +218,7 @@
 						TOP1.Opcao AS Opcao1,
 						TV.idTab_Valor,
 						TV.Convdesc,
+						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -220,6 +234,7 @@
 					ORDER BY 
 						TV.idTab_Valor ASC
 					");
+					
 					$read_produto_carrinho = mysqli_query($conn, "
 					SELECT 
 						TPS.idTab_Produtos AS idProduto,
@@ -232,6 +247,7 @@
 						TOP1.Opcao AS Opcao1,
 						TV.idTab_Valor,
 						TV.Convdesc,
+						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -261,6 +277,7 @@
 						TOP1.Opcao AS Opcao1,
 						TV.idTab_Valor,
 						TV.Convdesc,
+						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -284,6 +301,7 @@
 							$opicao2 = $read_prsr_carrinho_view['Opcao2'];
 							$opicao1 = $read_prsr_carrinho_view['Opcao1'];
 							$nome_convdesc = $read_prsr_carrinho_view['Convdesc'];
+							$prazo_prsr = $read_prsr_carrinho_view['TempoDeEntrega'];
 							$qtd_incremento = $read_prsr_carrinho_view['QtdProdutoIncremento'];
 							$nome_produto = $nome_produtos.' - '.$nome_convdesc;
 							$id_produto_tab_produto = $read_prsr_carrinho_view['idProduto'];
@@ -298,6 +316,7 @@
 					}
 					if(mysqli_num_rows($read_produto_carrinho) > '0'){
 						foreach($read_produto_carrinho as $read_produto_carrinho_view){
+							$prazo_produto = $read_produto_carrinho_view['TempoDeEntrega'];
 							$qtd_incremento_produto = $read_produto_carrinho_view['QtdProdutoIncremento'];
 							$sub_total_qtd_produto_produto = $qtd_produto * $qtd_incremento_produto;
 							$qtd_produtoorca_produto += $sub_total_qtd_produto_produto;
@@ -306,11 +325,20 @@
 							//$sub_total_comissao = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoVenda'] / 100;
 							$valor_comissao_produto += $sub_total_comissao_produto;
+							
+							if($prazo_produto >= $prazo_carrinho_prod){
+								$prazo_carrinho_prod = $prazo_produto;
+							}else{
+								$prazo_carrinho_prod = $prazo_carrinho_prod;
+							}
+						
 						}
+						
 					}
-
+					
 					if(mysqli_num_rows($read_servico_carrinho) > '0'){
 						foreach($read_servico_carrinho as $read_servico_carrinho_view){
+							$prazo_servico = $read_servico_carrinho_view['TempoDeEntrega'];
 							$qtd_incremento_servico = $read_servico_carrinho_view['QtdProdutoIncremento'];
 							$sub_total_qtd_produto_servico = $qtd_produto * $qtd_incremento_servico;
 							$qtd_produtoorca_servico += $sub_total_qtd_produto_servico;
@@ -319,6 +347,13 @@
 							//$sub_total_comissao = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoVenda'] / 100;
 							$valor_comissao_servico += $sub_total_comissao_servico;
+						
+							if($prazo_servico >= $prazo_carrinho_serv){
+								$prazo_carrinho_serv = $prazo_servico;
+							}else{
+								$prazo_carrinho_serv = $prazo_carrinho_serv;
+							}
+						
 						}
 					}
 					
@@ -332,6 +367,7 @@
 																	QtdProduto,
 																	QtdIncrementoProduto,
 																	ValorProduto,
+																	PrazoProduto,
 																	NomeProduto,
 																	ComissaoProduto,
 																	DataValidadeProduto,
@@ -349,6 +385,7 @@
 																	'".$qtd_produto."',
 																	'".$qtd_incremento."',
 																	'".$read_prsr_carrinho_view['ValorProduto']."',
+																	'".$read_prsr_carrinho_view['TempoDeEntrega']."',
 																	'".$nome_produto."',
 																	'".$read_prsr_carrinho_view['ComissaoVenda']."',
 																	'".date('Y-m-d')."',
@@ -367,9 +404,11 @@
 				}else{
 					$valor_troco_final = 0.00;
 				}
-				$valor_gateway = ($valor_fatura * 0.04) + 0.40;
-				//$comissaoenkontraki = $read_produto_carrinho_view['ComissaoEnkontraki'];
-				//$valor_enkontraki = $total_venda * 0.04;
+				if($localpagamento == "O" && ($formapagamento == "1" || $formapagamento == "2" || $formapagamento == "3")){
+					$valor_gateway = ($valor_fatura * 0.04) + 0.40;
+				}else{
+					$valor_gateway = 0.00;
+				}
 				$valor_enkontraki = $total_venda_prsr * $comissaoenkontraki / 100;
 				$valor_comissao_total = $valor_comissao_produto + $valor_comissao_servico;
 				$valor_empresa = $valor_fatura - $valor_comissao_produto - $valor_comissao_servico - $valor_gateway - $valor_enkontraki;				
@@ -400,8 +439,10 @@
 									App_OrcaTrata 
 								SET 
 									QtdPrdOrca = '".$qtd_produtoorca_produto."',
+									PrazoProdutos = '".$prazo_carrinho_prod."',
 									ValorOrca = '".$total_venda_produto."',
 									QtdSrvOrca = '".$qtd_produtoorca_servico."',
+									PrazoServicos = '".$prazo_carrinho_serv."',
 									ValorDev = '".$total_venda_servico."',
 									ValorRestanteOrca = '".$total_venda_prsr."',
 									ValorSomaOrca = '".$total_venda_prsr."',
@@ -423,8 +464,16 @@
 			//header("Location: meus_pedidos.php");
 			//echo "<script>alert('Pedido Finalizado')</script>";
 			//echo '<script> window.location = "entrega.php?id='.$id_pedido.'" </script>';			
-			if($localpagamento == "O" && ($tipofrete == 1 || $tipofrete == 3)){
-				echo '<script> window.location = "pagar.php?id='.$id_pedido.'" </script>';
+			if($localpagamento == "O" && ($tipofrete == "1" || $tipofrete == "3")){
+				if($formapagamento == "1" || $formapagamento == "2" || $formapagamento == "3"){
+					echo '<script> window.location = "pagar.php?id='.$id_pedido.'" </script>';
+				}elseif($formapagamento == "9"){
+					//Depósito ou Transferência (falta criar a tela com o número da conta ou pix)
+					echo "<script>window.location = 'meus_pedidos.php'</script>";
+				}elseif($formapagamento == "11"){
+					//boleto da loja (Falta criar a tela para por o boleto da loja com a frase: O Boleto)
+					echo "<script>window.location = 'meus_pedidos.php'</script>";
+				}
 			}else{
 				echo "<script>window.location = 'meus_pedidos.php'</script>";			
 			}			

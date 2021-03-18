@@ -11,35 +11,35 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="row">
-					<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
+				<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
+					<div class="row">	
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
 								<div class="row">	
-									<div class="col-md-6">
+									<!--
+										<div class="col-md-6">
 										<label></label><br>
 										<a href="entrega.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Finalizar Pedido!</a>
+										</div>
+									-->
+									<div class="col-md-12">
+										<a href="entrega.php" class="btn btn-primary btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Se desejar Finalizar a compra, Click Aqui!!</a>
 									</div>
-									<div class="col-md-6">
-										<label></label><br>
-										<a href="meu_carrinho.php" class="btn btn-primary btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Voltar ao Carrinho!</a>
-									</div>
-									
 								</div>
 								<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
 									Aguarde um instante! Estamos processando sua solicitação!
 								</div>							
-							<?php } else { ?>
+								<?php } else { ?>
 								<div class="col-md-6">
 									<a href="login_cliente.php" class="btn btn-danger btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar / Finalizar Pedido</a>
 									<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
-									  Aguarde um instante! Estamos processando sua solicitação!
+										Aguarde um instante! Estamos processando sua solicitação!
 									</div>							
 								</div>
 							<?php } ?>
-						</div>	
-					<?php } ?>
-				</div>			
+						</div>
+					</div>
+				<?php } ?>			
 				<nav class="navbar navbar-inverse navbar-fixed header-menu">
 					<div class="container">
 						<div class="navbar-header">

@@ -34,6 +34,7 @@
 																		OT.ValorOrca,
 																		OT.ValorRestanteOrca,
 																		OT.TipoFrete,
+																		OT.FormaPagamento,
 																		OT.TipoFretePagSeguro,
 																		OT.Cep,
 																		OT.Logradouro,
@@ -71,6 +72,7 @@
 								if(mysqli_num_rows($read_produto) > '0'){
 									foreach($read_produto as $read_produto_orca){
 									$tipofrete = $read_produto_orca['TipoFrete'];
+									$formapagamento = $read_produto_orca['FormaPagamento'];
 									$tipofretepagseguro = $read_produto_orca['TipoFretePagSeguro'];
 									$frete = $read_produto_orca['ValorFrete']; 
 									$valorfrete = number_format($frete, 2, '.', '');
@@ -222,35 +224,35 @@
 										
 										<!--<input type="hidden" name="hashCartao" id="hashCartao">-->
 										
-										<h3 class="mb-3">Escolha forma de pagamento</h3>
+										<h3 class="mb-3">Confirme a forma de pagamento</h3>
 										
 										<div class="row">
-											<?php if ($row_empresa['Boleto'] == 'S') { ?>
-											<div class="col-md-4 mb-3 ">
-												<div class="custom-control custom-radio">
-													<input type="radio" name="paymentMethod" class="custom-control-input" id="boleto" value="boleto"  onclick="tipoPagamento('boleto')">
-													<label class="custom-control-label" for="boleto">Boleto</label>
-													<img src="../<?php echo $sistema ?>/arquivos/imagens/Boleto.png" class="img-responsive img-link boleto" width='150'>
+											<?php if ($row_empresa['Boleto'] == 'S' && $formapagamento == '2') { ?>
+												<div class="col-md-4 mb-3 ">
+													<div class="custom-control custom-radio">
+														<input type="radio" name="paymentMethod" class="custom-control-input" id="boleto" value="boleto"  onclick="tipoPagamento('boleto')">
+														<label class="custom-control-label" for="boleto">Boleto</label>
+														<img src="../<?php echo $sistema ?>/arquivos/imagens/Boleto.png" class="img-responsive img-link boleto" width='150'>
+													</div>
 												</div>
-											</div>
-											<?php } ?>
-											<?php if ($row_empresa['Debito'] == 'S') { ?>
-											<div class="col-md-4 mb-3 ">	
-												<div class="custom-control custom-radio">
-													<input type="radio" name="paymentMethod" class="custom-control-input" id="eft" value="eft" onclick="tipoPagamento('eft')">
-													<label class="custom-control-label" for="eft">Débito Online</label>
-													<img src="../<?php echo $sistema ?>/arquivos/imagens/debitoonline.png" class="img-responsive img-link bankName" width='150'>
+											
+											<?php }elseif ($row_empresa['Debito'] == 'S' && $formapagamento == '3') { ?>
+												<div class="col-md-4 mb-3 ">	
+													<div class="custom-control custom-radio">
+														<input type="radio" name="paymentMethod" class="custom-control-input" id="eft" value="eft" onclick="tipoPagamento('eft')">
+														<label class="custom-control-label" for="eft">Débito Online</label>
+														<img src="../<?php echo $sistema ?>/arquivos/imagens/debitoonline.png" class="img-responsive img-link bankName" width='150'>
+													</div>
 												</div>
-											</div>
-											<?php } ?>
-											<?php if ($row_empresa['Cartao'] == 'S') { ?>
-											<div class="col-md-4 mb-3 ">	
-												<div class="custom-control custom-radio">
-													<input type="radio" name="paymentMethod" class="custom-control-input" id="creditCard" value="creditCard" onclick="tipoPagamento('creditCard')" >
-													<label class="custom-control-label" for="creditCard">Cartão de Crédito</label>
-													<img src="../<?php echo $sistema ?>/arquivos/imagens/Cartao.png" class="img-responsive img-link creditCard" width='150'>
+											
+											<?php }elseif ($row_empresa['Cartao'] == 'S' && $formapagamento == '1') { ?>
+												<div class="col-md-4 mb-3 ">	
+													<div class="custom-control custom-radio">
+														<input type="radio" name="paymentMethod" class="custom-control-input" id="creditCard" value="creditCard" onclick="tipoPagamento('creditCard')" >
+														<label class="custom-control-label" for="creditCard">Cartão de Crédito</label>
+														<img src="../<?php echo $sistema ?>/arquivos/imagens/Cartao.png" class="img-responsive img-link creditCard" width='150'>
+													</div>
 												</div>
-											</div>
 											<?php } ?>
 										</div>
 										<!-- Pagamento com débito online -->

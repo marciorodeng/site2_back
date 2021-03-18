@@ -11,7 +11,6 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-			
 				<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
 					<div class="row">	
 						<div class="col-md-12">	
@@ -40,8 +39,7 @@
 							<?php } ?>
 						</div>
 					</div>
-				<?php } ?>			
-			
+				<?php } ?>	
 				<nav class="navbar navbar-inverse navbar-fixed header-menu">
 					<div class="container">
 						<div class="navbar-header">
@@ -288,16 +286,18 @@
 									
 									foreach($read_produto_id as $read_produto_view_id){
 										echo'
-										<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
-										<div class="img-produtos ">
-										<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'>"><img class="team-img " src="'.$idSis_Empresa.'/produtos/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
-										<div class="card-body">
-										<h5 class="card-title">
-										<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'">'.utf8_encode($read_produto_view_id['Produtos']).'</a>
-										</h5>
-										</div>
-										</div>
-										</div>
+											<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+												<div class="img-produtos ">
+													<div class="card-body">
+														<h5 class="card-title">
+															<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'">'.utf8_encode($read_produto_view_id['Produtos']).'</a>
+														</h5>
+													</div>
+													<div class="card-body">
+														<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'>"><img class="team-img " src="'.$idSis_Empresa.'/produtos/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
+													</div>
+												</div>
+											</div>
 										';
 										
 									}

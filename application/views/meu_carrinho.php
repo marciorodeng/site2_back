@@ -39,6 +39,7 @@
 									$total_peso = '0';
 									$item_carrinho = '0';
 									$total_produtos = '0';
+									$prazo_carrinho = '0';
 									if(isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){
 										foreach($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]] as $id_produto_carrinho => $quantidade_produto_carrinho){
 											$item_carrinho++;
@@ -59,6 +60,7 @@
 												TV.QtdProdutoIncremento,
 												TV.ValorProduto,
 												TV.Convdesc,
+												TV.TempoDeEntrega,
 												TPR.Promocao,
 												TPR.Descricao,
 												TDSC.Desconto,
@@ -84,6 +86,7 @@
 													$quantidade_produto_desconto = $read_produto_carrinho_view['QtdProdutoDesconto'];
 													$quantidade_produto_embalagem = $read_produto_carrinho_view['QtdProdutoIncremento'];
 													$quantidade_estoque = $read_produto_carrinho_view['Estoque'];
+													$prazo_prod = $read_produto_carrinho_view['TempoDeEntrega'];
 													$sub_total_produtos = $quantidade_produto_carrinho * $quantidade_produto_embalagem;
 													$total_produtos += $sub_total_produtos;
 													$idTipo = $read_produto_carrinho_view['idTipo'];
@@ -93,9 +96,18 @@
 													$sub_total_produto_carrinho = $quantidade_produto_carrinho * $read_produto_carrinho_view['ValorProduto'];
 													$total_venda += $sub_total_produto_carrinho;
 													$total = number_format($total_venda, 2, ",", ".");
+												
+													if($prazo_prod >= $prazo_carrinho){
+														$prazo_carrinho = $prazo_prod;
+													}else{
+														$prazo_carrinho = $prazo_carrinho;
+													}
+													
 												}
+												
 											} 
-										?>		
+											
+											?>		
 											<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
 
 												<div class="row img-prod-pag">	
@@ -108,7 +120,7 @@
 															</div>
 															<div class="row ">	
 																<div class="col-md-12 ">
-																	<h4 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h4>
+																	<h4 class="my-0">Tipo <?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h4>
 																	<!--<h4 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h4>-->
 																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></h5>
 																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Descricao']);?></h5>-->
@@ -124,20 +136,25 @@
 																</div>
 															</div>
 														</div>
-														<div class="col-md-2">	
-															<div class="row ">	
-																<div class="col-md-12">
-																	<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='150' >
-																</div>
-															</div>															
-														</div>	
 														
 														<div class="col-md-2">
 															<div class="row ">	
 																<div class="col-md-12 ">
-																	<h5 class="card-title"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br>
-																							<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?><br>
-																							<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																	<h5 class="card-title">
+																		<?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br>
+																		<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?>
+																	</h5>
+																	<h5 class="card-title">
+																		<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																	</h5>
+																	<h5 class="card-title">
+																		<?php 
+																			if($read_produto_carrinho_view['TempoDeEntrega'] <= 0){
+																				echo 'Pronta Entrega!';
+																			}else{
+																				echo 'Pazo de Entrega: ' . $read_produto_carrinho_view['TempoDeEntrega'] . ' Dias';
+																			} 
+																		?>
 																	</h5>
 																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
 																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h6><br>
@@ -146,6 +163,38 @@
 																</div>
 															</div>															
 														</div>
+														
+														<div class="col-md-2">	
+															<div class="row ">	
+																<div class="col-md-12">
+																	<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='150' >
+																</div>
+															</div>															
+														</div>	
+														<!--
+														<div class="col-md-2">
+															<div class="row ">	
+																<div class="col-md-12 ">
+																	<h5 class="card-title">
+																		<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																	</h5>
+																	<h5 class="card-title">
+																		<?php 
+																			if($read_produto_carrinho_view['TempoDeEntrega'] <= 0){
+																				echo 'Pronta Entrega!';
+																			}else{
+																				echo 'Pazo de Entrega: ' . $read_produto_carrinho_view['TempoDeEntrega'] . ' Dias';
+																			} 
+																		?>
+																	</h5>
+																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
+																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h6><br>
+																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?></h6>
+																		<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>
+																</div>
+															</div>															
+														</div>
+														-->
 														<div class="col-md-2">		
 															<div class="row ">
 																<div class="col-md-6 text-left">
@@ -213,7 +262,7 @@
 													</div>	
 												</div>
 											</li>
-										<?php
+											<?php
 										}
 									}
 									
@@ -225,7 +274,14 @@
 									echo "<br>";
 									echo $_SESSION['item_carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]];
 									echo "</pre>";
-									exit();
+									
+									
+									echo '<br>';
+									echo "<pre>";
+									print_r('Prazo do Carrinho: ' . $prazo_carrinho . ' Dia(s)');
+									echo "</pre>";
+									
+									exit ();
 									*/
 								?>
 								
@@ -240,7 +296,21 @@
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Valor Total </span>
-										<strong>R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+										<strong>: R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+									</li>
+									<li class="list-group-item d-flex justify-content-between fundo">
+										<span>Prazo de Entrega na Loja </span>
+										<strong>: 
+											<span  name="PrazoPrdServ" id="PrazoPrdServ">
+												<?php 
+													if($prazo_carrinho == 0){
+														echo 'Pronta Entrega!';
+													}else{
+														echo $prazo_carrinho . '  Dia(s)';
+													}
+												?>
+											</span>
+										</strong>
 									</li>
 								<?php } ?>
 							</ul>

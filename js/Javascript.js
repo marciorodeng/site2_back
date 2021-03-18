@@ -2,34 +2,34 @@
 	exibirentrega();
 	Aguardar();
 
-//Função que desabilita a Mensagem de Aguardar.
-function Aguardar () {
-	//$('.aguardar').hide();
-	document.getElementById('aguardar').style.display = "none";
-	
-}	
-	
-//Função que desabilita o botão submit após 1 click, evitando mais de um envio de formulário.
-function DesabilitaBotao (valor) {
-	//$('.aguardar').show();
-    document.getElementById('aguardar').style.display = "";
-	if (valor) {
-        document.getElementById('submeter').style.display = "none";
-		document.getElementById('submeter2').style.display = "none";
-        //document.getElementById('aguardar').style.display = "";
-    }
-    else {
-        document.getElementById('submeter').style.display = "";
-		document.getElementById('submeter2').style.display = "";
-        //document.getElementById('aguardar').style.display = "none";
-    }
-}
+	//Função que desabilita a Mensagem de Aguardar.
+	function Aguardar () {
+		//$('.aguardar').hide();
+		document.getElementById('aguardar').style.display = "none";
+		
+	}	
+		
+	//Função que desabilita o botão submit após 1 click, evitando mais de um envio de formulário.
+	function DesabilitaBotao (valor) {
+		//$('.aguardar').show();
+		document.getElementById('aguardar').style.display = "";
+		if (valor) {
+			document.getElementById('submeter').style.display = "none";
+			document.getElementById('submeter2').style.display = "none";
+			//document.getElementById('aguardar').style.display = "";
+		}
+		else {
+			document.getElementById('submeter').style.display = "";
+			document.getElementById('submeter2').style.display = "";
+			//document.getElementById('aguardar').style.display = "none";
+		}
+	}
 
-$("#FormularioEntrega").on("submit", function (event) {
-    $("#btnComprar").prop('disabled', true);
-	document.getElementById('btnComprar').style.display = "none";
-	document.getElementById('aguardar').style.display = "";
-});
+	$("#FormularioEntrega").on("submit", function (event) {
+		$("#btnComprar").prop('disabled', true);
+		document.getElementById('btnComprar').style.display = "none";
+		document.getElementById('aguardar').style.display = "";
+	});
 
 	function calculaSubtotal(valor, campo, item, num) {
 		
@@ -125,9 +125,11 @@ $("#FormularioEntrega").on("submit", function (event) {
 		$('.finalizar').hide();
 		$('.finalizar2').hide();
 		$('.FormaPag').hide();
+		$('.LocalFormaPag').hide();
 	}
 	
 	function tipoFrete(tipofrete){
+		$('.LocalFormaPag').show();
 		var RecarregaCepDestino = $('#RecarregaCepDestino').val();
 		var RecarregaLogradouro = $('#RecarregaLogradouro').val();
 		var RecarregaNumero = $('#RecarregaNumero').val();
@@ -142,7 +144,10 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.Correios').hide();
 			$('.Combinar').hide();
 			$('.Retirada').show();
-			$('.finalizar').show();			
+			$('.finalizar').show();
+			$('.locpagloja').show();
+			$('.locpagcasa').hide();
+			$('.locpagonline').show();			
 			$('#Cep').val('00000000');
 			$('#CepDestino').val(RecarregaCepDestino);
 			$('#Logradouro').val(RecarregaLogradouro);
@@ -153,6 +158,10 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('#Estado').val(RecarregaEstado);
 			$('#valorfrete').val('0.00');
 			$('#prazoentrega').val('0');
+			$('#NaLoja').prop('checked', true);
+			$('#NaEntrega').prop('checked', false);
+			$('#OnLine').prop('checked', false);
+			localPagamento('V');
 			
 		}		
 
@@ -162,7 +171,10 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.Correios').hide();
 			$('.Combinar').show();
 			$('.Retirada').hide();
-			$('.finalizar').show();			
+			$('.finalizar').show();
+			$('.locpagloja').hide();
+			$('.locpagcasa').show();
+			$('.locpagonline').show();			
 			$('#Cep').val('00000000');
 			$('#CepDestino').val('');
 			$('#Logradouro').val('');
@@ -172,7 +184,12 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('#Cidade').val('');
 			$('#Estado').val('');
 			$('#valorfrete').val('0.00');
-			$('#prazoentrega').val('0');			
+			$('#prazoentrega').val('0');
+			$('#NaLoja').prop('checked', false);
+			$('#NaEntrega').prop('checked', true);
+			$('#OnLine').prop('checked', false);
+			localPagamento('P');			
+			
 		}
 		
 		if(tipofrete == "3"){
@@ -184,6 +201,9 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.Calcular').show();
 			$('.Recalcular').hide();			
 			$('.finalizar').show();
+			$('.locpagloja').hide();
+			$('.locpagcasa').hide();
+			$('.locpagonline').show();
 			$('#Cep').val('');
 			$('#CepDestino').val('');
 			$('#Logradouro').val('');
@@ -196,6 +216,10 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('#prazoentrega').val('');
 			$('#valor_total').val('');
 			$('#msg').html('');
+			$('#NaLoja').prop('checked', false);
+			$('#NaEntrega').prop('checked', false);
+			$('#OnLine').prop('checked', true);
+			localPagamento('O');
 		}		
 
 	}
@@ -208,7 +232,7 @@ $("#FormularioEntrega").on("submit", function (event) {
 		var RecarregaBairro = $('#RecarregaBairro').val();
 		var RecarregaCidade = $('#RecarregaCidade').val();
 		var RecarregaEstado = $('#RecarregaEstado').val();
-		
+		//Na Loja
 		if(localpagamento == "V"){
 			//$('.Liga').show();
 			//$('.Desliga').hide();
@@ -217,12 +241,16 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.NaLoja').show();
 			$('.finalizar2').show();
 			$('.FormaPag').show();
+			$('.CARTAO').show();
+			$('.DEBITO').show();
+			$('.DINHEIRO').show().prop('selected', true);
 			$('.DEPOSITO').hide();
-			$('.BOLETO').hide();
+			$('.BOLETODALOJA').hide();
+			$('.BOLETOPAGSEGURO').hide();
 			$('.CHEQUE').hide();
 			$('.OUTROS').hide();
 		}		
-
+		//Na Casa
 		if(localpagamento == "P"){
 			//$('.Liga').hide();
 			//$('.Desliga').show();
@@ -231,12 +259,16 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.NaLoja').hide();
 			$('.finalizar2').show();
 			$('.FormaPag').show();
+			$('.CARTAO').show();
+			$('.DEBITO').show();
+			$('.DINHEIRO').show().prop('selected', true);
 			$('.DEPOSITO').hide();
-			$('.BOLETO').hide();
+			$('.BOLETODALOJA').hide();
+			$('.BOLETOPAGSEGURO').hide();
 			$('.CHEQUE').hide();
 			$('.OUTROS').hide();
 		}
-		
+		//On Line
 		if(localpagamento == "O"){
 			//$('.Liga').hide();
 			//$('.Desliga').show();
@@ -245,8 +277,12 @@ $("#FormularioEntrega").on("submit", function (event) {
 			$('.NaLoja').hide();			
 			$('.finalizar2').show();
 			$('.FormaPag').show();
-			$('.DEPOSITO').hide();
-			$('.BOLETO').hide();
+			$('.CARTAO').show();
+			$('.DEBITO').show().prop('selected', true);
+			$('.DINHEIRO').hide();
+			$('.DEPOSITO').show();
+			$('.BOLETODALOJA').show();
+			$('.BOLETOPAGSEGURO').show();
 			$('.CHEQUE').hide();
 			$('.OUTROS').hide();
 			//$('#msg').html('');
@@ -254,9 +290,40 @@ $("#FormularioEntrega").on("submit", function (event) {
 
 	}	
 
+	function calculaDataEntrega() {
+		//alert('calculaDataEntrega!!');
+		var prazo_prdperv = $('#PrazoPrdServ').val();
+		var prazo_entrega = prazo_prdperv;
+		console.log(prazo_prdperv);
+		console.log(prazo_entrega);
+		
+		var d = new Date();
+		var data_entrega    = new Date(d.getTime() + (prazo_entrega * 24 * 60 * 60 * 1000));
+		
+		var mes = (data_entrega.getMonth() + 1);
+		if(mes < 10){
+			var novo_mes = "0" + mes;
+		}else{
+			var novo_mes = mes;
+		}
+		
+		var dia = (data_entrega.getDate());
+		if(dia < 10){
+			var novo_dia = "0" + dia;
+		}else{
+			var novo_dia = dia;
+		}
+		
+		var dia_entrega = data_entrega.getFullYear() + "-" + novo_mes + "-" + novo_dia;
+		$('#DataEntrega1').val(dia_entrega);		
+		console.log(dia_entrega);
+		
+	}
+	
 	//Busca do CEP
-
 	function Procuraendereco() {
+		//alert('Procuraendereco!!');
+		
 		var Dados=$(this).serialize();
 		var CepDestino=$('#CepDestino').val();
 
@@ -282,10 +349,10 @@ $("#FormularioEntrega").on("submit", function (event) {
 			}
 		});
 	}	
-
+	
 	function LoadFrete() {
 		//alert('botão funcionando!!');
-		
+		var prazo_prdperv = $('#PrazoPrdServ').val();
 		var CepDestino = $('#CepDestino').val();
 		var CepOrigem = $('#CepOrigem').val();
 		var Peso = $('#Peso').val();
@@ -322,7 +389,12 @@ $("#FormularioEntrega").on("submit", function (event) {
 					
 				$('.ResultadoPrecoPrazo').html(data);
 				
-				var prazo_entrega = $('#prazo_entrega').val();
+				var prazo_correios = $('#prazo_correios').val();
+				var prazo_entrega = - (-prazo_prdperv -prazo_correios);
+				console.log(prazo_prdperv);
+				console.log(prazo_correios);
+				console.log(prazo_entrega);
+				$('#PrazoCorreios').val(prazo_correios);
 				$('#prazoentrega').val(prazo_entrega);
 				
 				var d = new Date();
