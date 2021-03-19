@@ -434,9 +434,9 @@
 																					<?php if($read_pedido_view['FormaPagamento'] == '1' || $read_pedido_view['FormaPagamento'] == '2' || $read_pedido_view['FormaPagamento'] == '3'){ ?>
 																						<a href="pagar.php?id=<?php echo $read_pedido_view['idApp_OrcaTrata'];?>">Pagar OnLine</a>
 																					<?php } elseif($read_pedido_view['FormaPagamento'] == '9') { ?>
-																						<a href="">Depósito/Tranf.</a>
+																						<a href="deposito.php">Depósito/Tranf.</a>
 																					<?php }elseif($read_pedido_view['FormaPagamento'] == '11'){ ?>
-																						<a href="">Boleto da Loja</a>
+																						<a href="boleto.php">Boleto da Loja</a>
 																					<?php } ?>
 																				<?php } else{ ?>
 																					<span>Aguardando</span>
