@@ -178,6 +178,7 @@
 							TV.Convdesc,
 							TV.idTab_Promocao,
 							TV.Desconto,
+							TV.ComissaoVenda,
 							TV.TempoDeEntrega,
 							TPS.idTab_Produtos,
 							TPS.idTab_Produto,
@@ -186,7 +187,9 @@
 							TPS.Arquivo,
 							TPS.Valor_Produto,
 							TPS.Estoque,
+							TPS.Produtos_Descricao,
 							(TV.QtdProdutoDesconto * TV.ValorProduto) AS SubTotal,
+							(TV.ComissaoVenda * TV.ValorProduto /100) AS CashBack,
 							(TV.ValorProduto) AS SubTotal2
 						FROM 
 							Tab_Valor AS TV
@@ -211,14 +214,23 @@
 									<hr class="botm-line">
 									<h2 class="ser-title">Promoções</h2><br>
 									<div class="col-md-12 fundo-entrega-carrinho">
-										<div class="col-md-12 text-center">	
+										<div class="col-md-12 text-center">
 											<div class="row">
-												<h3 class="card-title"><?php echo utf8_encode($read_promocao_view['Promocao']);?> R$ <?php echo number_format($total,2,",",".");?></h3>
-												<h4 class="card-title"><?php echo utf8_encode ($read_promocao_view['Descricao']);?></h4>
+												<h3 class="card-title">
+													<?php echo utf8_encode($read_promocao_view['Promocao']);?>
+												</h3>
+												<h4 class="card-title">
+													<?php echo utf8_encode ($read_promocao_view['Descricao']);?>
+												</h4>
+												<?php if($row_empresa['EComerce'] == 'S'){ ?>
+													<h4 class="card-title">
+														R$ <?php echo number_format($total,2,",",".");?>
+													</h4>
+												<?php } ?>	
 											</div>							
 										</div>
 										<div class="row">
-											<div class="col-md-12">
+											
 											
 											<?php
 												$cont_produtos = mysqli_num_rows($read_produtos_derivados);
@@ -234,6 +246,7 @@
 													$prazo_prom = '0';
 													foreach($read_produtos_derivados as $read_produtos_derivados_view){
 														$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
+														$cashback 		= $read_produtos_derivados_view['CashBack'];
 														$valortotal2 	= $subtotal2;
 														$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
 														$qtd_estoque = $read_produtos_derivados_view['Estoque'];
@@ -254,7 +267,7 @@
 														}
 														
 														?>		
-															<div class="col-lg-3 col-md-3 col-sm-6 mb-3">
+															<div class="col-lg-4 col-md-4 col-sm-6 mb-3">
 																<div class="img-produtos ">
 																	<div class="card-body">
 																		<h5 class="card-title">
@@ -265,12 +278,21 @@
 																	</div>
 																	<div class="card-body">
 																		<h5 class="card-title">
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 																		</h5>
-																		<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
-																			 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
-																		</h5>
-																		<!--<h4>R$ <?php echo number_format($valortotal2,2,",",".");?></h4>-->
+																		<?php if($row_empresa['EComerce'] == 'S'){ ?>
+																			<h5 class="card-title">
+																				<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																			</h5>
+																			<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
+																				 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
+																			</h5>
+																			<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
+																				<h6>
+																					 CashBack: R$ <?php echo number_format($read_produtos_derivados_view['CashBack'],2,",",".");?>
+																				</h6>
+																			<?php } ?>
+																		<?php } ?>
 																	</div>
 																	<div class="card-body">
 																		<?php 	if($total_estoque < 0){ ?>
@@ -293,24 +315,26 @@
 													*/
 												}
 											?>
-											</div>	
+												
 										</div>
-										<div class="col-md-12 text-center">	
-											<div class="row">
-												<h3 class="card-title">
-													<?php 
-														if($prazo_prom == 0){
-															echo 'Pronta Entrega';
-														}else{
-															echo 'Prazo de Entrega ' . $prazo_prom . ' Dia(s)';
-														}	
-													?>
-												</h3>
-											</div>							
-										</div>
+										<?php if($row_empresa['EComerce'] == 'S'){ ?>
+											<div class="col-md-12 text-center">	
+												<div class="row">
+													<h3 class="card-title">
+														<?php 
+															if($prazo_prom == 0){
+																echo 'Pronta Entrega';
+															}else{
+																echo 'Prazo de Entrega ' . $prazo_prom . ' Dia(s)';
+															}	
+														?>
+													</h3>
+												</div>							
+											</div>
+										<?php } ?>	
 										<?php if($loja_aberta){ ?>
 											<div class="row">		
-												<div class="col-md-12">
+												
 													<div class="col-md-12 text-center">
 														<div class="row">
 															<div class="col-lg-12">							
@@ -348,7 +372,7 @@
 															</div>
 														</div>								
 													</div>
-												</div>
+												
 											</div>
 										<?php } else { ?>
 											<button class="btn btn-warning btn-block "  >Loja Fechada</button>

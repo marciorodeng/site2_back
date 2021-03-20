@@ -285,21 +285,61 @@
 								if(mysqli_num_rows($read_produto_id) > '0'){
 									
 									foreach($read_produto_id as $read_produto_view_id){
-										echo'
+										$produtobase_id = $read_produto_view_id['idTab_Produto'];
+										$result_produtos_id = "SELECT 
+																		TPS.idTab_Produtos,
+																		TPS.idTab_Produto,
+																		TV.VendaSitePreco
+																	FROM 
+																		Tab_Produtos as TPS
+																			LEFT JOIN Tab_Produto AS TP ON TP.idTab_Produto = TPS.idTab_Produto
+																			RIGHT JOIN Tab_Valor AS TV ON TV.idTab_Produtos = TPS.idTab_Produtos
+																	WHERE
+																		TPS.idSis_Empresa = '".$idSis_Empresa."' AND
+																		TPS.idTab_Produto = '".$produtobase_id."' AND
+																		TV.VendaSitePreco = 'S'
+																	";
+										$read_produtos_id = mysqli_query($conn, $result_produtos_id);
+										if(mysqli_num_rows($read_produtos_id) > '0'){
+											$existemprodutos = 1;
+										}else{
+											$existemprodutos = 0;
+										}
+										/*
+										echo '<br>';
+										echo "<pre>";
+										print_r($produtobase_id);
+										echo '<br>';
+										print_r($existemprodutos);
+										echo "</pre>";
+										*/
+										?>
+										
 											<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
 												<div class="img-produtos ">
-													<div class="card-body">
-														<h5 class="card-title">
-															<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'">'.utf8_encode($read_produto_view_id['Produtos']).'</a>
-														</h5>
-													</div>
-													<div class="card-body">
-														<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'>"><img class="team-img " src="'.$idSis_Empresa.'/produtos/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
-													</div>
+													<?php if($existemprodutos == 1) { ?>
+														<div class="card-body">
+															<h5 class="card-title">
+																<a href="produtosderivados.php?id_modelo=<?php echo $read_produto_view_id['idTab_Produto'];?>"><?php echo utf8_encode($read_produto_view_id['Produtos']);?></a>
+															</h5>
+														</div>
+														<div class="card-body">
+															<a href="produtosderivados.php?id_modelo=<?php echo $read_produto_view_id['idTab_Produto'];?>"><img class="team-img " src="<?php echo $idSis_Empresa;?>/produtos/miniatura/<?php echo $read_produto_view_id['Arquivo'];?>" alt="" ></a>					 
+														</div>
+													<?php }elseif($existemprodutos == 0) { ?>	
+														<div class="card-body">
+															<h5 class="card-title">
+																<?php echo utf8_encode($read_produto_view_id['Produtos']);?>
+															</h5>
+														</div>
+														<div class="card-body">
+															<img class="team-img " src="<?php echo $idSis_Empresa;?>/produtos/miniatura/<?php echo $read_produto_view_id['Arquivo'];?>" alt="" >					 
+														</div>
+													<?php } ?>
 												</div>
 											</div>
-										';
 										
+										<?php
 									}
 								}
 							}

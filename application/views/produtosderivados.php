@@ -178,95 +178,7 @@
 					</div>
 				</nav>
 			</div>
-			<!--
-			<div class="col-lg-3">
-				<?php
-				/*
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
-				$read_categoria = mysqli_query($conn, $result_categoria);
-				if(mysqli_num_rows($read_categoria) > '0'){?>
-					<div class="row">	
-						<div class="col-lg-12">
-							<hr class="botm-line">
-							<h2 class="ser-title ">
-								<a href="produtos.php?">
-									Produtos
-								</a>
-							</h2>
-							<br>
-							<div class="list-group">
-								<?php
-								foreach($read_categoria as $read_categoria_view){
-									echo '<a href="produtos.php?cat='.$read_categoria_view['idTab_Catprod'].'" class="list-group-item">'.$read_categoria_view['Catprod'].'</a>';
-								}?>
-								
-							</div>
-						</div>
-					</div>
-				<?php	
-				}
-				*/
-				?>
-				<?php
-				/*
-				$result_categoria = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
-				$read_categoria = mysqli_query($conn, $result_categoria);
-				if(mysqli_num_rows($read_categoria) > '0'){?>
-					<div class="row">	
-						<div class="col-lg-12">
-							<hr class="botm-line">
-							<h2 class="ser-title ">
-								<a href="produtos.php?">
-									Serviços
-								</a>
-							</h2>
-							<br>
-							<div class="list-group">
-								<?php
-								foreach($read_categoria as $read_categoria_view){
-									echo '<a href="produtos.php?cat='.$read_categoria_view['idTab_Catprod'].'" class="list-group-item">'.$read_categoria_view['Catprod'].'</a>';
-								}
-								?>
-								
-							</div>
-						</div>
-					</div>
-				<?php	
-				}
-				*/
-				?>
-				<?php
-				/*
-				$result_categoria = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
-				$read_categoria = mysqli_query($conn, $result_categoria);
-				if(mysqli_num_rows($read_categoria) > '0'){?>
-					<div class="row">	
-						<div class="col-lg-12">
-							<hr class="botm-line">
-							<h2 class="ser-title ">
-								<a href="promocao.php?">
-									Promoções
-								</a>
-							</h2>
-							<br>
-							<div class="list-group">
-								<?php
-								foreach($read_categoria as $read_categoria_view){
-									echo '<a href="promocao.php?cat='.$read_categoria_view['idTab_Catprom'].'" class="list-group-item">'.$read_categoria_view['Catprom'].'</a>';
-								}
-								?>
-								
-							</div>
-						</div>
-					</div>
-				<?php	
-				}
-				*/
-				?>
-			</div>
-			-->
 			<div class="col-md-12">
-
 				<div class="row">
 					<div class="col-md-12">
 						<hr class="botm-line">
@@ -282,6 +194,7 @@
 								TV.Convdesc,
 								TV.idTab_Promocao,
 								TV.Desconto,
+								TV.ComissaoVenda,
 								TV.TempoDeEntrega,
 								TPR.Promocao,
 								TPR.Descricao,
@@ -322,6 +235,8 @@
 							if(mysqli_num_rows($read_produtos_derivados) > '0'){
 								
 								foreach($read_produtos_derivados as $read_produtos_derivados_view){
+									$comissao 		= $read_produtos_derivados_view['ComissaoVenda'];
+									$cashback 		= $read_produtos_derivados_view['SubTotal2'] * $read_produtos_derivados_view['ComissaoVenda']/100;
 									$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
 									$id_produto 	= $read_produtos_derivados_view['idTab_Produtos'];
 									$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
@@ -340,25 +255,33 @@
 												<img class="team-img " src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" class="img-circle img-responsive" width='120'>					 
 											</div>
 											<div class="card-body">
-												<h5> 
-													<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
-												</h5>
-												<h5> 
-													<?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. 
-													R$ <?php echo number_format($valortotal2,2,",",".");?>
-												</h5>
-												<h5 class="card-title">
-													<?php 
-														if($read_produtos_derivados_view['TempoDeEntrega'] <= 0){
-															echo 'Pronta Entrega!';
-														}else{
-															echo 'Prazo de Entrega: ' . $read_produtos_derivados_view['TempoDeEntrega'] . ' Dia(s)';
-														} 
-													?>
-												</h5>
 												<h5 class="card-title">
 													<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 												</h5>
+												<?php if($row_empresa['EComerce'] == 'S'){ ?>
+													<h5> 
+														<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+													</h5>
+													<h5> 
+														<?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid. 
+														R$ <?php echo number_format($valortotal2,2,",",".");?>
+													</h5>
+													<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
+														<h6> 
+															CashBack R$ <?php echo number_format($cashback,2,",",".");?>
+															<!--CashBack ativo: <?php echo number_format($comissao,2,",",".");?> %-->
+														</h6>
+													<?php } ?>
+													<h5 class="card-title">
+														<?php 
+															if($read_produtos_derivados_view['TempoDeEntrega'] <= 0){
+																echo 'Pronta Entrega!';
+															}else{
+																echo 'Prazo de Entrega: ' . $read_produtos_derivados_view['TempoDeEntrega'] . ' Dia(s)';
+															} 
+														?>
+													</h5>
+												<?php } ?>
 											</div>
 											<?php if($loja_aberta){ ?>
 												<div class="card-body">

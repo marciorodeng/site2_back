@@ -15,9 +15,13 @@
 			<a class="navbar-brand" href="inicial.php"><img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_documento['Logo_Nav']; ?>"></a>
 			
 			<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>
-				<a class="navbar-brand-nome"style="color: #FFFFFF" href="login_associado.php"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></a>
+				Cli.:<span class="navbar-brand-nome"style="color: #FFFFFF"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></span>
+				<!--Cli.:<a class="navbar-brand-nome"style="color: #FFFFFF" href="login_associado.php"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></a>-->
 			<?php }else{ ?>
 				<a class="navbar-brand-nome "style="color: #FFFFFF" href="login_cliente.php">!! Login do Cliente !!</a>
+			<?php } ?>
+			<?php if(isset($_SESSION['Nome_Usuario'.$idSis_Empresa])){ ?>
+				<br>Ind.: <span class="white no-padding" ><?php echo utf8_encode($_SESSION['Nome_Usuario'.$idSis_Empresa]); ?></span>
 			<?php } ?>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">

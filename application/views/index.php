@@ -285,11 +285,13 @@
 										echo'
 										<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
 											<div class="img-produtos ">
-												<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'>"><img class="team-img " src="'.$idSis_Empresa.'/produtos/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
 												<div class="card-body">
 													<h5 class="card-title">
 														<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'">'.utf8_encode($read_produto_view_id['Produtos']).'</a>
 													</h5>
+												</div>
+												<div class="card-body">
+													<a href="produtosderivados.php?id_modelo='.$read_produto_view_id['idTab_Produto'].'>"><img class="team-img " src="'.$idSis_Empresa.'/produtos/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
 												</div>
 											</div>
 										</div>

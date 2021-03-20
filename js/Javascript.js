@@ -294,8 +294,8 @@
 		//alert('calculaDataEntrega!!');
 		var prazo_prdperv = $('#PrazoPrdServ').val();
 		var prazo_entrega = prazo_prdperv;
-		console.log(prazo_prdperv);
-		console.log(prazo_entrega);
+		//console.log(prazo_prdperv);
+		//console.log(prazo_entrega);
 		
 		var d = new Date();
 		var data_entrega    = new Date(d.getTime() + (prazo_entrega * 24 * 60 * 60 * 1000));
@@ -316,7 +316,7 @@
 		
 		var dia_entrega = data_entrega.getFullYear() + "-" + novo_mes + "-" + novo_dia;
 		$('#DataEntrega1').val(dia_entrega);		
-		console.log(dia_entrega);
+		//console.log(dia_entrega);
 		
 	}
 	
@@ -391,9 +391,9 @@
 				
 				var prazo_correios = $('#prazo_correios').val();
 				var prazo_entrega = - (-prazo_prdperv -prazo_correios);
-				console.log(prazo_prdperv);
-				console.log(prazo_correios);
-				console.log(prazo_entrega);
+				//console.log(prazo_prdperv);
+				//console.log(prazo_correios);
+				//console.log(prazo_entrega);
 				$('#PrazoCorreios').val(prazo_correios);
 				$('#prazoentrega').val(prazo_entrega);
 				

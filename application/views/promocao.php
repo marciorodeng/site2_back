@@ -208,6 +208,7 @@
 										
 										$idTab_Promocao = $read_produto_view_id['idTab_Promocao'];
 										$select_produtos = "SELECT 
+																SUM(TV.ComissaoVenda * TV.ValorProduto /100) AS CashBack,
 																SUM(TV.QtdProdutoDesconto * TV.ValorProduto) AS SubTotal,
 																TV.idTab_Promocao
 															FROM
@@ -218,34 +219,44 @@
 																";
 										$subtotal 		= mysqli_query($conn, $select_produtos);
 										if(mysqli_num_rows($subtotal) > '0'){
+											$cashback = '0';
 											$valortotal = '0';
 											foreach($subtotal as $subtotal_view){
+												$cashback += $subtotal_view['CashBack'];
 												$valortotal += $subtotal_view['SubTotal'];
 											}
 										}
-									
-										echo'
+										?>
+										
 										<div class="col-lg-4 col-md-6 col-sm-6 mb-4">
 											<div class="img-produtos ">
 												<div class="card-body">
 													<h5 class="card-title">
-														<a href="produtospromocao.php?promocao='.$read_produto_view_id['idTab_Promocao'].'">'.utf8_encode($read_produto_view_id['Promocao']).'</a>
+														<a href="produtospromocao.php?promocao='.$read_produto_view_id['idTab_Promocao'].'"><?php echo utf8_encode($read_produto_view_id['Promocao']);?></a>
 													</h5>
 												</div>
 												<div class="card-body">
-													<a href="produtospromocao.php?promocao='.$read_produto_view_id['idTab_Promocao'].'>"><img class="team-img " src="'.$idSis_Empresa.'/promocao/miniatura/'.$read_produto_view_id['Arquivo'].'" alt="" ></a>					 
+													<a href="produtospromocao.php?promocao=<?php echo $read_produto_view_id['idTab_Promocao'];?>"><img class="team-img " src="<?php echo $idSis_Empresa;?>/promocao/miniatura/<?php echo $read_produto_view_id['Arquivo'];?>" alt="" ></a>					 
 												</div>
 												<div class="card-body">
 													<h5 class="card-title">
-														'.utf8_encode($read_produto_view_id['Descricao']).'
+														<?php echo utf8_encode($read_produto_view_id['Descricao']);?>
 													</h5>
-													<h5 class="card-title">
-														R$ '.number_format($valortotal,2,",",".").'
-													</h5>
+													<?php if($row_empresa['EComerce'] == 'S'){ ?>	
+														<h5 class="card-title">
+															R$ <?php echo number_format($valortotal,2,",",".");?>
+														</h5>
+														<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
+															<h6 class="card-title">
+																CashBack: R$ <?php echo number_format($cashback,2,",",".");?>
+															</h6>
+														<?php } ?>
+													<?php } ?>	
 												</div>
 											</div>
 										</div>
-										';
+										
+										<?php
 									}
 								}
 							}
