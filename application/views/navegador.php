@@ -13,7 +13,7 @@
 				<span class="icon-bar"></span>
 			</button>					
 			<a class="navbar-brand" href="inicial.php"><img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_documento['Logo_Nav']; ?>"></a>
-			<span class="navbar-brand-nome "style="color: #FFFFFF" ><?php echo $row_empresa['NomeEmpresa'];?></span>
+			<span class="navbar-brand-nome "style="color: #FFFFFF" ><?php echo utf8_encode($row_empresa['NomeEmpresa']);?></span>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
