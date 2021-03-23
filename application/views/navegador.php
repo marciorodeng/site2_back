@@ -13,16 +13,7 @@
 				<span class="icon-bar"></span>
 			</button>					
 			<a class="navbar-brand" href="inicial.php"><img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_documento['Logo_Nav']; ?>"></a>
-			
-			<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>
-				Cli.:<span class="navbar-brand-nome"style="color: #FFFFFF"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></span>
-				<!--Cli.:<a class="navbar-brand-nome"style="color: #FFFFFF" href="login_associado.php"><?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?></a>-->
-			<?php }else{ ?>
-				<a class="navbar-brand-nome "style="color: #FFFFFF" href="login_cliente.php">!! Login do Cliente !!</a>
-			<?php } ?>
-			<?php if(isset($_SESSION['Nome_Usuario'.$idSis_Empresa])){ ?>
-				<br>Ind.: <span class="white no-padding" ><?php echo utf8_encode($_SESSION['Nome_Usuario'.$idSis_Empresa]); ?></span>
-			<?php } ?>
+			<span class="navbar-brand-nome "style="color: #FFFFFF" ><?php echo $row_empresa['NomeEmpresa'];?></span>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -52,20 +43,22 @@
 					<ul class="dropdown-menu" aria-labelledby="dropdown01">
 						<li>
 							<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
-								<a class="dropdown-item" href="sair.php"> Cliente-Deslogar</a>							
+								<a class="dropdown-item" href="sair.php">Cliente: <?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?> / Deslogar</a>							
 							<?php } else { ?>	
-								<a class="dropdown-item" href="login_cliente.php">Login do Cliente</a>
+								<a class="dropdown-item" href="login_cliente.php">Login do Cliente:</a>
 							<?php } ?>
-					
-						<!--<a class="dropdown-item" href="login_cliente.php">Cliente</a><br><br>-->
 						</li>
 						<li role="separator" class="divider"></li>
 						<li>
-							<a class="dropdown-item" href="login_associado.php">Link de Associado</a>
+							<?php if(isset($_SESSION['Nome_Usuario'.$idSis_Empresa])){ ?>
+								<a class="dropdown-item" href="login_associado.php">Associado: <?php echo utf8_encode($_SESSION['Nome_Usuario'.$idSis_Empresa]); ?></a>
+							<?php } else { ?>							
+								<a class="dropdown-item" href="login_associado.php">Link de Associado:</a>
+							<?php } ?>	
 						</li>
 						<li role="separator" class="divider"></li>
 						<li>
-							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Administracao</a>
+							<a class="dropdown-item" target="_blank" href="../<?php echo $sistema;?>/login/index5">Administracao:</a>
 						</li>
 					</ul>
 				</li>
