@@ -116,6 +116,7 @@ if($btnLogin){
 					$_SESSION['Bairro_Cliente'.$idSis_Empresa] = $row_cliente_senha['BairroCliente'];
 					$_SESSION['Cidade_Cliente'.$idSis_Empresa] = $row_cliente_senha['CidadeCliente'];
 					$_SESSION['Estado_Cliente'.$idSis_Empresa] = $row_cliente_senha['EstadoCliente'];
+					$_SESSION['Arquivo_Cliente'.$idSis_Empresa] = $row_cliente_senha['Arquivo'];
 					unset($_SESSION['Usuario_5'.$idSis_Empresa]); 
 					//header("Location: produtos_cliente.php");
 					if(isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]])){
@@ -218,6 +219,7 @@ if($btnLogin){
 						$_SESSION['Bairro_Cliente'.$idSis_Empresa] = $row_cliente_celular['BairroCliente'];
 						$_SESSION['Cidade_Cliente'.$idSis_Empresa] = $row_cliente_celular['CidadeCliente'];
 						$_SESSION['Estado_Cliente'.$idSis_Empresa] = $row_cliente_celular['EstadoCliente'];
+						$_SESSION['Arquivo_Cliente'.$idSis_Empresa] = $row_cliente_celular['Arquivo'];
 						unset($_SESSION['Usuario_5'.$idSis_Empresa]); 
 						//header("Location: produtos_cliente.php");
 						if(isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]])){
@@ -240,6 +242,7 @@ if($btnLogin){
 					$_SESSION['Bairro_Cliente'.$idSis_Empresa] = $row_cliente['BairroCliente'];
 					$_SESSION['Cidade_Cliente'.$idSis_Empresa] = $row_cliente['CidadeCliente'];
 					$_SESSION['Estado_Cliente'.$idSis_Empresa] = $row_cliente['EstadoCliente'];
+					$_SESSION['Arquivo_Cliente'.$idSis_Empresa] = $row_cliente['Arquivo'];
 					unset($_SESSION['Usuario_5'.$idSis_Empresa]); 
 					//header("Location: produtos_cliente.php");
 					if(isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]])){

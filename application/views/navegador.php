@@ -42,16 +42,22 @@
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="dropdown01">
 						<li>
-							<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
-								<a class="dropdown-item" href="sair.php">Cliente: <?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?> / Deslogar</a>							
+							<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>
+								<a class="dropdown-item" href="sair.php">
+									<img class="img-circle " width='40' src="../<?php echo $row_empresa['Site']; ?>/<?php echo $row_empresa['idSis_Empresa']; ?>/clientes/miniatura/<?php echo $_SESSION['Arquivo_Cliente'.$idSis_Empresa]; ?>" alt=""> 
+									<?php echo utf8_encode($_SESSION['Nome_Cliente'.$idSis_Empresa]);?> 
+									/ Deslogar
+								</a>							
 							<?php } else { ?>	
-								<a class="dropdown-item" href="login_cliente.php">Login do Cliente:</a>
+								<a class="dropdown-item" href="login_cliente.php">
+									Login do Cliente:
+								</a>
 							<?php } ?>
 						</li>
 						<li role="separator" class="divider"></li>
 						<li>
 							<?php if(isset($_SESSION['Nome_Usuario'.$idSis_Empresa])){ ?>
-								<a class="dropdown-item" href="login_associado.php">Associado: <?php echo utf8_encode($_SESSION['Nome_Usuario'.$idSis_Empresa]); ?></a>
+								<a class="dropdown-item" href="login_associado.php"><img class="img-circle " width='40' src="../associados/5/usuarios/miniatura/<?php echo $_SESSION['Arquivo_Usuario'.$idSis_Empresa]; ?>" alt="">	<?php echo utf8_encode($_SESSION['Nome_Usuario'.$idSis_Empresa]); ?>/Desl.Assoc.</a>
 							<?php } else { ?>							
 								<a class="dropdown-item" href="login_associado.php">Link de Associado:</a>
 							<?php } ?>	
