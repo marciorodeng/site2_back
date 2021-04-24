@@ -272,7 +272,7 @@
 															</div>
 														</div>
 													<?php } elseif($read_pedido_view['CombinadoFrete'] == 'S' && $read_pedido_view['AprovadoOrca'] == 'N'){?>
-														<?php if(!(($read_pedido_view['TipoFrete'] == '1' || $read_pedido_view['TipoFrete'] == '2' || $read_pedido_view['TipoFrete'] == '3') && $read_pedido_view['AVAP'] == 'O')){?>
+														<?php if((($read_pedido_view['TipoFrete'] == '2') && $read_pedido_view['AVAP'] != 'O')){?>
 															<div class="row">
 																<div class="col-md-3 ">
 																	<h5 class="my-0"><span class="text-muted" style="color: #000000">Pedido:</span>

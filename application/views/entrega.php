@@ -247,7 +247,7 @@
 													<div class="col-md-3 mb-3 ">	
 														<div class="custom-control custom-radio">
 															<input type="radio" name="tipofrete" class="custom-control-input " id="Combinar" value="2" onclick="tipoFrete('2'), calculaDataEntrega()" >
-															<label class="custom-control-label" for="Combinar">Casa/MotoBoy </label>
+															<label class="custom-control-label" for="Combinar">Casa/Pela Loja </label>
 															<img src="../<?php echo $sistema ?>/arquivos/imagens/combinar.png" class="img-responsive img-link Combinar" width='150'>
 														</div>
 													</div>
