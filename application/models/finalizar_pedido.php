@@ -1,4 +1,6 @@
 <?php 
+
+	$usarcashback = filter_input(INPUT_POST,'UsarCashBack');
 	$localpagamento = filter_input(INPUT_POST,'localpagamento');
 	$formapagamento = filter_input(INPUT_POST,'formapagamento');
 	$tipofrete = filter_input(INPUT_POST,'tipofrete');
@@ -9,6 +11,8 @@
 	/*
 	echo "<pre>";
 	print_r($tipofrete);
+	echo "<br>";
+	print_r($usarcashback);
 	echo "<br>";
 	print_r($localpagamento);
 	echo "<br>";
@@ -190,6 +194,7 @@
 				echo "<script>alert('Ocorreu um erro ao finalizar o pedido')</script>";                
 				echo "<script>window.location = 'meu_carrinho.php'</script>";
             } else {
+				$valor_comissao = '0';
 				$total_venda_produto = '0';
 				$valor_comissao_produto = '0';
 				$qtd_produtoorca_produto = '0';
@@ -220,6 +225,7 @@
 						TV.Convdesc,
 						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
+						TV.ComissaoServico,
 						TV.ComissaoCashBack,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -250,6 +256,7 @@
 						TV.Convdesc,
 						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
+						TV.ComissaoServico,
 						TV.ComissaoCashBack,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -281,6 +288,7 @@
 						TV.Convdesc,
 						TV.TempoDeEntrega,
 						TV.ComissaoVenda,
+						TV.ComissaoServico,
 						TV.ComissaoCashBack,
 						TV.QtdProdutoDesconto,
 						TV.QtdProdutoIncremento,
@@ -314,8 +322,9 @@
 							//$total_venda_produto += $sub_total_produto_carrinho_produto;
 							//$sub_total_comissao = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoVenda'] / 100;
+							$sub_total_servico = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoCashBack'] / 100;
-							//$valor_comissao_produto += $sub_total_comissao_produto;
+							$valor_comissao += $sub_total_comissao;
 						}
 					}
 					if(mysqli_num_rows($read_produto_carrinho) > '0'){
@@ -328,6 +337,7 @@
 							$total_venda_produto += $sub_total_produto_carrinho_produto;
 							//$sub_total_comissao = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoVenda'] / 100;
+							$sub_total_servico_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoCashBack'] / 100;
 							$valor_comissao_produto += $sub_total_comissao_produto;
 							
@@ -351,6 +361,7 @@
 							$total_venda_servico += $sub_total_produto_carrinho_servico;
 							//$sub_total_comissao = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoVenda'] / 100;
+							$sub_total_servico_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoCashBack'] / 100;
 							$valor_comissao_servico += $sub_total_comissao_servico;
 						
@@ -376,8 +387,10 @@
 																	PrazoProduto,
 																	NomeProduto,
 																	ComissaoProduto,
+																	ComissaoServicoProduto,
 																	ComissaoCashBackProduto,
 																	ValorComissaoVenda,
+																	ValorComissaoServico,
 																	ValorComissaoCashBack,
 																	DataValidadeProduto,
 																	ConcluidoProduto,
@@ -398,8 +411,10 @@
 																	'".$read_prsr_carrinho_view['TempoDeEntrega']."',
 																	'".$nome_produto."',
 																	'".$read_prsr_carrinho_view['ComissaoVenda']."',
+																	'".$read_prsr_carrinho_view['ComissaoServico']."',
 																	'".$read_prsr_carrinho_view['ComissaoCashBack']."',
 																	'".$sub_total_comissao."',
+																	'".$sub_total_servico."',
 																	'".$sub_total_cashback."',
 																	'".date('Y-m-d')."',
 																	'N',

@@ -2,6 +2,56 @@
 	exibirentrega();
 	Aguardar();
 
+	function mascaraValorReal(value) {
+
+		var r;
+
+		r = value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+		r = r.replace(/[,.]/g, function (m) {
+			// m is the match found in the string
+			// If `,` is matched return `.`, if `.` matched return `,`
+			return m === ',' ? '.' : ',';
+		});
+
+		return r;
+
+	}
+
+	function usarcashback(usarcash) {
+		//alert('usarcashback');
+		//console.log('usarcash = ' + usarcash);	
+		
+		var valortotalorca 	= $('#ValorTotal').val();
+		
+		valortotalorca 		= valortotalorca.replace(".","").replace(",",".");
+		valortotalorca		= parseFloat(valortotalorca);		
+		
+		var cashbackorca 	= $('#ValorCashBack').val();
+		
+		cashbackorca 		= cashbackorca.replace(".","").replace(",",".");
+		cashbackorca		= parseFloat(cashbackorca);		
+		
+		//console.log('valortotalorca = ' + valortotalorca);
+		//console.log('cashbackorca = ' + cashbackorca);		
+		
+		if(usarcash == 'S'){
+			if(valortotalorca >= cashbackorca){
+				var valorfinalorca = (valortotalorca - cashbackorca);
+			}else{
+				var valorfinalorca = '0.00';
+			}	
+		}else{
+			var valorfinalorca = valortotalorca;
+		}		
+		valorfinalorca	= parseFloat(valorfinalorca);
+		//valorfinalorca	= valorfinalorca.toFixed(2);
+		valorfinalorca 	= mascaraValorReal(valorfinalorca);
+		//console.log('valorfinalorca = ' + valorfinalorca);
+		$('#ValorFinalOrca').val(valorfinalorca);
+
+	}
+
+	
 	//Função que desabilita a Mensagem de Aguardar.
 	function Aguardar () {
 		//$('.aguardar').hide();

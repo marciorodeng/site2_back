@@ -1,4 +1,51 @@
 <?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
+	<?php 
+		if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ 
+			$result = 'SELECT 
+						PD.idApp_Produto,
+						PD.idSis_Empresa,
+						PD.idApp_Cliente,
+						PD.ValorComissaoCashBack,
+						PD.StatusComissaoCashBack,
+						PD.DataPagoCashBack,
+						PD.id_Orca_CashBack
+					FROM
+						App_Produto AS PD
+							LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = PD.idApp_OrcaTrata
+					WHERE
+						PD.idSis_Empresa = ' . $idSis_Empresa . ' AND
+						PD.StatusComissaoCashBack = "N" AND
+						PD.id_Orca_CashBack = 0 AND
+						PD.ValorComissaoCashBack > 0.00 AND
+						OT.QuitadoOrca = "S" AND
+						OT.CanceladoOrca = "N" AND
+						PD.idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
+				';
+
+			$resultado = mysqli_query($conn, $result);
+			$cashtotal = 0;
+			while ($row = mysqli_fetch_assoc($resultado) ) {
+				$cashtotal += $row['ValorComissaoCashBack'];
+			}
+			$cashtotal_visao = number_format($cashtotal,2,",",".");
+			$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+			
+			/*
+			echo "<br>";
+			echo "<pre>";
+			echo $idSis_Empresa;
+			echo "<br>";
+			echo $_SESSION['id_Cliente'.$idSis_Empresa];
+			echo "<br>";
+			echo $cashtotal;
+			echo "<br>";
+			echo $cashtotal_visao;
+			echo "<br>";
+			echo $cashtotal_conta;
+			echo "</pre>";
+			*/			
+		} 
+	?>
 	<section id="service" class="section-padding">
 		<div class="container">
 			<div class="row">
@@ -295,8 +342,12 @@
 										<strong>: <span  name="PRCount" id="PRCount" value="<?php echo $total_produtos; ?>"><?php echo $total_produtos; ?> Unid.</span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
-										<span>Valor Total </span>
+										<span>Valor do Pedido </span>
 										<strong>: R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+									</li>
+									<li class="list-group-item d-flex justify-content-between fundo">
+										<span>Valor em CashBack </span>
+										<strong>: R$ <span  name="ValorCashBack" id="ValorCashBack"><?php echo $cashtotal_visao;?></span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Prazo de Entrega na Loja </span>

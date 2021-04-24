@@ -1,4 +1,51 @@
-<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>	
+<?php if(isset($_SESSION['Nome_Cliente'.$idSis_Empresa])){ ?>
+	<?php 
+		if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ 
+			$result = 'SELECT 
+						PD.idApp_Produto,
+						PD.idSis_Empresa,
+						PD.idApp_Cliente,
+						PD.ValorComissaoCashBack,
+						PD.StatusComissaoCashBack,
+						PD.DataPagoCashBack,
+						PD.id_Orca_CashBack
+					FROM
+						App_Produto AS PD
+							LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = PD.idApp_OrcaTrata
+					WHERE
+						PD.idSis_Empresa = ' . $idSis_Empresa . ' AND
+						PD.StatusComissaoCashBack = "N" AND
+						PD.id_Orca_CashBack = 0 AND
+						PD.ValorComissaoCashBack > 0.00 AND
+						OT.QuitadoOrca = "S" AND
+						OT.CanceladoOrca = "N" AND
+						PD.idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
+				';
+
+			$resultado = mysqli_query($conn, $result);
+			$cashtotal = 0;
+			while ($row = mysqli_fetch_assoc($resultado) ) {
+				$cashtotal += $row['ValorComissaoCashBack'];
+			}
+			$cashtotal_visao = number_format($cashtotal,2,",",".");
+			$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+			
+			/*
+			echo "<br>";
+			echo "<pre>";
+			echo $idSis_Empresa;
+			echo "<br>";
+			echo $_SESSION['id_Cliente'.$idSis_Empresa];
+			echo "<br>";
+			echo $cashtotal;
+			echo "<br>";
+			echo $cashtotal_visao;
+			echo "<br>";
+			echo $cashtotal_conta;
+			echo "</pre>";
+			*/			
+		} 
+	?>	
 	<section id="service" class="section-padding">
 		<div class="container">
 			<div class="row">
@@ -174,8 +221,12 @@
 										<strong>: <span  name="TotalProd" id="TotalProd"><?php echo $total_produtos;?> Unid.</span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
-										<span>Valor Total </span>
-										<strong>: R$ <span  name="ValorTotal" id="ValorTotal"><?php echo $total;?></span></strong>
+										<span>Valor do Pedido </span>
+										<strong>: R$ <span><?php echo $total;?></span></strong>
+									</li>
+									<li class="list-group-item d-flex justify-content-between fundo">
+										<span>Valor em CashBack </span>
+										<strong>: R$ <span><?php echo $cashtotal_visao;?></span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Prazo de Entrega na Loja </span>
@@ -193,7 +244,41 @@
 									</li>
 								<?php } ?>
 							</ul>
-							
+							<div class="col-lg-12 ">
+								<div class="row">
+									<h5 class="mb-3">Usar o CashBack?</h5>
+									<div class="row ">
+										<div class="col-lg-12">	
+											<div class="col-md-2 mb-3 ">	
+												<div class="custom-control custom-radio">
+													<input type="radio" name="UsarCashBack" class="custom-control-input"  value="N" onclick="usarcashback(this.value)" checked>
+													<label class="custom-control-label" for="Nao">Não</label>
+												</div>
+											</div>											
+											<div class="col-md-2 mb-3 ">	
+												<div class="custom-control custom-radio">
+													<input type="radio" name="UsarCashBack" class="custom-control-input"  value="S" onclick="usarcashback(this.value)">
+													<label class="custom-control-label" for="Sim">Sim</label>
+												</div>
+											</div>
+											<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $_SESSION['id_Cliente'.$idSis_Empresa];?>">
+											<input type="hidden" name="ValorTotal" id="ValorTotal" value="<?php echo $total;?>">
+											<input type="hidden" name="ValorCashBack" id="ValorCashBack" value="<?php echo $cashtotal_visao;?>">
+										</div>
+									</div>
+									
+								</div>
+								<ul class="list-group mb-3 ">
+									<?php if($item_carrinho > 0) { ?>
+										<li class="list-group-item d-flex justify-content-between fundo">
+											<span>Valor Final </span>
+											<strong>: R$ 
+												<input type="text" class="form-control" name="ValorFinalOrca" id="ValorFinalOrca" style="color: #000000" value="<?php echo $total;?>" readonly="">
+											</strong>	
+										</li>
+									<?php } ?>
+								</ul>							
+							</div>
 							<div class="row">
 								<div class="col-md-6 mb-3 ">
 									<label>Observações:</label>
