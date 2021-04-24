@@ -179,6 +179,7 @@
 							TV.idTab_Promocao,
 							TV.Desconto,
 							TV.ComissaoVenda,
+							TV.ComissaoCashBack,
 							TV.TempoDeEntrega,
 							TPS.idTab_Produtos,
 							TPS.idTab_Produto,
@@ -189,7 +190,7 @@
 							TPS.Estoque,
 							TPS.Produtos_Descricao,
 							(TV.QtdProdutoDesconto * TV.ValorProduto) AS SubTotal,
-							(TV.ComissaoVenda * TV.ValorProduto /100) AS CashBack,
+							(TV.ComissaoCashBack * TV.ValorProduto /100) AS CashBack,
 							(TV.ValorProduto) AS SubTotal2
 						FROM 
 							Tab_Valor AS TV

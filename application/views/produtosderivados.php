@@ -195,6 +195,7 @@
 								TV.idTab_Promocao,
 								TV.Desconto,
 								TV.ComissaoVenda,
+								TV.ComissaoCashBack,
 								TV.TempoDeEntrega,
 								TPR.Promocao,
 								TPR.Descricao,
@@ -235,8 +236,8 @@
 							if(mysqli_num_rows($read_produtos_derivados) > '0'){
 								
 								foreach($read_produtos_derivados as $read_produtos_derivados_view){
-									$comissao 		= $read_produtos_derivados_view['ComissaoVenda'];
-									$cashback 		= $read_produtos_derivados_view['SubTotal2'] * $read_produtos_derivados_view['ComissaoVenda']/100;
+									$comissao 		= $read_produtos_derivados_view['SubTotal2'] * $read_produtos_derivados_view['ComissaoVenda']/100;
+									$cashback 		= $read_produtos_derivados_view['SubTotal2'] * $read_produtos_derivados_view['ComissaoCashBack']/100;
 									$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
 									$id_produto 	= $read_produtos_derivados_view['idTab_Produtos'];
 									$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
@@ -269,7 +270,6 @@
 													<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
 														<h6> 
 															CashBack R$ <?php echo number_format($cashback,2,",",".");?>
-															<!--CashBack ativo: <?php echo number_format($comissao,2,",",".");?> %-->
 														</h6>
 													<?php } ?>
 													<h5 class="card-title">

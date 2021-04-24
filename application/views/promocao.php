@@ -208,7 +208,7 @@
 										
 										$idTab_Promocao = $read_produto_view_id['idTab_Promocao'];
 										$select_produtos = "SELECT 
-																SUM(TV.ComissaoVenda * TV.ValorProduto /100) AS CashBack,
+																SUM(TV.ComissaoCashBack * TV.ValorProduto /100) AS CashBack,
 																SUM(TV.QtdProdutoDesconto * TV.ValorProduto) AS SubTotal,
 																TV.idTab_Promocao
 															FROM
