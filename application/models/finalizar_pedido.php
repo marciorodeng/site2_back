@@ -8,19 +8,13 @@
 	$valordinheiro = filter_input(INPUT_POST,'ValorDinheiro');
 	$prazo_prdperv = filter_input(INPUT_POST,'PrazoPrdServ');
 	$comissaoenkontraki = $row_empresa['ComissaoEnkontraki'];
-	/*
-	echo "<pre>";
-	print_r($tipofrete);
-	echo "<br>";
-	print_r($usarcashback);
-	echo "<br>";
-	print_r($localpagamento);
-	echo "<br>";
-	print_r($formapagamento);
-	echo "<br>";
-	echo "</pre>";
-	exit();
-	*/
+	$dia = date('Y-m-d');
+	$hora = date('H:i:s');
+	$hora_mais1 = date('H:i:s', strtotime('+1 hour'));
+	//$hora_mais1 = date($hora, strtotime('+1 hour'));
+	//$dia_hora = date('Y-m-d H:i:s');
+	$dia_hora = $dia . ' ' . $hora;
+
 	if(isset($tipofrete)) {
 
 		if($tipofrete == 1){
@@ -91,7 +85,19 @@
 	if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){
 		$cliente = $_SESSION['id_Cliente'.$idSis_Empresa];
 	}
-	
+	/*
+	echo "<pre>";
+	print_r($usarcashback);
+	echo "<br>";
+	print_r($cashtotal_conta);
+	echo "<br>";
+	print_r($contagem);
+	echo "<br>";
+	print_r($resultado_view);
+	echo "<br>";
+	echo "</pre>";
+	exit();
+	*/
 	if(isset($_SESSION['id_Usuario'.$idSis_Empresa])){
 		$usuario = $_SESSION['id_Usuario'.$idSis_Empresa];
 	}else{
@@ -143,6 +149,10 @@
 														Prd_Srv_Orca,
 														PrazoProdServ,
 														PrazoCorreios,
+														
+														
+														UsarCashBack,
+														
 														AprovadoOrca) 
 												VALUES(	'1',
 														'2',
@@ -150,10 +160,10 @@
 														'".$usuario."',
 														'".$usuario."',
 														'".$idSis_Empresa."',
-														'".date('Y-m-d')."',
-														'".date('H:i:s')."',
-														'".date('Y-m-d')."',
-														'".date('Y-m-d H:i:s')."',
+														'".$dia."',
+														'".$hora."',
+														'".$dia."',
+														'".$dia_hora."',
 														'0',
 														'0',
 														'1',
@@ -169,7 +179,7 @@
 														'".$valorfrete."',
 														'".$prazoentrega."',
 														'".$dataentrega."',
-														'".date('H:i:s', strtotime('+1 hour'))."',
+														'".$hora_mais1."',
 														'".$cep."',
 														'".$logradouro1."',
 														'".$numero."',
@@ -185,6 +195,7 @@
 														'S',
 														'".$prazo_prdperv."',
 														'".$prazo_correios."',
+														'".$usarcashback."',
 														'N')";
 			mysqli_query($conn, $insert_pedido);
 			
@@ -194,6 +205,55 @@
 				echo "<script>alert('Ocorreu um erro ao finalizar o pedido')</script>";                
 				echo "<script>window.location = 'meu_carrinho.php'</script>";
             } else {
+				
+				if(isset($usarcashback) && $usarcashback == "S") {
+					$result = 'SELECT 
+								PD.idApp_Produto,
+								PD.idSis_Empresa,
+								PD.idApp_Cliente,
+								PD.ValorComissaoCashBack,
+								PD.StatusComissaoCashBack,
+								PD.DataPagoCashBack,
+								PD.id_Orca_CashBack
+							FROM
+								App_Produto AS PD
+									LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = PD.idApp_OrcaTrata
+							WHERE
+								PD.idSis_Empresa = ' . $idSis_Empresa . ' AND
+								PD.StatusComissaoCashBack = "N" AND
+								PD.id_Orca_CashBack = 0 AND
+								PD.ValorComissaoCashBack > 0.00 AND
+								OT.QuitadoOrca = "S" AND
+								OT.CanceladoOrca = "N" AND
+								PD.idApp_Cliente = "' . $cliente . '" 
+						';
+
+					$resultado = mysqli_query($conn, $result);
+					$contagem = mysqli_num_rows($resultado);
+					if($contagem > '0'){
+						$cashtotal = 0;
+						foreach($resultado as $resultado_view){
+							$cashtotal += $resultado_view['ValorComissaoCashBack'];
+							$id_produto = $resultado_view['idApp_Produto'];
+							$update_pedido = "
+												UPDATE 
+													App_Produto 
+												SET 
+													StatusComissaoCashBack = 'S',
+													DataPagoCashBack = '".$dia."',
+													id_Orca_CashBack = '".$id_pedido."'
+												WHERE 
+													idApp_Produto = '".$id_produto."'
+											";
+							$update_produto = mysqli_query($conn, $update_pedido);
+						}
+					}
+					$cashtotal_visao = number_format($cashtotal,2,",",".");
+					$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+				}else{
+					$cashtotal_conta = "0.00";
+				}				
+				
 				$valor_comissao = '0';
 				$total_venda_produto = '0';
 				$valor_comissao_produto = '0';
@@ -416,7 +476,7 @@
 																	'".$sub_total_comissao."',
 																	'".$sub_total_servico."',
 																	'".$sub_total_cashback."',
-																	'".date('Y-m-d')."',
+																	'".$dia."',
 																	'N',
 																	'2',
 																	'1',
@@ -426,7 +486,17 @@
 				}
 				
 				$total_venda_prsr = $total_venda_produto + $total_venda_servico;
-				$valor_fatura = $total_venda_prsr + $valorfrete;
+				
+				$valor_soma = $total_venda_prsr + $valorfrete;
+				
+				$valor_final = $valor_soma - $cashtotal_conta;
+				
+				if($valor_final >= 0){
+					$valor_fatura = $valor_final;
+				}else{
+					$valor_fatura = 0.00;
+				}
+				
 				$valor_troco = $valordinheiro - $valor_fatura;
 				if($valor_troco > 0){
 					$valor_troco_final = $valor_troco;
@@ -456,7 +526,7 @@
 													VALUES('1',
 															'2',
 															'N',
-															'".date('Y-m-d')."',
+															'".$dia."',
 															'".$valor_fatura."',
 															'".$formapagamento."',
 															'1/1',
@@ -476,9 +546,10 @@
 									PrazoServicos = '".$prazo_carrinho_serv."',
 									ValorDev = '".$total_venda_servico."',
 									ValorRestanteOrca = '".$total_venda_prsr."',
-									ValorSomaOrca = '".$total_venda_prsr."',
-									ValorTotalOrca = '".$valor_fatura."',
-									SubValorFinal = '".$valor_fatura."',
+									ValorSomaOrca = '".$valor_soma."',
+									ValorTotalOrca = '".$valor_soma."',
+									SubValorFinal = '".$valor_soma."',
+									CashBackOrca = '".$cashtotal_conta."',
 									ValorFinalOrca = '".$valor_fatura."',
 									ValorTroco = '".$valor_troco_final."',
 									ValorFatura = '".$valor_fatura."',
@@ -497,6 +568,7 @@
 			//header("Location: meus_pedidos.php");
 			//echo "<script>alert('Pedido Finalizado')</script>";
 			//echo '<script> window.location = "entrega.php?id='.$id_pedido.'" </script>';			
+
 			if($localpagamento == "O" && ($tipofrete == "1" || $tipofrete == "3")){
 				if($formapagamento == "1" || $formapagamento == "2" || $formapagamento == "3"){
 					echo '<script> window.location = "pagar.php?id='.$id_pedido.'" </script>';
