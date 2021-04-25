@@ -12,7 +12,7 @@
 	/*
 	echo '<br>';
 	echo "<pre>";
-	print_r($promocao);
+	print_r($id_promocao);
 	echo "</pre>";
 	exit ();
 	*/
@@ -187,6 +187,7 @@
 							TPS.Nome_Prod,
 							TPS.Arquivo,
 							TPS.Valor_Produto,
+							TPS.ContarEstoque,
 							TPS.Estoque,
 							TPS.Produtos_Descricao,
 							(TV.QtdProdutoDesconto * TV.ValorProduto) AS SubTotal,
@@ -205,9 +206,27 @@
 				?>
 				<?php 
 					$cont_promocao = mysqli_num_rows($read_promocao);
+					/*
+					echo '<br>';
+					echo "<pre>";
+					print_r($cont_promocao . ' cont_promocao');
+					echo '<br>';
+					print_r($read_promocao);
+					echo '<br>';
+					print_r($read_produtos_derivados);
+					echo "</pre>";
+					exit ();
+					*/
 					if($cont_promocao > '0'){
 						$total = 0;
 						foreach($read_promocao as $read_promocao_view){
+							/*
+							echo "<pre>";
+							print_r($read_promocao_view['idTab_Promocao']);
+							echo '<br>';
+							echo "</pre>";
+							exit ();
+							*/
 							$total 		= $read_promocao_view['Total'];
 							?>
 							<div class="row">
@@ -240,6 +259,7 @@
 													print_r($cont_produtos);
 													echo '<br>';
 													echo "</pre>";
+													exit ();
 													*/
 												if($cont_produtos > '0'){
 													$valortotal2 = '0';
@@ -250,13 +270,18 @@
 														$cashback 		= $read_produtos_derivados_view['CashBack'];
 														$valortotal2 	= $subtotal2;
 														$qtd_incremento = $read_produtos_derivados_view['QtdProdutoIncremento'];
+														$contar_estoque = $read_produtos_derivados_view['ContarEstoque'];
 														$qtd_estoque = $read_produtos_derivados_view['Estoque'];
 														$prazo_prod = $read_produtos_derivados_view['TempoDeEntrega'];
 														$id_produto = $read_produtos_derivados_view['idTab_Produtos'];
 														$total_estoque = $qtd_estoque - $qtd_incremento;
 														
-														if($qtd_estoque < $qtd_estoque_prom){
-															$qtd_estoque_prom = $qtd_estoque;
+														if($contar_estoque == "S"){
+															if($qtd_estoque < $qtd_estoque_prom){
+																$qtd_estoque_prom = $qtd_estoque;
+															}else{
+																$qtd_estoque_prom = $qtd_estoque_prom;
+															}
 														}else{
 															$qtd_estoque_prom = $qtd_estoque_prom;
 														}
@@ -296,9 +321,11 @@
 																		<?php } ?>
 																	</div>
 																	<div class="card-body">
-																		<?php 	if($total_estoque < 0){ ?>
-																			<p style="color: #FF0000">Indisponível no Estoque</p>							
-																		<?php } ?>
+																		<?php 	if($contar_estoque == "S"){ ?>
+																			<?php 	if($total_estoque < 0){ ?>
+																				<p style="color: #FF0000">Indisponível no Estoque</p>							
+																			<?php } ?>
+																		<?php } ?>	
 																	</div>	
 																</div>
 															</div>
@@ -312,7 +339,7 @@
 													echo '<br>';
 													print_r($prazo_prom . ' Prazo');
 													echo "</pre>";
-													exit ();
+													//exit ();
 													*/
 												}
 											?>
@@ -344,18 +371,18 @@
 																		<br>
 																		<?php if($row_empresa['EComerce'] == 'S'){ ?>
 																			<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-																				<?php if($qtd_estoque_prom == 1){ ?>
-																				
-																				
-																					<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
+																					<?php if($qtd_estoque_prom == 1){ ?>
 																					
-																				<?php }else{ ?>	
 																					
-																					<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
-																					<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
-																						Aguarde um instante! Estamos processando sua solicitação!
-																					</div>
-																				<?php } ?>
+																						<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
+																						
+																					<?php }else{ ?>	
+																						
+																						<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
+																						<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
+																							Aguarde um instante! Estamos processando sua solicitação!
+																						</div>
+																					<?php } ?>
 																				
 																				<!--<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $id_valor;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Adicionar ao Carrinho</a>-->
 																				<!--<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">

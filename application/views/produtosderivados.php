@@ -207,6 +207,7 @@
 								TPS.Nome_Prod,
 								TPS.Arquivo,
 								TPS.Valor_Produto,
+								TPS.ContarEstoque,
 								TPS.Estoque,
 								TPS.Produtos_Descricao,
 								TOP2.Opcao AS Opcao2,
@@ -242,6 +243,7 @@
 									$id_produto 	= $read_produtos_derivados_view['idTab_Produtos'];
 									$subtotal2 		= $read_produtos_derivados_view['SubTotal2'];
 									$valortotal2 	= $subtotal2;
+									$contar_estoque	= $read_produtos_derivados_view['ContarEstoque'];
 									$qtd_estoque 	= $read_produtos_derivados_view['Estoque'];
 									?>
 									
@@ -287,13 +289,15 @@
 												<div class="card-body">
 													<?php if($row_empresa['EComerce'] == 'S'){ ?>
 														<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-															<?php 	if($qtd_estoque >= $qtd_incremento){ ?>
-																<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $read_produtos_derivados_view['idTab_Valor'];?>" class="btn btn-success" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar ao Carrinho</a>
-																<!--<a href="meu_carrinho.php?id=<?php echo $id_valor;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Adicionar ao Carrinho</a>-->								
+															<?php if($contar_estoque == "S"){ ?>
+																<?php if($qtd_estoque >= $qtd_incremento){ ?>
+																	<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $read_produtos_derivados_view['idTab_Valor'];?>" class="btn btn-success" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar ao Carrinho</a>
+																<?php } else { ?>
+																	<a href="produtos.php" class="btn btn-danger" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Indisponível no estoque</a>
+																<?php } ?>	
 															<?php } else { ?>
-																<a href="produtos.php" class="btn btn-danger" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Indisponível no estoque</a>
+																<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $read_produtos_derivados_view['idTab_Valor'];?>" class="btn btn-success" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar ao Carrinho</a>
 															<?php } ?>	
-																
 																
 																<!--<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $read_produtos_derivados_view['idTab_Valor'];?>" class="btn btn-success k" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar ao Carrinho</a>
 																

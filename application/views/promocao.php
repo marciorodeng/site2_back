@@ -232,7 +232,7 @@
 											<div class="img-produtos ">
 												<div class="card-body">
 													<h5 class="card-title">
-														<a href="produtospromocao.php?promocao='.$read_produto_view_id['idTab_Promocao'].'"><?php echo utf8_encode($read_produto_view_id['Promocao']);?></a>
+														<a href="produtospromocao.php?promocao=<?php echo $read_produto_view_id['idTab_Promocao'];?>"><?php echo utf8_encode($read_produto_view_id['Promocao']);?></a>
 													</h5>
 												</div>
 												<div class="card-body">

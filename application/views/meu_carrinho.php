@@ -98,6 +98,7 @@
 												TPS.ValorProdutoSite,
 												TPS.PesoProduto,
 												TPS.ObsProduto,
+												TPS.ContarEstoque,
 												TPS.Estoque,
 												TPS.Produtos_Descricao,
 												TV.idTab_Promocao,
@@ -132,6 +133,7 @@
 												foreach($read_produto_carrinho as $read_produto_carrinho_view){
 													$quantidade_produto_desconto = $read_produto_carrinho_view['QtdProdutoDesconto'];
 													$quantidade_produto_embalagem = $read_produto_carrinho_view['QtdProdutoIncremento'];
+													$contar_estoque = $read_produto_carrinho_view['ContarEstoque'];
 													$quantidade_estoque = $read_produto_carrinho_view['Estoque'];
 													$prazo_prod = $read_produto_carrinho_view['TempoDeEntrega'];
 													$sub_total_produtos = $quantidade_produto_carrinho * $quantidade_produto_embalagem;
@@ -299,11 +301,13 @@
 															</div>	
 															<div class="row ">
 																<h5 class="my-0"><span id="msg<?php echo $item_carrinho;?>" value=""></span></h5>
-																<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
-																	<div class="col-md-12 ">
-																		<h4 class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</h4>
-																	</div>
-																<?php } ?>
+																<?php if($contar_estoque == "S"){?>
+																	<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
+																		<div class="col-md-12 ">
+																			<h4 class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</h4>
+																		</div>
+																	<?php } ?>
+																<?php } ?>	
 															</div>
 														</div>
 													</div>	
