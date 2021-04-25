@@ -512,30 +512,31 @@
 				$valor_comissao_total = $valor_comissao_produto + $valor_comissao_servico;
 				$valor_empresa = $valor_fatura - $valor_comissao_produto - $valor_comissao_servico - $valor_gateway - $valor_enkontraki;				
 				
-				$insert_parcela = "INSERT INTO App_Parcelas(idTab_Modulo,
-															idTab_TipoRD,
-															Quitado,
-															DataVencimento,
-															ValorParcela,
-															FormaPagamentoParcela,
-															Parcela,
-															idApp_Cliente,
-															idSis_Usuario,
-															idSis_Empresa,
-															idApp_OrcaTrata) 
-													VALUES('1',
-															'2',
-															'N',
-															'".$dia."',
-															'".$valor_fatura."',
-															'".$formapagamento."',
-															'1/1',
-															'".$_SESSION['id_Cliente'.$idSis_Empresa]."',
-															'".$usuario."',
-															'".$idSis_Empresa."',
-															'".$id_pedido."')";
-				mysqli_query($conn, $insert_parcela);
-
+				if($valor_final > 0){
+					$insert_parcela = "INSERT INTO App_Parcelas(idTab_Modulo,
+																idTab_TipoRD,
+																Quitado,
+																DataVencimento,
+																ValorParcela,
+																FormaPagamentoParcela,
+																Parcela,
+																idApp_Cliente,
+																idSis_Usuario,
+																idSis_Empresa,
+																idApp_OrcaTrata) 
+														VALUES('1',
+																'2',
+																'N',
+																'".$dia."',
+																'".$valor_fatura."',
+																'".$formapagamento."',
+																'1/1',
+																'".$_SESSION['id_Cliente'.$idSis_Empresa]."',
+																'".$usuario."',
+																'".$idSis_Empresa."',
+																'".$id_pedido."')";
+					mysqli_query($conn, $insert_parcela);
+				}
 				$update_pedido = "UPDATE 
 									App_OrcaTrata 
 								SET 
