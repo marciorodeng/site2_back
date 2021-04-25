@@ -51,12 +51,10 @@
 
 	}
 
-	
 	//Função que desabilita a Mensagem de Aguardar.
 	function Aguardar () {
 		//$('.aguardar').hide();
 		document.getElementById('aguardar').style.display = "none";
-		
 	}	
 		
 	//Função que desabilita o botão submit após 1 click, evitando mais de um envio de formulário.
