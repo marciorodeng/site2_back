@@ -76,6 +76,8 @@
 																		OT.idApp_Cliente,
 																		OT.ValorRestanteOrca,
 																		OT.ValorFrete,
+																		OT.CashBackOrca,
+																		OT.ValorFinalOrca,
 																		OT.ValorBoleto,
 																		OT.ValorTotalOrca,
 																		OT.CombinadoFrete,
@@ -128,7 +130,7 @@
 								}																
 								if(mysqli_num_rows($read_pedido) > '0'){
 									foreach($read_pedido as $read_pedido_view){
-										$valortotalorca = $read_pedido_view['ValorTotalOrca'];
+										$valortotalorca = $read_pedido_view['ValorFinalOrca'];
 										$total = $read_pedido_view['ValorRestanteOrca'] + $read_pedido_view['ValorFrete'] + $read_pedido_view['ValorBoleto'] ;
 										
 										if($read_pedido_view['AVAP'] == 'V'){

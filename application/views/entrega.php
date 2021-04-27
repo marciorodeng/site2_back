@@ -2,48 +2,21 @@
 	<?php 
 		if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ 
 			$result = 'SELECT 
-						PD.idApp_Produto,
-						PD.idSis_Empresa,
-						PD.idApp_Cliente,
-						PD.ValorComissaoCashBack,
-						PD.StatusComissaoCashBack,
-						PD.DataPagoCashBack,
-						PD.id_Orca_CashBack
+						CashBackCliente
 					FROM
-						App_Produto AS PD
-							LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = PD.idApp_OrcaTrata
+						App_Cliente
 					WHERE
-						PD.idSis_Empresa = ' . $idSis_Empresa . ' AND
-						PD.StatusComissaoCashBack = "N" AND
-						PD.id_Orca_CashBack = 0 AND
-						PD.ValorComissaoCashBack > 0.00 AND
-						OT.QuitadoOrca = "S" AND
-						OT.CanceladoOrca = "N" AND
-						PD.idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
+						idSis_Empresa = ' . $idSis_Empresa . ' AND
+						idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
 				';
 
 			$resultado = mysqli_query($conn, $result);
-			$cashtotal = 0;
-			while ($row = mysqli_fetch_assoc($resultado) ) {
-				$cashtotal += $row['ValorComissaoCashBack'];
+			foreach($resultado as $resultado_view){
+				$cashtotal = $resultado_view['CashBackCliente'];
 			}
 			$cashtotal_visao = number_format($cashtotal,2,",",".");
 			$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
-			
-			/*
-			echo "<br>";
-			echo "<pre>";
-			echo $idSis_Empresa;
-			echo "<br>";
-			echo $_SESSION['id_Cliente'.$idSis_Empresa];
-			echo "<br>";
-			echo $cashtotal;
-			echo "<br>";
-			echo $cashtotal_visao;
-			echo "<br>";
-			echo $cashtotal_conta;
-			echo "</pre>";
-			*/			
+						
 		} 
 	?>	
 	<section id="service" class="section-padding">
@@ -261,6 +234,7 @@
 													<label class="custom-control-label" for="Sim">Sim</label>
 												</div>
 											</div>
+											<input type="hidden" id="Hidden_UsarCashBack" value="">	
 											<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $_SESSION['id_Cliente'.$idSis_Empresa];?>">
 											<input type="hidden" name="ValorTotal" id="ValorTotal" value="<?php echo $total;?>">
 											<input type="hidden" name="ValorCashBack" id="ValorCashBack" value="<?php echo $cashtotal_visao;?>">
@@ -271,7 +245,7 @@
 								<ul class="list-group mb-3 ">
 									<?php if($item_carrinho > 0) { ?>
 										<li class="list-group-item d-flex justify-content-between fundo">
-											<span>Valor Final </span>
+											<span>Total </span>
 											<strong>: R$ 
 												<input type="text" class="form-control" name="ValorFinalOrca" id="ValorFinalOrca" style="color: #000000" value="<?php echo $total;?>" readonly="">
 											</strong>	
@@ -398,13 +372,13 @@
 														</div>
 														<div class="col-md-2 mb-3 Combinar">	
 															<label class=" Combinar">Buscar End.</label>
-															<button class=" form-control Combinar" type="button" onclick="LoadFrete(); Procuraendereco()"  >Buscar</button>
+															<button class=" form-control Combinar" type="button" onclick="Procuraendereco()"  >Buscar</button>
 														</div>
 														<div class="col-md-2 mb-3 Correios">	
 															<label class=" Correios Calcular">Calcula Frete.</label>
 															<label class=" Correios Recalcular">Recalcular Frete.</label>
 															<?php if(count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>	
-																<button class=" form-control Correios Calcular btn btn-md btn-success" type="button" onclick="LoadFrete(); Procuraendereco(); Calcular()"  >Calcular</button>	
+																<button class=" form-control Correios Calcular btn btn-md btn-success" type="button" onclick="Procuraendereco(); Calcular()"  >Calcular</button>	
 																<button class=" form-control Correios Recalcular btn btn-md btn-warning" type="button" onclick="Recalcular()"  >Recalcular</button>
 															<?php } ?>
 														</div>
@@ -437,7 +411,7 @@
 													<div class="row Desliga">
 														<div class="col-md-3 mb-3 Correios">
 															<label class=" Correios">Produtos</label>
-															<input type="text" class="form-control Desliga" id="valor_prod" placeholder="Valor da Compra" readonly="" value="<?php echo $total;?>"/>								
+															<input type="text" class="form-control Desliga" id="valor_prod" placeholder="Valor da Compra" readonly="" value=""/>								
 														</div>
 														<div class="col-md-2 mb-3 Correios">
 															<label class=" Correios">Frete</label>
@@ -445,7 +419,7 @@
 															<input type="hidden" class="Correios form-control"  name="valorfrete" id="valorfrete" required>	
 														</div>
 														<div class="col-md-2 mb-3 Correios">
-															<label class=" Correios">Total</label>
+															<label class=" Correios">Valor Final</label>
 															<input type="text" class="form-control Desliga" id="valor_total_aparente" placeholder="Total" value="" readonly=""/>
 															<input type="hidden" class="form-control Desliga" id="valor_total"/>
 														</div>

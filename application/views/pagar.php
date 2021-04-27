@@ -31,6 +31,8 @@
 																	SELECT 
 																		OT.idApp_OrcaTrata,
 																		OT.ValorFrete,
+																		OT.CashBackOrca,
+																		OT.UsarCashBack,
 																		OT.ValorOrca,
 																		OT.ValorRestanteOrca,
 																		OT.TipoFrete,
@@ -71,20 +73,25 @@
 								$total = '0';									
 								if(mysqli_num_rows($read_produto) > '0'){
 									foreach($read_produto as $read_produto_orca){
-									$tipofrete = $read_produto_orca['TipoFrete'];
-									$formapagamento = $read_produto_orca['FormaPagamento'];
-									$tipofretepagseguro = $read_produto_orca['TipoFretePagSeguro'];
-									$frete = $read_produto_orca['ValorFrete']; 
-									$valorfrete = number_format($frete, 2, '.', '');
-									$valorestanterorca = $read_produto_orca['ValorRestanteOrca'];
-									$valorprodutos = number_format($valorestanterorca, 2, '.', '');
-									$total1 = $valorprodutos + $valorfrete;
+										$tipofrete = $read_produto_orca['TipoFrete'];
+										$formapagamento = $read_produto_orca['FormaPagamento'];
+										$tipofretepagseguro = $read_produto_orca['TipoFretePagSeguro'];
+										
+										$valorestanterorca = $read_produto_orca['ValorRestanteOrca'];
+										$cashback = $read_produto_orca['CashBackOrca']; 
+										$frete = $read_produto_orca['ValorFrete']; 
+
+										$valorfrete = number_format($frete, 2, '.', '');
+										$valorprodutos = number_format($valorestanterorca, 2, '.', '');
+										$valorcashback = number_format($cashback, 2, '.', '');
+										$total1 = $valorprodutos + $valorfrete - $valorcashback;
+
 									}
 									$cont_item = 0;
 									foreach($read_produto as $read_produto_view){
-									$sub_total = $read_produto_view['ValorProduto'] * $read_produto_view['QtdProduto'];
-									$total += $sub_total;
-									$cont_item++;
+										$sub_total = $read_produto_view['ValorProduto'] * $read_produto_view['QtdProduto'];
+										$total += $sub_total;
+										$cont_item++;
 									?>		
 										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
 											
@@ -118,6 +125,10 @@
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Valor dos Produtos </span>
 								<strong>R$ <?php echo number_format($valorestanterorca,2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>CashBack </span>
+								<strong>R$ <?php echo number_format($read_produto_orca['CashBackOrca'],2,",",".");?></strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Valor do Frete </span>

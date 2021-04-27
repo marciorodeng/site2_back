@@ -2,30 +2,18 @@
 	<?php 
 		if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ 
 			$result = 'SELECT 
-						PD.idApp_Produto,
-						PD.idSis_Empresa,
-						PD.idApp_Cliente,
-						PD.ValorComissaoCashBack,
-						PD.StatusComissaoCashBack,
-						PD.DataPagoCashBack,
-						PD.id_Orca_CashBack
+						CashBackCliente
 					FROM
-						App_Produto AS PD
-							LEFT JOIN App_OrcaTrata AS OT ON OT.idApp_OrcaTrata = PD.idApp_OrcaTrata
+						App_Cliente
 					WHERE
-						PD.idSis_Empresa = ' . $idSis_Empresa . ' AND
-						PD.StatusComissaoCashBack = "N" AND
-						PD.id_Orca_CashBack = 0 AND
-						PD.ValorComissaoCashBack > 0.00 AND
-						OT.QuitadoOrca = "S" AND
-						OT.CanceladoOrca = "N" AND
-						PD.idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
+						idSis_Empresa = ' . $idSis_Empresa . ' AND
+						idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '"
+					LIMIT 1
 				';
-
+			
 			$resultado = mysqli_query($conn, $result);
-			$cashtotal = 0;
-			while ($row = mysqli_fetch_assoc($resultado) ) {
-				$cashtotal += $row['ValorComissaoCashBack'];
+			foreach($resultado as $resultado_view){
+				$cashtotal = $resultado_view['CashBackCliente'];
 			}
 			$cashtotal_visao = number_format($cashtotal,2,",",".");
 			$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));

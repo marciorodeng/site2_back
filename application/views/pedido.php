@@ -38,10 +38,13 @@
 								$read_orcatrata = mysqli_query($conn, "
 																	SELECT 
 																		OT.ValorTotalOrca,
+																		OT.ValorFinalOrca,
+																		OT.CashBackOrca,
 																		OT.ValorFrete,
 																		OT.ValorBoleto,
 																		OT.ValorRestanteOrca,
 																		OT.ValorExtraOrca,
+																		OT.DescValorOrca,
 																		OT.ValorSomaOrca,
 																		OT.FormaPagamento,
 																		OT.Descricao
@@ -82,7 +85,10 @@
 									foreach($read_orcatrata as $read_orcatrata_view){
 										$descricao = $read_orcatrata_view['Descricao'];
 										$valortotalorca = $read_orcatrata_view['ValorTotalOrca'];
+										$valorfinalorca = $read_orcatrata_view['ValorFinalOrca'];
+										$cashback_orca = $read_orcatrata_view['CashBackOrca'];
 										$extra_orca = $read_orcatrata_view['ValorExtraOrca'];
+										$desc_orca = $read_orcatrata_view['DescValorOrca'];
 										$total_orca = $read_orcatrata_view['ValorRestanteOrca'];
 										$valor_frete = $read_orcatrata_view['ValorFrete'];
 										$valor_boleto = $read_orcatrata_view['ValorBoleto'];
@@ -141,16 +147,24 @@
 								<strong><?php echo $total_produtos;?> Unid.</strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
-								<span>Extra: </span>
-								<strong>R$ <?php echo number_format($extra_orca,2,",",".");?></strong>
-							</li>
-							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Produtos & Serviços: </span>
 								<strong>R$ <?php echo number_format($total_valor,2,",",".");?></strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Valor do Frete: </span>
 								<strong>R$ <?php echo number_format($valor_frete,2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>Extra: </span>
+								<strong>R$ <?php echo number_format($extra_orca,2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>Desconto: </span>
+								<strong>R$ <?php echo number_format($desc_orca,2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>CashBack: </span>
+								<strong>R$ <?php echo number_format($cashback_orca,2,",",".");?></strong>
 							</li>
 							<?php if($read_orcatrata_view['FormaPagamento'] == 2) { ?>	
 								<li class="list-group-item d-flex justify-content-between fundo">
@@ -160,7 +174,7 @@
 							<?php } ?>	
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Total: </span>
-								<strong>R$ <?php echo number_format($valortotalorca,2,",",".");?></strong>
+								<strong>R$ <?php echo number_format($valorfinalorca,2,",",".");?></strong>
 							</li>
 							<?php								
 								$read_parcelas = mysqli_query($conn, "

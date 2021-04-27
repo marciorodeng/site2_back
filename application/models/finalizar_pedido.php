@@ -231,9 +231,7 @@
 					$resultado = mysqli_query($conn, $result);
 					$contagem = mysqli_num_rows($resultado);
 					if($contagem > '0'){
-						$cashtotal = 0;
 						foreach($resultado as $resultado_view){
-							$cashtotal += $resultado_view['ValorComissaoCashBack'];
 							$id_produto = $resultado_view['idApp_Produto'];
 							$update_pedido = "
 												UPDATE 
@@ -247,6 +245,19 @@
 											";
 							$update_produto = mysqli_query($conn, $update_pedido);
 						}
+					}
+					$result = 'SELECT 
+								CashBackCliente
+							FROM
+								App_Cliente
+							WHERE
+								idSis_Empresa = ' . $idSis_Empresa . ' AND
+								idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '" 
+						';
+
+					$resultado = mysqli_query($conn, $result);
+					foreach($resultado as $resultado_view){
+						$cashtotal = $resultado_view['CashBackCliente'];
 					}
 					$cashtotal_visao = number_format($cashtotal,2,",",".");
 					$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
