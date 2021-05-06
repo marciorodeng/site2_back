@@ -127,12 +127,12 @@
 								<strong>R$ <?php echo number_format($valorestanterorca,2,",",".");?></strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
-								<span>CashBack </span>
-								<strong>R$ <?php echo number_format($read_produto_orca['CashBackOrca'],2,",",".");?></strong>
-							</li>
-							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Valor do Frete </span>
 								<strong>R$ <?php echo number_format($read_produto_orca['ValorFrete'],2,",",".");?></strong>
+							</li>
+							<li class="list-group-item d-flex justify-content-between fundo">
+								<span>CashBack </span>
+								<strong>R$ <?php echo number_format($read_produto_orca['CashBackOrca'],2,",",".");?></strong>
 							</li>
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Total </span>

@@ -149,10 +149,9 @@
 														Prd_Srv_Orca,
 														PrazoProdServ,
 														PrazoCorreios,
-														
-														
+														RecorrenciasOrca,
+														RecorrenciaOrca,
 														UsarCashBack,
-														
 														AprovadoOrca) 
 												VALUES(	'1',
 														'2',
@@ -195,6 +194,8 @@
 														'S',
 														'".$prazo_prdperv."',
 														'".$prazo_correios."',
+														'1',
+														'1/1',
 														'".$usarcashback."',
 														'N')";
 			mysqli_query($conn, $insert_pedido);
@@ -261,6 +262,16 @@
 					}
 					$cashtotal_visao = number_format($cashtotal,2,",",".");
 					$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+					
+					$update_cliente = " UPDATE 
+											App_Cliente 
+										SET 
+											CashBackCliente = '0.00'
+										WHERE
+											idSis_Empresa = '" . $idSis_Empresa . "' AND
+											idApp_Cliente = '".$_SESSION['id_Cliente'.$idSis_Empresa]."'
+									";
+					$update_produto = mysqli_query($conn, $update_cliente);
 				}else{
 					$cashtotal_conta = "0.00";
 				}				
@@ -551,6 +562,7 @@
 				$update_pedido = "UPDATE 
 									App_OrcaTrata 
 								SET 
+									RepeticaoOrca = '".$id_pedido."',
 									QtdPrdOrca = '".$qtd_produtoorca_produto."',
 									PrazoProdutos = '".$prazo_carrinho_prod."',
 									ValorOrca = '".$total_venda_produto."',

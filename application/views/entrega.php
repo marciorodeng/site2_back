@@ -217,42 +217,6 @@
 									</li>
 								<?php } ?>
 							</ul>
-							<div class="col-lg-12 ">
-								<div class="row">
-									<h5 class="mb-3">Usar o CashBack?</h5>
-									<div class="row ">
-										<div class="col-lg-12">	
-											<div class="col-md-2 mb-3 ">	
-												<div class="custom-control custom-radio">
-													<input type="radio" name="UsarCashBack" class="custom-control-input"  value="N" onclick="usarcashback(this.value)" checked>
-													<label class="custom-control-label" for="Nao">Não</label>
-												</div>
-											</div>											
-											<div class="col-md-2 mb-3 ">	
-												<div class="custom-control custom-radio">
-													<input type="radio" name="UsarCashBack" class="custom-control-input"  value="S" onclick="usarcashback(this.value)">
-													<label class="custom-control-label" for="Sim">Sim</label>
-												</div>
-											</div>
-											<input type="hidden" id="Hidden_UsarCashBack" value="">	
-											<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $_SESSION['id_Cliente'.$idSis_Empresa];?>">
-											<input type="hidden" name="ValorTotal" id="ValorTotal" value="<?php echo $total;?>">
-											<input type="hidden" name="ValorCashBack" id="ValorCashBack" value="<?php echo $cashtotal_visao;?>">
-										</div>
-									</div>
-									
-								</div>
-								<ul class="list-group mb-3 ">
-									<?php if($item_carrinho > 0) { ?>
-										<li class="list-group-item d-flex justify-content-between fundo">
-											<span>Total </span>
-											<strong>: R$ 
-												<input type="text" class="form-control" name="ValorFinalOrca" id="ValorFinalOrca" style="color: #000000" value="<?php echo $total;?>" readonly="">
-											</strong>	
-										</li>
-									<?php } ?>
-								</ul>							
-							</div>
 							<div class="row">
 								<div class="col-md-6 mb-3 ">
 									<label>Observações:</label>
@@ -320,6 +284,7 @@
 														</div>
 													</div>
 													<?php } ?>
+													<input type="hidden" id="Hidden_tipofrete">
 												</div>
 											</div>
 											<div class="row">
@@ -411,7 +376,7 @@
 													<div class="row Desliga">
 														<div class="col-md-3 mb-3 Correios">
 															<label class=" Correios">Produtos</label>
-															<input type="text" class="form-control Desliga" id="valor_prod" placeholder="Valor da Compra" readonly="" value=""/>								
+															<input type="text" class="form-control Desliga" id="valor_prod" placeholder="Valor da Compra" readonly="" value="<?php echo $total;?>"/>								
 														</div>
 														<div class="col-md-2 mb-3 Correios">
 															<label class=" Correios">Frete</label>
@@ -419,7 +384,7 @@
 															<input type="hidden" class="Correios form-control"  name="valorfrete" id="valorfrete" required>	
 														</div>
 														<div class="col-md-2 mb-3 Correios">
-															<label class=" Correios">Valor Final</label>
+															<label class=" Correios">Valor Total</label>
 															<input type="text" class="form-control Desliga" id="valor_total_aparente" placeholder="Total" value="" readonly=""/>
 															<input type="hidden" class="form-control Desliga" id="valor_total"/>
 														</div>
@@ -499,6 +464,42 @@
 														</div>							
 													</div>
 												</div>
+											</div>
+											<div class="col-lg-12 UsarCashBack ">
+												<div class="row">
+													<h5 class="mb-3">Usar o CashBack?</h5>
+													<div class="row ">
+														<div class="col-lg-12">	
+															<div class="col-md-2 mb-3 ">	
+																<div class="custom-control custom-radio">
+																	<input type="radio" name="UsarCashBack" class="custom-control-input"  value="N" onclick="usarcashback(this.value)" checked>
+																	<label class="custom-control-label" for="Nao">Não</label>
+																</div>
+															</div>											
+															<div class="col-md-2 mb-3 ">	
+																<div class="custom-control custom-radio">
+																	<input type="radio" name="UsarCashBack" class="custom-control-input"  value="S" onclick="usarcashback(this.value)">
+																	<label class="custom-control-label" for="Sim">Sim</label>
+																</div>
+															</div>
+															<input type="hidden" id="Hidden_UsarCashBack" value="N">	
+															<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $_SESSION['id_Cliente'.$idSis_Empresa];?>">
+															<input type="hidden" name="ValorTotal" id="ValorTotal" value="<?php echo $total;?>">
+															<input type="hidden" name="ValorCashBack" id="ValorCashBack" value="<?php echo $cashtotal_visao;?>">
+														</div>
+													</div>
+													
+												</div>
+												<ul class="list-group mb-3 ">
+													<?php if($item_carrinho > 0) { ?>
+														<li class="list-group-item d-flex justify-content-between fundo">
+															<span>Valor Final </span>
+															<strong>: R$ 
+																<input type="text" class="form-control" name="ValorFinalOrca" id="ValorFinalOrca" style="color: #000000" value="<?php echo $total;?>" readonly="">
+															</strong>	
+														</li>
+													<?php } ?>
+												</ul>							
 											</div>
 										</div>
 									</div>

@@ -140,6 +140,7 @@
 		$('.finalizar2').hide();
 		$('.FormaPag').hide();
 		$('.LocalFormaPag').hide();
+		$('.UsarCashBack').hide();
 	}
 	
 	function tipoFrete(tipofrete){
@@ -175,7 +176,10 @@
 			$('#NaLoja').prop('checked', true);
 			$('#NaEntrega').prop('checked', false);
 			$('#OnLine').prop('checked', false);
+			$('#Hidden_tipofrete').val('1');
+			usarcashback();
 			localPagamento('V');
+			
 			
 		}		
 
@@ -202,6 +206,8 @@
 			$('#NaLoja').prop('checked', false);
 			$('#NaEntrega').prop('checked', true);
 			$('#OnLine').prop('checked', false);
+			$('#Hidden_tipofrete').val('2');
+			usarcashback();
 			localPagamento('P');			
 			
 		}
@@ -233,6 +239,8 @@
 			$('#NaLoja').prop('checked', false);
 			$('#NaEntrega').prop('checked', false);
 			$('#OnLine').prop('checked', true);
+			$('#Hidden_tipofrete').val('3');
+			LoadFrete();
 			localPagamento('O');
 		}		
 
@@ -369,6 +377,11 @@
 	
 	function LoadFrete() {
 		//alert('botão funcionando!!');
+		var valortotalorca 	= $('#ValorTotal').val();
+		valortotalorca 		= valortotalorca.replace(".","").replace(",",".");
+		valortotalorca		= parseFloat(valortotalorca);
+		
+		
 		var valorfinal = $('#ValorFinalOrca').val();
 		var prazo_prdperv = $('#PrazoPrdServ').val();
 		var CepDestino = $('#CepDestino').val();
@@ -440,12 +453,15 @@
 				
 				var valor_frete = $('#valor_frete').val();				
 				$('#valorfreteaparente').val(valor_frete);
-				valor_frete 	= valor_frete.replace(',','.');								
+				//valor_frete 	= valor_frete.replace(',','.');	
+				valor_frete 	= valor_frete.replace('.','').replace(',','.');							
+				console.log('frete = ' + valor_frete);
 				
-				//var valor_prod = $('#valor_prod').val();
-				
-				var valor_prod = $('#ValorFinalOrca').val();
-				$('#valor_prod').val(valor_prod);
+				var valor_prod 	= $('#valor_prod').val();
+				valor_prod 		= valor_prod.replace('.','').replace(',','.');
+				console.log('produtos = ' + valor_prod);
+				//var valor_prod = $('#ValorFinalOrca').val();
+				//$('#valor_prod').val(valor_prod);
 				
 				valor_prod 	= valor_prod.replace(',','.');	
 				var total 	= parseFloat(valor_frete) + parseFloat(valor_prod);
@@ -466,6 +482,7 @@
 				
 				$('#Cep').val(CepDestino);
 				
+				usarcashback();
 
 			}, beforeSend: function(){
 			
@@ -479,8 +496,12 @@
 	}
 
 	function usarcashback(usarcash) {
+		var Hidden_tipofrete = $('#Hidden_tipofrete').val();
+		console.log('Hidden_tipofrete = ' + Hidden_tipofrete);
+		
+		$('.UsarCashBack').show();
 		//alert('usarcashback');
-		//console.log('usarcash = ' + usarcash);	
+		console.log('usarcash = ' + usarcash);	
 		if(usarcash){
 			var Hidden_UsarCashBack	= usarcash;
 			$('#Hidden_UsarCashBack').val(usarcash);
@@ -488,63 +509,54 @@
 			var Hidden_UsarCashBack	= $('#Hidden_UsarCashBack').val();
 		}
 		
-		var valortotalorca 	= $('#ValorTotal').val();
+		console.log('Hidden_UsarCashBack = ' + Hidden_UsarCashBack);
 		
+		var valortotalorca 	= $('#ValorTotal').val();
+		//var valortotalorca 	= $('#valor_total').val();
+		console.log('valortotalorca = ' + valortotalorca);
 		valortotalorca 		= valortotalorca.replace(".","").replace(",",".");
 		valortotalorca		= parseFloat(valortotalorca);		
 		
 		var cashbackorca 	= $('#ValorCashBack').val();
-		
 		cashbackorca 		= cashbackorca.replace(".","").replace(",",".");
 		cashbackorca		= parseFloat(cashbackorca);		
+		
+		if(Hidden_tipofrete == 1){
+			var valor_frete = '0,00';
+		}else if(Hidden_tipofrete == 2){
+			var valor_frete = '0,00';
+		}else if(Hidden_tipofrete == 3){
+			var valor_frete = $('#valor_frete').val();
+		}else{
+			var valor_frete = '0,00';
+		}
+
+		valor_frete 	= valor_frete.replace('.','').replace(',','.');	
+		valor_frete		= parseFloat(valor_frete);
+		console.log('frete = ' + valor_frete);
+		
+		var valorcfrete = valortotalorca + valor_frete;
+		valorcfrete		= parseFloat(valorcfrete);
+		console.log('valorcfrete = ' + valorcfrete);
 		
 		//console.log('valortotalorca = ' + valortotalorca);
 		//console.log('cashbackorca = ' + cashbackorca);		
 		
-		if(usarcash == 'S'){
-			if(valortotalorca >= cashbackorca){
-				var valorfinalorca = (valortotalorca - cashbackorca);
+		if(Hidden_UsarCashBack == 'S'){
+			if(valorcfrete >= cashbackorca){
+				var valorfinalorca = (valorcfrete - cashbackorca);
 			}else{
 				var valorfinalorca = '0.00';
 			}	
 		}else{
-			var valorfinalorca = valortotalorca;
+			var valorfinalorca = valorcfrete;
 		}		
 		valorfinalorca	= parseFloat(valorfinalorca);
 		//valorfinalorca	= valorfinalorca.toFixed(2);
 		valorfinalorca 	= mascaraValorReal(valorfinalorca);
 		//console.log('valorfinalorca = ' + valorfinalorca);
 		$('#ValorFinalOrca').val(valorfinalorca);
-		CalcularValorFinal();
 
-	}
-	
-	function CalcularValorFinal() {
-		var valorfinalorca = $('#ValorFinalOrca').val();
-		$('#valor_prod').val(valorfinalorca);
-		
-		valorfinalorca 	= valorfinalorca.replace(',','.');
-		
-		if($('#valor_frete').val()){
-			var valor_frete = $('#valor_frete').val();
-			valor_frete 	= valor_frete.replace(',','.');
-		}else{
-			valor_frete 	= 0.00;
-		}
-		
-		//console.log('valorfinalorca = '+valorfinalorca);
-		//console.log('frete = '+valor_frete);	
-		
-		var total 	= parseFloat(valor_frete) + parseFloat(valorfinalorca);
-		
-		$('#valor_total').val(total);				
-		
-		var totalaparente	= total;
-		totalaparente 	= mascaraValorReal(totalaparente);
-		
-		$('#valor_total_aparente').val(totalaparente);
-		//$('#valorfrete').val(valor_frete);
-		
 	}
 	
 	function Calcular() {
