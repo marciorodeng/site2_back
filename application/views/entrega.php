@@ -535,6 +535,7 @@
 														</div>
 													</div>
 													<?php } ?>
+													<input type="hidden" id="Hidden_localpagamento" value="O">
 												</div>
 											</div>
 											<div class="row">

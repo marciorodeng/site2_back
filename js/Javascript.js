@@ -144,6 +144,7 @@
 	}
 	
 	function tipoFrete(tipofrete){
+		
 		$('.LocalFormaPag').show();
 		var RecarregaCepDestino = $('#RecarregaCepDestino').val();
 		var RecarregaLogradouro = $('#RecarregaLogradouro').val();
@@ -179,7 +180,7 @@
 			$('#Hidden_tipofrete').val('1');
 			usarcashback();
 			localPagamento('V');
-			
+			$('#Hidden_localpagamento').val('V');
 			
 		}		
 
@@ -208,7 +209,8 @@
 			$('#OnLine').prop('checked', false);
 			$('#Hidden_tipofrete').val('2');
 			usarcashback();
-			localPagamento('P');			
+			localPagamento('P');
+			$('#Hidden_localpagamento').val('P');			
 			
 		}
 		
@@ -242,11 +244,14 @@
 			$('#Hidden_tipofrete').val('3');
 			LoadFrete();
 			localPagamento('O');
+			$('#Hidden_localpagamento').val('O');
 		}		
 
 	}
 	
 	function localPagamento(localpagamento){
+		var Hidden_UsarCashBack	= $('#Hidden_UsarCashBack').val();
+		//console.log('Hidden_UsarCashBack = ' + Hidden_UsarCashBack);
 		var RecarregaCepDestino = $('#RecarregaCepDestino').val();
 		var RecarregaLogradouro = $('#RecarregaLogradouro').val();
 		var RecarregaNumero = $('#RecarregaNumero').val();
@@ -266,7 +271,7 @@
 			$('.CARTAO').show();
 			$('.DEBITO').show();
 			$('.DINHEIRO').show().prop('selected', true);
-			$('.DEPOSITO').hide();
+			$('.DEPOSITO').show();
 			$('.BOLETODALOJA').hide();
 			$('.BOLETOPAGSEGURO').hide();
 			$('.CHEQUE').hide();
@@ -284,7 +289,7 @@
 			$('.CARTAO').show();
 			$('.DEBITO').show();
 			$('.DINHEIRO').show().prop('selected', true);
-			$('.DEPOSITO').hide();
+			$('.DEPOSITO').show();
 			$('.BOLETODALOJA').hide();
 			$('.BOLETOPAGSEGURO').hide();
 			$('.CHEQUE').hide();
@@ -299,14 +304,21 @@
 			$('.NaLoja').hide();			
 			$('.finalizar2').show();
 			$('.FormaPag').show();
-			$('.CARTAO').show();
-			$('.DEBITO').show().prop('selected', true);
 			$('.DINHEIRO').hide();
-			$('.DEPOSITO').show();
 			$('.BOLETODALOJA').show();
-			$('.BOLETOPAGSEGURO').show();
 			$('.CHEQUE').hide();
 			$('.OUTROS').hide();
+			if(Hidden_UsarCashBack == "N"){
+				$('.CARTAO').show();
+				$('.DEBITO').show().prop('selected', true);
+				$('.BOLETOPAGSEGURO').show();
+				$('.DEPOSITO').show();
+			}else{
+				$('.CARTAO').hide();
+				$('.DEBITO').hide();
+				$('.BOLETOPAGSEGURO').hide();
+				$('.DEPOSITO').show().prop('selected', true);
+			}
 			//$('#msg').html('');
 		}		
 
@@ -455,11 +467,11 @@
 				$('#valorfreteaparente').val(valor_frete);
 				//valor_frete 	= valor_frete.replace(',','.');	
 				valor_frete 	= valor_frete.replace('.','').replace(',','.');							
-				console.log('frete = ' + valor_frete);
+				//console.log('frete = ' + valor_frete);
 				
 				var valor_prod 	= $('#valor_prod').val();
 				valor_prod 		= valor_prod.replace('.','').replace(',','.');
-				console.log('produtos = ' + valor_prod);
+				//console.log('produtos = ' + valor_prod);
 				//var valor_prod = $('#ValorFinalOrca').val();
 				//$('#valor_prod').val(valor_prod);
 				
@@ -487,7 +499,7 @@
 			}, beforeSend: function(){
 			
 			}, error: function(jqXHR, textStatus, errorThrown){
-				console.log('Erro');
+				//console.log('Erro');
 				$('#msg').html('<p style="color: #FF0000">Erro ao realizar o Cálculo!!</p>');
 				//window.location = 'entrega.php';				
 			}
@@ -496,24 +508,45 @@
 	}
 
 	function usarcashback(usarcash) {
+		var Hidden_localpagamento = $('#Hidden_localpagamento').val();
+		//console.log('Hidden_localpagamento = ' + Hidden_localpagamento);
+		
 		var Hidden_tipofrete = $('#Hidden_tipofrete').val();
-		console.log('Hidden_tipofrete = ' + Hidden_tipofrete);
+		//console.log('Hidden_tipofrete = ' + Hidden_tipofrete);
 		
 		$('.UsarCashBack').show();
 		//alert('usarcashback');
-		console.log('usarcash = ' + usarcash);	
+		//console.log('usarcash = ' + usarcash);	
 		if(usarcash){
+			if(usarcash == "S"){
+				if(Hidden_localpagamento == "O"){
+					$('.CARTAO').hide();
+					$('.DEBITO').hide();
+					$('.BOLETOPAGSEGURO').hide();
+					$('.DEPOSITO').show().prop('selected', true);
+				}else{
+					$('.DINHEIRO').show().prop('selected', true);
+					$('.CARTAO').show();
+					$('.DEBITO').show();
+					$('.BOLETOPAGSEGURO').hide();
+					$('.DEPOSITO').show();
+				}
+			}else{
+				$('.CARTAO').show();
+				$('.DEBITO').show();
+				$('.BOLETOPAGSEGURO').show();			
+			}
 			var Hidden_UsarCashBack	= usarcash;
 			$('#Hidden_UsarCashBack').val(usarcash);
 		}else{
 			var Hidden_UsarCashBack	= $('#Hidden_UsarCashBack').val();
 		}
 		
-		console.log('Hidden_UsarCashBack = ' + Hidden_UsarCashBack);
+		//console.log('Hidden_UsarCashBack = ' + Hidden_UsarCashBack);
 		
 		var valortotalorca 	= $('#ValorTotal').val();
 		//var valortotalorca 	= $('#valor_total').val();
-		console.log('valortotalorca = ' + valortotalorca);
+		//console.log('valortotalorca = ' + valortotalorca);
 		valortotalorca 		= valortotalorca.replace(".","").replace(",",".");
 		valortotalorca		= parseFloat(valortotalorca);		
 		
@@ -533,11 +566,11 @@
 
 		valor_frete 	= valor_frete.replace('.','').replace(',','.');	
 		valor_frete		= parseFloat(valor_frete);
-		console.log('frete = ' + valor_frete);
+		//console.log('frete = ' + valor_frete);
 		
 		var valorcfrete = valortotalorca + valor_frete;
 		valorcfrete		= parseFloat(valorcfrete);
-		console.log('valorcfrete = ' + valorcfrete);
+		//console.log('valorcfrete = ' + valorcfrete);
 		
 		//console.log('valortotalorca = ' + valortotalorca);
 		//console.log('cashbackorca = ' + cashbackorca);		
