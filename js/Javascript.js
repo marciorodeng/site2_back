@@ -181,7 +181,7 @@
 			usarcashback();
 			localPagamento('V');
 			$('#Hidden_localpagamento').val('V');
-			
+			usarcashback();
 		}		
 
 		if(tipofrete == "2"){
@@ -211,7 +211,7 @@
 			usarcashback();
 			localPagamento('P');
 			$('#Hidden_localpagamento').val('P');			
-			
+			usarcashback();
 		}
 		
 		if(tipofrete == "3"){
@@ -245,6 +245,7 @@
 			LoadFrete();
 			localPagamento('O');
 			$('#Hidden_localpagamento').val('O');
+			usarcashback();
 		}		
 
 	}
@@ -261,6 +262,7 @@
 		var RecarregaEstado = $('#RecarregaEstado').val();
 		//Na Loja
 		if(localpagamento == "V"){
+			$('#Hidden_localpagamento').val('V');
 			//$('.Liga').show();
 			//$('.Desliga').hide();
 			$('.OnLine').hide();
@@ -279,6 +281,7 @@
 		}		
 		//Na Casa
 		if(localpagamento == "P"){
+			$('#Hidden_localpagamento').val('P');
 			//$('.Liga').hide();
 			//$('.Desliga').show();
 			$('.OnLine').hide();
@@ -297,6 +300,7 @@
 		}
 		//On Line
 		if(localpagamento == "O"){
+			$('#Hidden_localpagamento').val('O');
 			//$('.Liga').hide();
 			//$('.Desliga').show();
 			$('.OnLine').show();
@@ -559,14 +563,18 @@
 		}else if(Hidden_tipofrete == 2){
 			var valor_frete = '0,00';
 		}else if(Hidden_tipofrete == 3){
-			var valor_frete = $('#valor_frete').val();
+			if($('#valor_frete').val()){
+				var valor_frete = $('#valor_frete').val();
+			}else{
+				var valor_frete = '0,00';
+			}
 		}else{
 			var valor_frete = '0,00';
 		}
-
+		//console.log('frete = ' + valor_frete);
 		valor_frete 	= valor_frete.replace('.','').replace(',','.');	
 		valor_frete		= parseFloat(valor_frete);
-		//console.log('frete = ' + valor_frete);
+		
 		
 		var valorcfrete = valortotalorca + valor_frete;
 		valorcfrete		= parseFloat(valorcfrete);
