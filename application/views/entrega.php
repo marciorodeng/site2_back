@@ -131,8 +131,11 @@
 																<div class="col-xs-8 col-md-8">
 																	<div class="row ">	
 																		<div class="col-md-12 ">
-																			<span class="card-title" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?>
-																			</span>
+																			<span class="" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></span>
+																		</div>
+																	</div>
+																	<div class="row ">	
+																		<div class="col-md-12 ">
 																			<span class="card-title" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br> 
 																									<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?><br>
 																									<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
