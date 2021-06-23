@@ -2,71 +2,55 @@
 	<?php 
 		if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ 
 			$result = 'SELECT 
-						CashBackCliente
+						CashBackCliente,
+						ValidadeCashBack
 					FROM
 						App_Cliente
 					WHERE
 						idSis_Empresa = ' . $idSis_Empresa . ' AND
 						idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '"
-					LIMIT 1
+					LIMIT 1	
 				';
-			
+
 			$resultado = mysqli_query($conn, $result);
 			foreach($resultado as $resultado_view){
-				$cashtotal = $resultado_view['CashBackCliente'];
+				$cashtotal 	= 	$resultado_view['CashBackCliente'];
+				$validade 	=	$resultado_view['ValidadeCashBack'];
 			}
-			$cashtotal_visao = number_format($cashtotal,2,",",".");
-			$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+
+			$validade_explode = explode('-', $validade);
+			$validade_dia = $validade_explode[2];
+			$validade_mes = $validade_explode[1];
+			$validade_ano = $validade_explode[0];
 			
-			/*
-			echo "<br>";
-			echo "<pre>";
-			echo $idSis_Empresa;
-			echo "<br>";
-			echo $_SESSION['id_Cliente'.$idSis_Empresa];
-			echo "<br>";
-			echo $cashtotal;
-			echo "<br>";
-			echo $cashtotal_visao;
-			echo "<br>";
-			echo $cashtotal_conta;
-			echo "</pre>";
-			*/			
+			$validade_visao 	= $validade_dia . '/' . $validade_mes . '/' . $validade_ano;
+			
+			$data_hoje = date('Y-m-d', time());
+
+			if(strtotime($validade) >= strtotime($data_hoje)){
+				$cashtotal_visao 	= number_format($cashtotal,2,",",".");
+			}else{
+				$cashtotal_visao 	= '0,00';
+			}
+			$cashtotal_conta 	= str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+
 		} 
 	?>
-	<section id="service" class="section-padding">
-		<div class="container">
+	<section id="service" class="section-padding ">
+		<div class="container-1">
 			<div class="row">
-				<div class="col-md-12">
-					<h2 class="ser-title">Meu Carrinho!</h2>
-					<hr class="botm-line">
-				</div>
-				
 				<?php 
-				#print_r($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]);
 				if(isset($id_Session) && isset($_SESSION['cart'][$id_Session])){	
 					foreach ($_SESSION['cart'][$id_Session] as $value) :
-					  // echo "INSERT INTO teste (nome, dinheiro) VALUES (" . $value["name"] . ", " . $value["money"] . ")";
-						
 						$qtd_produto 	= $value['qtd']; // Passo a quantidade que vem junto com o produto
-						/*
-						echo "<pre>";
-							echo $qtd_produto;
-							echo "<br>";
-							echo $value['valor'];
-						echo "</pre>";
-						*/
 					endforeach;
-					/*
-					echo "<pre>";
-						print_r($_SESSION['cart']);
-					echo "</pre>";
-					*/
 				}
 				?>
-				
 				<div class="col-lg-12">
-					<div class="col-md-12 order-md-2 mb-4 img-prod-pag fundo-carrinho">
+					<div class="col-md-12 order-md-2 mb-4  fundo-carrinho ">
+						<br>
+						<h2 class="ser-title">Meu Carrinho!</h2>
+						<hr class="botm-line">
 						<form name="Form" id="Form" action="?acao=up-produtos" method="post">
 							<ul class="list-group mb-3 ">										
 								<?php
@@ -146,159 +130,103 @@
 											
 											?>		
 											<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
-
-												<div class="row img-prod-pag">	
-													<div class="col-md-12">	
-														<div class="col-md-2">		
-															<div class="row ">	
-																<div class="col-md-12">
-																	<h4 class="my-0"><span class="text-muted">Item: </span><?php echo $item_carrinho;?> </h4> 
-																</div>															
-															</div>
-															<div class="row ">	
-																<div class="col-md-12 ">
-																	<h4 class="my-0">Tipo <?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h4>
-																	<!--<h4 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h4>-->
-																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></h5>
-																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Descricao']);?></h5>-->
-																</div>
-															</div>	
-															<div class="row ">	
-																<div class="col-md-12">
-																	<?php if($idTipo == '1'){?>
-																		<h5 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=0">Excluir Produto</a></h5>
-																	<?php }else if($idTipo > '1'){?>
-																		<h5 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=0">Excluir Promoção</a></h5>
-																	<?php } ?>
-																</div>
-															</div>
-														</div>
-														
-														<div class="col-md-2">
-															<div class="row ">	
-																<div class="col-md-12 ">
-																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br>
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?>
-																	</h5>
-																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
-																	</h5>
-																	<h5 class="card-title">
-																		<?php 
-																			if($read_produto_carrinho_view['TempoDeEntrega'] <= 0){
-																				echo 'Pronta Entrega!';
-																			}else{
-																				echo 'Pazo de Entrega: ' . $read_produto_carrinho_view['TempoDeEntrega'] . ' Dias';
-																			} 
-																		?>
-																	</h5>
-																	<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
-																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h6><br>
-																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?></h6>
-																		<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>-->
-																</div>
-															</div>															
-														</div>
-														
-														<div class="col-md-2">	
-															<div class="row ">	
-																<div class="col-md-12">
-																	<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='150' >
-																</div>
-															</div>															
-														</div>	
-														<!--
-														<div class="col-md-2">
-															<div class="row ">	
-																<div class="col-md-12 ">
-																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
-																	</h5>
-																	<h5 class="card-title">
-																		<?php 
-																			if($read_produto_carrinho_view['TempoDeEntrega'] <= 0){
-																				echo 'Pronta Entrega!';
-																			}else{
-																				echo 'Pazo de Entrega: ' . $read_produto_carrinho_view['TempoDeEntrega'] . ' Dias';
-																			} 
-																		?>
-																	</h5>
-																	<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
-																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h6><br>
-																		<h6 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?></h6>
-																		<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>
-																</div>
-															</div>															
-														</div>
-														-->
-														<div class="col-md-2">		
-															<div class="row ">
-																<div class="col-md-6 text-left">
-																	<h4 class="my-0"><span class="text-muted">QtdPrd</span><br><span id="QtdPrd<?php echo $item_carrinho;?>" value=""><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Un.</span><span class="text-muted"></span></h4> 
-																</div>
-																<div class="col-md-6 text-left">
-																	<h4 class="my-0"><span class="text-muted">Valor </span><br>R$<span id="Valor<?php echo $item_carrinho;?>" value=""><?php echo number_format($read_produto_carrinho_view['ValorProduto'],2,",",".");?></span><span class="text-muted"></span></h4> 
-																</div>														
-															</div>
-														</div>
-														<div class="col-md-2">		
-															<div class="row ">
-																<div class="col-md-2 text-center">	
-																	<?php if($idTipo == '1'){?>
-																		<h4 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=1&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>-</h2></a></h4>
-																	<?php }else if($idTipo > '1'){?>
-																		<h4 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=1&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>-</h2></a></h4>
-																	<?php } ?>
+												<div class="row ">
+													<div class="col-md-4">
+														<div class="row ">	
+															<div class="container-2">	
+																<div class="col-xs-4 col-md-4">		
+																	<div class="row ">
+																		
+																			<!--
+																			<div class="col-md-4">
+																				<h4 class="my-0"><span class="text-muted">Item: </span><?php echo $item_carrinho;?> </h4> 
+																			</div>
+																			-->
+																			<div class="col-md-12">
+																				<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='100' >
+																			</div>
+																		
+																	</div>
 																</div>	
-																<div class="col-md-6 text-center">
-																	<h4 class="my-0"><span class="text-muted"></span><input class="text-muted" type="hidden" onkeyup="calculaSubtotal(this.value,this.name,'<?php echo $item_carrinho ?>','<?php echo $id_produto_carrinho ?>')" id="Qtd<?php echo $item_carrinho;?>" size="5" name="prod[<?php echo $id_produto_carrinho ?>]" value="<?php echo $quantidade_produto_carrinho ?>"/><span class="text-muted"><?php echo $quantidade_produto_carrinho ?> x</span></h4>
-																</div>
-																<div class="col-md-2 text-center">	
-																	<?php if($idTipo == '1'){?>
-																		<h4 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=2&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>+</h2></a></h4>
-																	<?php }else if($idTipo > '1'){?>
-																		<h4 class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=2&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>+</h2></a></h4>
-																	<?php } ?>
-																</div>
-															</div>
-														</div>
-														<div class="col-md-2">		
-															<div class="row ">
-																<!--
-																<div class="col-md-3 ">
-																	<h5 class="my-0">Estoque<br><span id="Estoque<?php echo $item_carrinho;?>" value=""><?php echo $quantidade_estoque;?></span></h5> 
-																</div>
-																-->
-																<!--
-																<div class="col-md-3 ">
-																	<?php if($idTipo == '1'){?>
-																		<h4 class="my-0"><span class="text-muted">Qtd<br> </span><input class="text-muted" type="text" onkeyup="calculaSubtotal(this.value,this.name,'<?php echo $item_carrinho ?>','<?php echo $id_produto_carrinho ?>')" id="Qtd<?php echo $item_carrinho;?>" size="5" name="prod[<?php echo $id_produto_carrinho ?>]" value="<?php echo $quantidade_produto_carrinho ?>"/><span class="text-muted"> X </span></h4> 
-																	<?php }else if($idTipo == '2'){?>
-																		<h4 class="my-0"><span class="text-muted">Qtd<br> </span><input class="text-muted" type="hidden" onkeyup="calculaSubtotal(this.value,this.name,'<?php echo $item_carrinho ?>','<?php echo $id_produto_carrinho ?>')" id="Qtd<?php echo $item_carrinho;?>" size="5" name="prod[<?php echo $id_produto_carrinho ?>]" value="<?php echo $quantidade_produto_carrinho ?>"/><span class="text-muted"><?php echo $quantidade_produto_carrinho ?> X </span></h4>
-																	<?php } ?>
-																</div>
-																-->
-																<div class="col-md-6 ">
-																	<h4 class="my-0"><span class="text-muted">SubQtd </span><br><span id="SubQtd<?php echo $item_carrinho;?>" ><?php echo $sub_total_produtos;?> Un.</span></h4> 
-																</div>
-																<div class="col-md-6 ">
-																	<h4 class="my-0"><span class="text-muted">SubTotal </span><br>R$<span id="Subtotal<?php echo $item_carrinho;?>" ><?php echo number_format($sub_total_produto_carrinho,2,",",".");?></span></h4> 
-																</div>
-																
-															</div>	
-															<div class="row ">
-																<h5 class="my-0"><span id="msg<?php echo $item_carrinho;?>" value=""></span></h5>
-																<?php if($contar_estoque == "S"){?>
-																	<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
+																<div class="col-xs-8 col-md-8">	
+																	<div class="row ">	
 																		<div class="col-md-12 ">
-																			<h4 class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</h4>
+																			<span class="" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></span>
 																		</div>
-																	<?php } ?>
-																<?php } ?>	
-															</div>
+																	</div>
+																	<div class="row ">	
+																		<div class="col-md-12 ">
+																			<span class="card-title" style="color: #000000">
+																				<?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br>
+																				<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?>
+																			</span>
+																			<span class="card-title"style="color: #000000">
+																				<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																			</span>
+																		</div>
+																		
+																	</div>		
+																	<div class="row text-center">
+																		<h5 class="container-2 text-center">
+																			<div class="col-md-2">
+																				<span class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=1&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>-</h2></a></span>
+																			</div>	
+																			<div class="col-md-3 ">
+																				<span class="my-0"><span class="text-muted"></span><input class="text-muted" type="hidden" onkeyup="calculaSubtotal(this.value,this.name,'<?php echo $item_carrinho ?>','<?php echo $id_produto_carrinho ?>')" id="Qtd<?php echo $item_carrinho;?>" size="5" name="prod[<?php echo $id_produto_carrinho ?>]" value="<?php echo $quantidade_produto_carrinho ?>"/><span class="text-muted"><?php echo $quantidade_produto_carrinho ?></span></span>
+																			</div>
+																			<div class="col-md-2 ">
+																				<span class="my-0"><a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=2&qtd=<?php echo $quantidade_produto_carrinho; ?>"><h2>+</h2></a></span>
+																			</div>
+																			<div class="col-md-5 ">
+																				<span class="my-0 text-right">
+																					<a href="deletar_produto_carrinho.php?tipo=<?php echo $read_produto_carrinho_view['idTipo']; ?>&promocao=<?php echo $read_produto_carrinho_view['idTab_Promocao']; ?>&id=<?php echo $id_produto_carrinho; ?>&somar=0">
+																						<span class="glyphicon glyphicon-trash"></span>
+																					</a>
+																				</span>
+																			</div>
+																		</h5>
+																	</div>
+																</div>
+															</div>	
 														</div>
 													</div>	
+													<div class="col-md-6">		
+														<div class="row ">
+															<div class="container-2">
+																<div class="col-xs-4 col-md-4">
+																	<div class="row ">
+																		<div class="col-md-6">
+																			<span class="card-title" style="color: #000000">
+																				<?php 
+																					if($read_produto_carrinho_view['TempoDeEntrega'] <= 0){
+																						echo 'Pronta Entrega!';
+																					}else{
+																						echo '' . $read_produto_carrinho_view['TempoDeEntrega'] . ' Dias!';
+																					} 
+																				?>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-xs-4 col-md-4">
+																	<span class="my-0"style="color: #000000"><span id="SubQtd<?php echo $item_carrinho;?>" ><?php echo $sub_total_produtos;?> un.</span></span> 
+																</div>
+																<div class="col-xs-4 col-md-4">
+																	<span class="my-0"style="color: #000000">R$<span id="Subtotal<?php echo $item_carrinho;?>" ><?php echo number_format($sub_total_produto_carrinho,2,",",".");?></span></span> 
+																</div>
+															</div>
+														</div>	
+														<div class="row ">
+															<h5 class="my-0"><span id="msg<?php echo $item_carrinho;?>" value=""></span></h5>
+															<?php if($contar_estoque == "S"){?>
+																<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
+																	<div class="col-md-12 ">
+																		<span class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</span>
+																	</div>
+																<?php } ?>
+															<?php } ?>	
+														</div>
+													</div>
 												</div>
 											</li>
 											<?php
@@ -342,6 +270,10 @@
 										<strong>: R$ <span  name="ValorCashBack" id="ValorCashBack"><?php echo $cashtotal_visao;?></span></strong>
 									</li>
 									<li class="list-group-item d-flex justify-content-between fundo">
+										<span>Validade do CashBack </span>
+										<strong>: <span><?php echo $validade_visao;?></span></strong>
+									</li>
+									<li class="list-group-item d-flex justify-content-between fundo">
 										<span>Prazo de Entrega na Loja </span>
 										<strong>: 
 											<span  name="PrazoPrdServ" id="PrazoPrdServ">
@@ -369,16 +301,18 @@
 														<br>
 														<input type="submit" class="btn btn-md btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)" value="Adicionar Produto!"/>
 													</div>
-													<?php if($total_venda >= $row_empresa['ValorMinimo']){ ?>
-														<div class="col-md-6">
-															<br>
-															<a href="entrega.php" class="btn btn-warning btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Finalizar Pedido / Observações!</a>
-														</div>
-													<?php }else{ ?>
-														<div class="alert alert-warning aguardar" role="alert">
-															Atenção! O Valor Mínimo do pedido deve ser de R$ <?php echo number_format($row_empresa['ValorMinimo'], 2, ",", ".");?>
-														</div>
-													<?php } ?>
+													<div class="col-md-6">
+														<br>
+														<?php if($total_venda >= $row_empresa['ValorMinimo']){ ?>
+															
+																<a href="entrega.php" class="btn btn-warning btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Finalizar Pedido / Observações!</a>
+															
+														<?php }else{ ?>
+															<div class="alert alert-warning aguardar" role="alert">
+																Atenção! O Valor Mínimo do pedido deve ser de R$ <?php echo number_format($row_empresa['ValorMinimo'], 2, ",", ".");?>
+															</div>
+														<?php } ?>
+													</div>
 												</div>	
 												<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
 												  Aguarde um instante! Estamos processando sua solicitação!
@@ -407,6 +341,7 @@
 								<!--<button class="btn btn-warning btn-block "  >Loja Fechada</button>-->
 							<?php } ?>
 						</form>
+						<br>
 					</div>
 				</div>
 			</div>

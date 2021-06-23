@@ -1,5 +1,5 @@
 <section id="slide" class="section-padding1">
-	<div class="container">
+	<div class="">
 		<div class="row">
 			<div class="col-md-12">	
 				<div class="espaco-topo">

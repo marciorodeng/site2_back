@@ -18,17 +18,21 @@
 
 ?>
 <section id="service" class="section-padding">
-	<div class="container-1">
+	<div class="container">
 		<div class="row">
+			<div class="col-md-12">
+				<h2 class="ser-title">Meu Pedido!</h2>
+				<hr class="botm-line">
+			</div>
 			<div class="col-lg-12">
 				
-				
+				<div class="row">
 					
-					<div class="col-md-12 order-md-2 mb-4 fundo-carrinho">
-						<br>
-						<h2 class="ser-title">Pedido: <?php echo $id_pedido; ?></h2>
-						<hr class="botm-line">
-					
+					<div class="col-md-12 order-md-2 mb-4">
+						<h4 class="d-flex justify-content-between align-items-center mb-3">
+							<span class="text-muted">Produtos</span>
+							<span class="badge badge-secondary badge-pill">Pedido: <?php echo $id_pedido; ?></span>
+						</h4>
 						<ul class="list-group mb-3 ">										
 							<?php
 								$read_orcatrata = mysqli_query($conn, "
@@ -101,21 +105,24 @@
 												?>		
 												<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
 													
-														<div class="row">
-															<div class="container-2">
-																<div class="col-xs-4  col-md-1 ">	
-																	<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='300' >
+														<div class="row img-prod-pag">	
+															<div class="col-md-3 ">	
+																<div class="col-md-4 ">
+																	<span class="text-muted">Item <?php echo $cont_item;?> </span> 
 																</div>
-																<div class="col-xs-8  col-md-6 ">
-																	<div class="row">
-																		<span class="my-0" style="color: #000000"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></span>
-																		<!--<small class="text-muted">Brief description</small>-->
-																	</div>
-																	<div class="row">	
-																		<!--<span class="text-muted">Valor = R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> / </span>--> 
-																		<span class="text-muted"><?php echo $sub_total_produtos;?> Un. </span>
-																		<span class="text-muted">R$<?php echo number_format($sub_total,2,",",".");?></span>																
-																	</div>
+																<div class="col-md-8 ">
+																	<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='50' >
+																</div>														
+															</div>
+															<div class="col-md-9 ">
+																<div class="row">
+																	<h4 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h4>
+																	<!--<small class="text-muted">Brief description</small>-->
+																</div>
+																<div class="row">	
+																	<!--<span class="text-muted">Valor = R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> / </span>--> 
+																	<span class="text-muted">SubQtd = <?php echo $sub_total_produtos;?> Un. / </span>
+																	<span class="text-muted">SubTotal = R$ <?php echo number_format($sub_total,2,",",".");?></span>																
 																</div>
 															</div>
 														</div>
@@ -195,7 +202,7 @@
 										$cont_parcelas++;
 										?>		
 										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
-											<div class="row">	
+											<div class="row img-prod-pag">	
 												<div class="row">
 													<div class="col-md-3 ">	
 														<h4 class="my-0">Parcela <?php echo utf8_encode ($read_parcelas_view['Parcela']);?> </h4>													
@@ -214,7 +221,7 @@
 							?>
 						</ul>
 					</div>
-				
+				</div>
 			</div>				
 		</div>
 	</div>

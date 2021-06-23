@@ -8,7 +8,14 @@
 	}	
 	if(isset($_GET['promocao'])){	
 		$id_promocao = addslashes($_GET['promocao']);
-	}
+	}						
+	/*
+	echo '<br>';
+	echo "<pre>";
+	print_r($id_promocao);
+	echo "</pre>";
+	exit ();
+	*/
 ?>
 <section id="service" class="section-padding">
 	<div class="container-1">
@@ -18,7 +25,13 @@
 					<div class="row">	
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-								<div class="row">
+								<div class="row">	
+									<!--
+										<div class="col-md-6">
+										<label></label><br>
+										<a href="entrega.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Finalizar Pedido!</a>
+										</div>
+									-->
 									<div class="col-md-12">
 										<a href="entrega.php" class="btn btn-primary btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Se desejar Finalizar a compra, Click Aqui!!</a>
 									</div>
@@ -89,23 +102,42 @@
 				?>
 				<?php 
 					$cont_promocao = mysqli_num_rows($read_promocao);
+					/*
+					echo '<br>';
+					echo "<pre>";
+					print_r($cont_promocao . ' cont_promocao');
+					echo '<br>';
+					print_r($read_promocao);
+					echo '<br>';
+					print_r($read_produtos_derivados);
+					echo "</pre>";
+					exit ();
+					*/
 					if($cont_promocao > '0'){
 						$total = 0;
 						foreach($read_promocao as $read_promocao_view){
+							/*
+							echo "<pre>";
+							print_r($read_promocao_view['idTab_Promocao']);
+							echo '<br>';
+							echo "</pre>";
+							exit ();
+							*/
 							$total 		= $read_promocao_view['Total'];
 							?>
-							<div class="col-md-12 fundo-entrega-carrinho">
-								<div class="container-4">	
-									<div class="row">
-								
-										<br>
-										<h2 class="ser-title"><?php echo utf8_encode($read_promocao_view['Promocao']);?></h2>
-										<hr class="botm-line">
-									
-									
-									
+							<div class="row">
+								<div class="col-md-12">
+									<!--
+									<hr class="botm-line">
+									<h2 class="ser-title">Promoções</h2>
+									<br>
+									-->
+									<div class="col-md-12 fundo-entrega-carrinho">
 										<div class="col-md-12 text-center">
 											<div class="row">
+												<h3 class="card-title">
+													<?php echo utf8_encode($read_promocao_view['Promocao']);?>
+												</h3>
 												<h4 class="card-title">
 													<?php echo utf8_encode ($read_promocao_view['Descricao']);?>
 												</h4>
@@ -117,8 +149,17 @@
 											</div>							
 										</div>
 										<div class="row">
+											
+											
 											<?php
 												$cont_produtos = mysqli_num_rows($read_produtos_derivados);
+													/*
+													echo "<pre>";
+													print_r($cont_produtos);
+													echo '<br>';
+													echo "</pre>";
+													exit ();
+													*/
 												if($cont_produtos > '0'){
 													$valortotal2 = '0';
 													$qtd_estoque_prom = '1';
@@ -152,45 +193,53 @@
 														
 														?>		
 															<div class="col-lg-3 col-md-6 col-sm-6 mb-3 text-center">
-																
-																<div class="card-body">
-																	<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" width='300'>
-																</div>
-																<div class="card-body">
-																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?>
-																	</h5>
-																</div>
-																<div class="card-body">
-																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
-																	</h5>
-																	<?php if($row_empresa['EComerce'] == 'S'){ ?>
+																<div class=" "><!-- retirei essa class: img-produtos -->
+																	<div class="card-body">
+																		<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" width='300'>
+																	</div>
+																	<div class="card-body">
 																		<h5 class="card-title">
-																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?>
+																	</div>
+																	<div class="card-body">
+																		<h5 class="card-title">
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 																		</h5>
-																		<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
-																			 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
-																		</h5>
-																		<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
-																			<h6>
-																				 CashBack: R$ <?php echo number_format($read_produtos_derivados_view['CashBack'],2,",",".");?>
-																			</h6>
+																		<?php if($row_empresa['EComerce'] == 'S'){ ?>
+																			<h5 class="card-title">
+																				<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																			</h5>
+																			<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
+																				 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
+																			</h5>
+																			<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
+																				<h6>
+																					 CashBack: R$ <?php echo number_format($read_produtos_derivados_view['CashBack'],2,",",".");?>
+																				</h6>
+																			<?php } ?>
 																		<?php } ?>
-																	<?php } ?>
+																	</div>
+																	<div class="card-body">
+																		<?php 	if($contar_estoque == "S"){ ?>
+																			<?php 	if($total_estoque < 0){ ?>
+																				<p style="color: #FF0000">Indisponível no Estoque</p>							
+																			<?php } ?>
+																		<?php } ?>	
+																	</div>	
 																</div>
-																<div class="card-body">
-																	<?php 	if($contar_estoque == "S"){ ?>
-																		<?php 	if($total_estoque < 0){ ?>
-																			<p style="color: #FF0000">Indisponível no Estoque</p>							
-																		<?php } ?>
-																	<?php } ?>	
-																</div>	
-																
 															</div>
 														<?php
 														
 													}
+													/*
+													echo '<br>';
+													echo "<pre>";
+													print_r($qtd_estoque_prom . ' Estoque');
+													echo '<br>';
+													print_r($prazo_prom . ' Prazo');
+													echo "</pre>";
+													//exit ();
+													*/
 												}
 											?>
 												
@@ -212,21 +261,38 @@
 										<?php } ?>	
 										<?php if($loja_aberta){ ?>
 											<div class="row">	
-												<div class="col-lg-12">	
-													<?php if($row_empresa['EComerce'] == 'S'){ ?>
-														<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-																<?php if($qtd_estoque_prom == 1){ ?>
-																	<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
-																<?php }else{ ?>	
-																	<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
-																	<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
-																		Aguarde um instante! Estamos processando sua solicitação!
-																	</div>
-																<?php } ?>
-														<?php } else { ?>
-															<a href="login_cliente.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adicionar ao Carrinho</a>
-														<?php } ?>	
-													<?php } ?>
+												<div class="col-lg-12">							
+													<div class="card card-outline-secondary my-4">
+														<div class="card-body">
+															<br>
+															<?php if($row_empresa['EComerce'] == 'S'){ ?>
+																<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
+																		<?php if($qtd_estoque_prom == 1){ ?>
+																		
+																		
+																			<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
+																			
+																		<?php }else{ ?>	
+																			
+																			<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
+																			<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
+																				Aguarde um instante! Estamos processando sua solicitação!
+																			</div>
+																		<?php } ?>
+																	
+																	<!--<a href="meu_carrinho.php?carrinho=produto&id=<?php echo $id_valor;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Adicionar ao Carrinho</a>-->
+																	<!--<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
+																	  Aguarde um instante! Estamos processando sua solicitação!
+																	</div>-->
+																<?php } else { ?>
+																	<a href="login_cliente.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adicionar ao Carrinho</a>
+																	<!--<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
+																	  Aguarde um instante! Estamos processando sua solicitação!
+																	</div>-->
+																<?php } ?>	
+															<?php } ?>
+														</div>
+													</div>
 												</div>
 											</div>
 										<?php } else { ?>

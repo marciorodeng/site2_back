@@ -1,4 +1,4 @@
-<section id="contact" class="section-padding">
+<section id="contact" class="section-padding2">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -18,7 +18,7 @@
 			</div>
 			-->
 			<div class="col-md-4 col-sm-4">
-				<h3>Informações e contato</h3>
+				<h3>Informação e contato</h3>
 				<div class="space"></div>
 				<h4><?php echo utf8_encode($row_empresa['EnderecoEmpresa']);?>, <?php echo utf8_encode($row_empresa['NumeroEmpresa']);?> - <?php echo utf8_encode($row_empresa['ComplementoEmpresa']);?><br>
 				<?php echo utf8_encode($row_empresa['BairroEmpresa']);?> - <?php echo utf8_encode($row_empresa['MunicipioEmpresa']);?> - <?php echo utf8_encode($row_empresa['EstadoEmpresa']);?><br>

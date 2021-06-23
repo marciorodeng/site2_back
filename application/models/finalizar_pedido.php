@@ -284,6 +284,7 @@
 							$update_produto = mysqli_query($conn, $update_pedido);
 						}
 					}
+					/*
 					$result = 'SELECT 
 								CashBackCliente
 							FROM
@@ -299,6 +300,40 @@
 					}
 					$cashtotal_visao = number_format($cashtotal,2,",",".");
 					$cashtotal_conta = str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+					*/
+					$result = 'SELECT 
+								CashBackCliente,
+								ValidadeCashBack
+							FROM
+								App_Cliente
+							WHERE
+								idSis_Empresa = ' . $idSis_Empresa . ' AND
+								idApp_Cliente = "' . $_SESSION['id_Cliente'.$idSis_Empresa] . '"
+							LIMIT 1	
+						';
+
+					$resultado = mysqli_query($conn, $result);
+					foreach($resultado as $resultado_view){
+						$cashtotal 	= 	$resultado_view['CashBackCliente'];
+						$validade 	=	$resultado_view['ValidadeCashBack'];
+					}
+
+					$validade_explode = explode('-', $validade);
+					$validade_dia = $validade_explode[2];
+					$validade_mes = $validade_explode[1];
+					$validade_ano = $validade_explode[0];
+					
+					$validade_visao 	= $validade_dia . '/' . $validade_mes . '/' . $validade_ano;
+					
+					$data_hoje = date('Y-m-d', time());
+
+					if(strtotime($validade) >= strtotime($data_hoje)){
+						$cashtotal_visao 	= number_format($cashtotal,2,",",".");
+					}else{
+						$cashtotal_visao 	= '0,00';
+					}
+					$cashtotal_conta 	= str_replace(',', '.', str_replace('.', '', $cashtotal_visao));					
+					$validade_conta 	= $validade;
 					
 					$update_cliente = " UPDATE 
 											App_Cliente 
@@ -311,6 +346,7 @@
 					$update_produto = mysqli_query($conn, $update_cliente);
 				}else{
 					$cashtotal_conta = "0.00";
+					$validade_conta = "0000-00-00";
 				}				
 				
 				$valor_comissao = '0';
@@ -615,6 +651,7 @@
 									ValorTotalOrca = '".$valor_soma."',
 									SubValorFinal = '".$valor_soma."',
 									CashBackOrca = '".$cashtotal_conta."',
+									ValidadeCashBackOrca = '".$validade_conta."',
 									ValorFinalOrca = '".$valor_fatura."',
 									ValorTroco = '".$valor_troco_final."',
 									ValorFatura = '".$valor_fatura."',

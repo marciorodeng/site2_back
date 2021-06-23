@@ -41,7 +41,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<form name="FormularioEntrega" id="FormularioEntrega" method="post" action="finalizar_pedido.php" >
-						<div class="col-md-12 order-md-2 mb-4 fundo-carrinho">
+						<div class="col-md-12 order-md-2 mb-4 fundo-carrinho"><!-- retirei esta class: img-prod-pag -->
 							<br>
 							<h2 class="ser-title">Entrega & Pagamento!</h2>
 							<hr class="botm-line">
@@ -118,52 +118,79 @@
 										?>		
 											<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
 												<div class="row ">
-													<div class="col-md-4">
-														<div class="row ">
-															<div class="container-2">
-																<div class="col-xs-4 col-md-4">
-																	<div class="row ">	
-																		<div class="col-md-12">
-																			<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='100' >
-																		</div>
-																	</div>															
-																</div>
-																<div class="col-xs-8 col-md-8">
-																	<div class="row ">	
-																		<div class="col-md-12 ">
-																			<span class="card-title" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?>
-																			</span>
-																			<span class="card-title" style="color: #000000"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br> 
-																									<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?><br>
-																									<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
-																			</span>
-																		</div>
-																	</div>															
-																</div>
-															</div>
-														</div>	
-													</div>	
-													<div class="col-md-6">
-														<div class="row ">
-															<div class="container-2">
-																<div class="col-xs-4 col-md-1"></div>
-																<div class="col-xs-4 col-md-5 ">		
-																	<div class="row ">
-																		<div class="col-md-12 ">
-																			<span class="card-title" style="color: #000000"><span id="Qtd<?php echo $item_carrinho;?>"  name="prod[<?php echo $id_produto_carrinho ?>]" value="" ><?php echo $sub_total_qtd_produto ?> un.</span><span class="text-muted"></span></span> 
-																		</div>														
-																	</div>
-																</div>	
-																<div class="col-xs-4 col-md-6 ">		
-																	<div class="row ">	
-																		<div class="col-md-12 ">
-																			<span class="card-title" style="color: #000000">R$<span id="Subtotal<?php echo $item_carrinho;?>" ><?php echo number_format($sub_total_produto_carrinho,2,",",".");?></span></span> 
-																		</div>														
-																	</div>
-																</div>
+													<div class="col-md-2">		
+														<div class="row ">	
+															<div class="col-md-12">
+																<h4 class="my-0"><span class="text-muted">Item: </span><?php echo $item_carrinho;?> </h4> 
+															</div>															
+														</div>
+														<div class="row ">	
+															<div class="col-md-12 ">
+																<h5 class="card-title"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?><br> 
+																						<?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?>
+																</h5>
+																<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Desconto']);?></h5>
+																<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Promocao']);?></h5>
+																<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Descricao']);?></h5>-->
 															</div>
 														</div>
+													</div>
+													<div class="col-md-2">
+														<div class="row ">	
+															<div class="col-md-12">
+																<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_carrinho_view['Arquivo']; ?>" alt="" width='100' >
+															</div>
+														</div>															
+													</div>
+													<div class="col-md-3">
+														<div class="row ">	
+															<div class="col-md-12 ">
+																<h5 class="card-title"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?><br> 
+																						<?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?><br>
+																						<?php echo utf8_encode ($read_produto_carrinho_view['Produtos_Descricao']);?>
+																</h5>
+																<!--<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Nome_Prod']);?></h5><br>
+																<h5 class="my-0"><?php echo utf8_encode ($read_produto_carrinho_view['Convdesc']);?></h5>
+																<h5 class="my-0"><?php echo $read_produto_carrinho_view['QtdProdutoIncremento'];?> Unid.</h5>-->
+															</div>
+														</div>															
 													</div>	
+													<div class="col-md-2">		
+														<div class="row ">
+															<div class="col-md-12 ">
+																<h4 class="my-0"><span class="text-muted">SubQtd: </span> <span id="Qtd<?php echo $item_carrinho;?>"  name="prod[<?php echo $id_produto_carrinho ?>]" value="" ><?php echo $sub_total_qtd_produto ?> Un.</span><span class="text-muted"></span></h4> 
+															</div>														
+														</div>
+													</div>	
+													<div class="col-md-3">		
+														<div class="row ">
+															<!--
+															<div class="col-md-3 ">
+																<h4 class="my-0">Estoque:<br> <?php echo $quantidade_estoque;?></h4> 
+															</div>
+																													
+															<div class="col-md-6 ">
+																<h4 class="my-0"><span class="text-muted">Valor</span><br>R$<span id="Valor<?php echo $item_carrinho;?>" value=""><?php echo number_format($read_produto_carrinho_view['ValorProduto'],2,",",".");?></span><span class="text-muted"> =</span></h4> 
+															</div>
+															-->	
+															<div class="col-md-12 ">
+																<h4 class="my-0"><span class="text-muted">SubTotal: </span> R$<span id="Subtotal<?php echo $item_carrinho;?>" ><?php echo number_format($sub_total_produto_carrinho,2,",",".");?></span></h4> 
+															</div>														
+														</div>	
+														<!--
+														<div class="row ">
+															<div class="col-md-4 ">
+																<h4 class="my-0"><a href="deletar_produto_carrinho.php?id=<?php echo $id_produto_carrinho ?>">Excluir</a></h4> 
+															</div>															
+															<?php if($quantidade_produto_carrinho > $quantidade_estoque){?>
+																<div class="col-md-4 ">
+																	<h4 class="my-0" style="color: #FF0000"><span class="text-muted" style="color: #FF0000"> Atenção!!</span> Quantidade maior que o Estoque!!!!</h4>
+																</div>
+															<?php } ?>
+														</div>
+														-->
+													</div>
+													
 												</div>
 											</li>
 										<?php

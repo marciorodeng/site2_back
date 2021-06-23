@@ -8,14 +8,11 @@
 	});
 </script>
 <section id="service" class="section-padding">
-	<div class="container-1">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="container-3">	
-					<br>
-					<h2 class="ser-title">Finalizar a Compra!</h2>
-					<hr class="botm-line">
-				</div>	
+				<h2 class="ser-title">Finalizar a Compra!</h2>
+				<hr class="botm-line">
 			</div>
 			<div class="col-lg-12">
 				
@@ -23,13 +20,10 @@
 					
 					<div class="col-md-5 order-md-2 mb-4">
 
-						<ul class="list-group mb-3 ">
-						
-							
-							
+						<ul class="list-group mb-3 ">										
 							<li class="list-group-item d-flex justify-content-between fundo">
 								<span>Pedido: </span>
-								<strong><?php echo $id_pedido; ?></strong>
+								<strong>: <?php echo $id_pedido; ?></strong>
 							</li>							
 							
 							<?php
@@ -101,23 +95,21 @@
 									?>		
 										<li class="list-group-item d-flex justify-content-between lh-condensed fundo">
 											
-												<div class="row ">
-													<div class="container-2">
-														<div class="col-xs-4  col-md-2 ">	
-															<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='100' >
-														</div>														
-														<div class="col-xs-8 col-md-8 ">	
-															<div class="row">
-																<h5 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h5>
-																<!--<small class="text-muted">Brief description</small>-->
-															</div>
-															<div class="row">	
-																<!--<span class="text-muted">R$ <?php #echo number_format($read_produto_view['ValorProduto'],2,",",".");?> x </span>--> 
-																<span class="text-muted"><?php echo $read_produto_view['QtdProduto'];?> Un. </span>
-																<span class="text-muted">R$<?php echo number_format($sub_total,2,",",".");?></span>																
-															</div>
+												<div class="row img-prod-pag">	
+													<div class="col-md-3 ">
+														<img class="team-img img-circle img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produto_view['Arquivo']; ?>" alt="" width='50' >
+													</div>														
+													<div class="col-md-8 ">
+														<div class="row">
+															<h5 class="my-0"><?php echo utf8_encode ($read_produto_view['NomeProduto']);?></h5>
+															<!--<small class="text-muted">Brief description</small>-->
 														</div>
-													</div>	
+														<div class="row">	
+															<span class="text-muted">R$ <?php echo number_format($read_produto_view['ValorProduto'],2,",",".");?> x </span> 
+															<span class="text-muted">Qtd. <?php echo $read_produto_view['QtdProduto'];?> = </span>
+															<span class="text-muted">R$ <?php echo number_format($sub_total,2,",",".");?></span>																
+														</div>
+													</div>
 												</div>
 												
 										</li>

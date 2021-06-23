@@ -4,16 +4,19 @@
 	$servidor = "159.89.138.173";
 	$usuario = "usuario";
 	$senha = "20UtpJ15";
-	$sistema = "sistematestes3";
+	$sistema = "sistema";
+	//$sistema = "sistematestes3";
 */	
 	// ""Servidor Local""
 	$servidor = "localhost";
 	$usuario = "root";
 	$senha = "";
+	//$sistema = "sistema";
 	$sistema = "sistemaantigo";
 	//$sistema = "sistematestes3";	
 	
 	// ""Ambiente de Testes"" 
+	//$dbname = "app";
 	$dbname = "app.testes3";
 	$sandbox = true;	
 	

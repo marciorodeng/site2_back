@@ -48,7 +48,13 @@
 					<div class="row">	
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-								<div class="row">
+								<div class="row">	
+									<!--
+										<div class="col-md-6">
+										<label></label><br>
+										<a href="entrega.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Finalizar Pedido!</a>
+										</div>
+									-->
 									<div class="col-md-12">
 										<a href="entrega.php" class="btn btn-primary btn-block" name="submeter2" id="submeter2" onclick="DesabilitaBotao(this.name)">Se desejar Finalizar a compra, Click Aqui!!</a>
 									</div>
@@ -66,17 +72,119 @@
 							<?php } ?>
 						</div>
 					</div>
-				<?php } ?>
+				<?php } ?>			
+				<nav class="navbar navbar-inverse navbar-fixed header-menu">
+					<div class="">
+						<div class="navbar-header">
+							<!--
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar3" aria-expanded="false" aria-controls="navbar3">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							-->
+							<div class="col-lg-12">
+								<button type="button" class=" navbar-brand navbar-toggle collapsed btn-block" data-toggle="collapse" data-target="#navbar3" aria-expanded="false" aria-controls="navbar3">
+									Categorias <span class="caret"></span>
+								</button>
+							</div>	
+								<!--
+							<span class=" navbar-brand navbar-toggle" > 
+								Categorias
+							</span>
+							
+							<span  class="navbar-toggle " > 
+								 Categorias
+							</span>
+							-->
+						</div>
+						<div id="navbar3" class="navbar-collapse collapse">
+							<ul class="nav navbar-nav navbar-left">
+								<?php
+									$result_categoria_produtos = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'P'  ORDER BY Catprod ASC ";
+									$read_categoria_produtos = mysqli_query($conn, $result_categoria_produtos);
+									if(mysqli_num_rows($read_categoria_produtos) > '0'){?>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<h2 style="color:#FFFFFF">Produtos <span class="caret"></span></h2>
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="dropdown03">
+												<?php
+													foreach($read_categoria_produtos as $read_categoria_produtos_view){
+														echo '	<li>
+																	<a class="dropdown-item" href="produtos.php?cat='.$read_categoria_produtos_view['idTab_Catprod'].'" >
+																		'.$read_categoria_produtos_view['Catprod'].'
+																	</a>
+																</li>
+																<li role="separator" class="divider"></li>';
+													}
+												?>
+											</ul>							
+										</li>
+										<?php 
+									} 
+								?>								
+								<?php
+									$result_categoria_servicos = "SELECT * FROM Tab_Catprod WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprod = 'S' AND TipoCatprod = 'S'  ORDER BY Catprod ASC ";
+									$read_categoria_servicos = mysqli_query($conn, $result_categoria_servicos);
+									if(mysqli_num_rows($read_categoria_servicos) > '0'){?>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<h2 style="color:#FFFFFF">Serviços <span class="caret"></span></h2>
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="dropdown03">
+												<?php
+													foreach($read_categoria_servicos as $read_categoria_servicos_view){
+														echo '	<li>
+																	<a class="dropdown-item" href="produtos.php?cat='.$read_categoria_servicos_view['idTab_Catprod'].'" >
+																		'.$read_categoria_servicos_view['Catprod'].'
+																	</a>
+																</li>
+																<li role="separator" class="divider"></li>';
+													}
+												?>
+											</ul>						
+										</li>
+										<?php 
+									} 
+								?>
+								<?php
+									$result_categoria_promocao = "SELECT * FROM Tab_Catprom WHERE idSis_Empresa = '".$idSis_Empresa."' AND Site_Catprom = 'S' ORDER BY Catprom ASC ";
+									$read_categoria_promocao = mysqli_query($conn, $result_categoria_promocao);
+									if(mysqli_num_rows($read_categoria_promocao) > '0'){?>
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<h2 style="color:#FFFFFF">Promoções <span class="caret"></span></h2>
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="dropdown03">
+												<?php
+													foreach($read_categoria_promocao as $read_categoria_promocao_view){
+														echo '	<li>
+																	<a class="dropdown-item" href="promocao.php?cat='.$read_categoria_promocao_view['idTab_Catprom'].'" >
+																		'.$read_categoria_promocao_view['Catprom'].'
+																	</a>
+																</li>
+																<li role="separator" class="divider"></li>';
+													}
+												?>
+											</ul>									
+										</li>
+										<?php 
+									} 
+								?>
+							</ul>
+						</div>		
+					</div>
+				</nav>
 			</div>
 			<div class="col-md-12">
 				<div class="row">
-					<div class="container-4">
+					<div class="col-md-12">
 						<div class="container-3">
-							<br>
-							<h2 class="ser-title"><?php echo $row_categoria['Produtos'];?></h2>
-							<hr class="botm-line-2">
-						</div>
-						
+							<hr class="botm-line">
+							<h2 class="ser-title"><?php echo $row_categoria['Catprod'];?></h2>
+						</div>	
 						<?php
 							$read_produtos_derivados = mysqli_query($conn, "
 							SELECT 
@@ -107,7 +215,6 @@
 								TOP2.Opcao AS Opcao2,
 								TOP1.Opcao AS Opcao1,
 								TP.idTab_Catprod,
-								TP.Produtos,
 								(TV.ValorProduto) AS SubTotal2
 							FROM 
 								Tab_Valor AS TV
@@ -129,8 +236,6 @@
 							");
 							$valortotal2 = '0';
 
-							
-							
 							if(mysqli_num_rows($read_produtos_derivados) > '0'){
 								
 								foreach($read_produtos_derivados as $read_produtos_derivados_view){
