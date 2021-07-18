@@ -1,7 +1,7 @@
-<section id="contact" class="section-padding">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
+<section id="contato" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<br>
 				<h2 class="ser-title">Fale Conosco</h2>
 				<hr class="botm-line">
 				<!--
@@ -17,7 +17,7 @@
 				<hr class="botm-line">
 			</div>
 			-->
-			<div class="col-md-4 col-sm-4">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<h3>Informações e contato</h3>
 				<div class="space"></div>
 				<h4><?php echo utf8_encode($row_empresa['EnderecoEmpresa']);?>, <?php echo utf8_encode($row_empresa['NumeroEmpresa']);?> - <?php echo utf8_encode($row_empresa['ComplementoEmpresa']);?><br>
@@ -53,6 +53,5 @@
 				</div>
 			</div>
 			-->
-		</div>
-	</div>
+		
 </section>

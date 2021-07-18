@@ -36,9 +36,8 @@
 
 		} 
 	?>
-	<section id="service" class="section-padding ">
-		<div class="container-1">
-			<div class="row">
+	<section id="carrinho" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		
 				<?php 
 				if(isset($id_Session) && isset($_SESSION['cart'][$id_Session])){	
 					foreach ($_SESSION['cart'][$id_Session] as $value) :
@@ -46,11 +45,13 @@
 					endforeach;
 				}
 				?>
-				<div class="col-lg-12">
-					<div class="col-md-12 order-md-2 mb-4  fundo-carrinho ">
+				
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<br>
 						<h2 class="ser-title">Meu Carrinho!</h2>
 						<hr class="botm-line">
+					</div>	
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fundo-carrinho ">	
 						<form name="Form" id="Form" action="?acao=up-produtos" method="post">
 							<ul class="list-group mb-3 ">										
 								<?php
@@ -343,9 +344,8 @@
 						</form>
 						<br>
 					</div>
-				</div>
-			</div>
-		</div>
+				
+			
 	</section>
 
 <?php } ?>							

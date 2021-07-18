@@ -9,12 +9,10 @@
 	$dataatual = date('Y-m-d', time());
 	$dia_da_semana = date('N');
 ?>
-<section id="service" class="section-padding">
-	<div class="container-1">
-		<div class="row">
-			<div class="col-lg-12">
+<section id="promocao" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
 				<?php if($row_empresa['EComerce'] == 'S' && isset($_SESSION['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) && count($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]) > '0'){ ?>
-					<div class="row">	
+						
 						<div class="col-md-12">	
 							<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
 								<div class="row">	
@@ -40,12 +38,9 @@
 								</div>
 							<?php } ?>
 						</div>
-					</div>
+					
 				<?php } ?>
-			</div>
-			<div class="col-md-12">
-				<div class="row">
-					<div class="container-4">
+
 						<?php
 							if(isset($_GET['cat']) && $_GET['cat'] != ''){
 								$id_cat = addslashes($_GET['cat']);
@@ -92,14 +87,11 @@
 												TPM.Promocao ASC ";
 									
 									echo'
-									<div class="col-md-12">
-										
-											<br>
-											<h2 class="ser-title">'.$read_categoria_view_id['Catprom'].'</h2>
-											<hr class="botm-line">
-										
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<br>
+										<h2 class="ser-title">'.$read_categoria_view_id['Catprom'].'</h2>
+										<hr class="botm-line">
 									</div>';
-									
 									$read_produto_id = mysqli_query($conn, $result_produto_id);
 									if(mysqli_num_rows($read_produto_id) > '0'){
 										
@@ -127,7 +119,7 @@
 											}
 											?>
 											
-											<div class="col-lg-3 col-md-6 col-sm-6 mb-4 text-center">
+											<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 text-center">
 												
 													<div class="card-body">
 														<a href="produtospromocao.php?promocao=<?php echo $read_produto_view_id['idTab_Promocao'];?>"><img class="team-img img-responsive" src="<?php echo $idSis_Empresa;?>/promocao/miniatura/<?php echo $read_produto_view_id['Arquivo'];?>" alt="" width='500' ></a>					 
@@ -161,9 +153,6 @@
 								}
 							}		
 						?>
-					</div>	
-				</div>
-			</div>
-		</div>
-	</div>
+					
+
 </section>

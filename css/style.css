@@ -128,8 +128,24 @@ hr.botm-line-2 {
 }
 
 /***************************************
-banner
+slide
 ***************************************/
+#navegador{
+    
+	/*margin-bottom: 20px;*/
+}
+.navbar-menu{
+    background-color: #444444;
+    color: #fff;
+	/*height:124px;
+    font-size: 15px;*/
+}
+
+.nome-nav{	
+	padding-left: 25px;
+	padding-top: 20px;
+}
+
 .navbar {
     margin-bottom: 0px;
     border: 0px;
@@ -152,16 +168,18 @@ banner
 
 .navbar-brand{
 	font-family: 'Chewy', cursive;
-	font-size: 32px;
+	font-size: 15px;
 }
 
 .navbar-brand-nome {
 	font-family: 'Chewy', cursive; 
 	float: center;
+	color: #FFFFFF;
+	/*
 	padding: 0px 5px;
 	font-size: 18px;
 	line-height: 20px;
-	color: #FFFFFF;
+	*/
 }
 
 .navbar-brand-nome-BKP {
@@ -186,12 +204,26 @@ banner
 }
 
 .navbar-brand img {
-    padding-top: 2px;
-    width: 120px !important;
+    padding-top: 5px;
+	margin-left:5px;
+    /*width: 120px !important;*/
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
     color: #EA6045;
+}
+
+.navbar-logo{
+	/*margin-top:-15px;*/
+}
+
+.navbar-logo  img{
+	margin-left: 30px;
+}
+
+.navbar-foto img{
+	margin-top:6px;
+	margin-left: 30px;
 }
 
 .top-nav-collapse {
@@ -233,6 +265,23 @@ banner
 {
     background-color: rgba(12, 184, 182) !important;
 }
+.navbar-fonte{
+		margin-right: 15px;
+		margin-left: 5px;
+}
+@media (min-width: 768px) and (max-width: 991px){
+	.navbar-fonte{
+		font-size: 14px;
+	}
+}
+@media (min-width: 992px) and (max-width: 1054px){
+	.navbar-fonte{
+		font-size: 15px;
+	}
+}
+/***************************************
+banner
+***************************************/
 #banner{
 	background: url('../img/bg-banner.jpg') no-repeat fixed;
 	background-size: cover;
@@ -279,8 +328,95 @@ banner
     display: inline-block;
 }
 /***************************************
+slide
+***************************************/
+#slide{
+	/*margin-bottom: 20px;*/
+}
+/***************************************
+logincliente
+***************************************/
+#logincliente{
+	margin-bottom: 20px;
+}
+/***************************************
+index
+***************************************/
+#index{
+	margin-bottom: 20px;
+}
+/***************************************
+inicial
+***************************************/
+#inicial{
+	margin-bottom: 20px;
+}
+/***************************************
+produtos
+***************************************/
+#produtos{
+	margin-bottom: 20px;
+}
+/***************************************
+produtos derivados
+***************************************/
+#produtosderivados{
+	margin-bottom: 20px;
+}
+/***************************************
+promocao
+***************************************/
+#promocao{
+	margin-bottom: 20px;
+}
+/***************************************
+produtospromocao
+***************************************/
+#produtospromocao{
+	margin-bottom: 20px;
+}
+/***************************************
+carrinho
+***************************************/
+#carrinho{
+	margin-bottom: 20px;
+}
+/***************************************
+entrega
+***************************************/
+#entrega{
+	margin-bottom: 20px;
+}
+/***************************************
+pedidos
+***************************************/
+#pedidos{
+	margin-bottom: 20px;
+}
+/***************************************
+pedido
+***************************************/
+#pedido{
+	margin-bottom: 20px;
+}
+/***************************************
+pagar
+***************************************/
+#pagar{
+	margin-bottom: 20px;
+}
+/***************************************
+contato
+***************************************/
+#contato{
+	margin-bottom: 20px;
+}
+/***************************************
 services
 ***************************************/
+#service{
+	margin-bottom: 20px;
+}
 .icon i{
 	color: #000000;
 	font-size: 45px;
@@ -532,6 +668,7 @@ contact us
 footer
 ***************************************/
 #footer{
+	/*background-color: #325C6A;*/
 	background-color: #325C6A;
 }
 .ftr-tle {
@@ -595,10 +732,48 @@ footer
     color: #0cb8b6;
     text-transform: none;
 }
-@media (min-width: 551px) and (max-width: 980px){
-
+@media (max-width: 219px){
+	.navbar-brand img {
+		width: 100px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		margin-top:500px;
+		font-size: 15px;
+		/*padding: 0px 5px;
+		line-height: 20px;*/
+	}
+	.ajuste-indicadores{
+		bottom: -12px;
+	}
+	.ajuste-indicadores li{
+		width: 5px;
+		height: 5px;
+	}
+	.ajuste-indicadores li.active{
+		width: 6px;
+		height: 6px;
+	}
 }
 @media (min-width: 220px) and (max-width: 551px){
+	.navbar-brand img {
+		width: 100px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		margin-top:-500px;
+		font-size: 15px;
+		/*padding: 0px 5px;
+		line-height: 20px;*/
+	}
     .testi-info{
         margin-bottom: 20px;
     }
@@ -633,4 +808,134 @@ footer
     .banner-text h1{
         font-size: 24px;
     }
+	.ajuste-indicadores{
+		bottom: -10px;
+	}
+	.ajuste-indicadores li{
+		width: 6px;
+		height: 6px;
+	}
+	.ajuste-indicadores li.active{
+		width: 8px;
+		height: 8px;
+	}
+}
+@media (min-width: 552px) and (max-width: 767px){
+	.navbar-brand img {
+		width: 100px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		padding: 0px 5px;
+		font-size: 15px;
+		line-height: 20px;
+	}
+	.ajuste-indicadores{
+		bottom: -11px;
+	}
+	.ajuste-indicadores li{
+		width: 7px;
+		height: 7px;
+	}
+	.ajuste-indicadores li.active{
+		width: 9px;
+		height: 9px;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px){
+	.navbar-brand img {
+		width: 100px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		padding: 0px 5px;
+		font-size: 15px;
+		line-height: 20px;
+	}
+	.slide-topo{
+		margin-top: 82px;
+	}
+	.ajuste-indicadores{
+		bottom: -10px;
+	}
+	.ajuste-indicadores li{
+		width: 8px;
+		height: 8px;
+	}
+	.ajuste-indicadores li.active{
+		width: 10px;
+		height: 10px;
+	}
+}
+@media (min-width: 992px) and (max-width: 1199px){
+	.navbar-brand img {
+		width: 120px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		padding: 0px 5px;
+		font-size: 15px;
+		line-height: 20px;
+	}
+	.slide-topo{
+		margin-top: 82px;
+	}
+	.ajuste-indicadores{
+		bottom: -9px;
+	}
+	.ajuste-indicadores li{
+		width: 9px;
+		height: 9px;
+	}
+	.ajuste-indicadores li.active{
+		width: 11px;
+		height: 11px;
+	}
+}
+@media (min-width: 1200px){
+	.navbar-brand img {
+		width: 120px !important;
+	}
+	.navbar-brand-nome {
+		/*
+		font-family: 'Chewy', cursive; 
+		float: center;
+		color: #FFFFFF;
+		*/
+		padding: 0px 5px;
+		font-size: 15px;
+		line-height: 20px;
+	}
+	.slide-topo{
+		margin-top: 82px;
+	}
+	.ajuste-indicadores{
+		bottom: -8px;
+	}
+	.ajuste-indicadores li{
+		width: 10px;
+		height: 10px;
+	}
+	.ajuste-indicadores li.active{
+		width: 12px;
+		height: 12px;
+	}
+}
+.container3 {
+  margin-right: 0px;
+}
+.slide-largura {
+  margin-right: 0px;
 }

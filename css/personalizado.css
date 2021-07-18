@@ -1,14 +1,3 @@
-.header-menu{
-    background-color: #444444;
-    color: #fff;
-    font-size: 15px;
-}
-
-.nome-nav{	
-	padding-left: 25px;
-	padding-top: 20px;
-}
-
 .fundo{
     background-color: #bcbcbc;
     color: #fff;
@@ -51,7 +40,8 @@
     font-size: 15px;
 }
 
-.fundo-carrinho{    
+.fundo-carrinho{
+    padding-top: 15px;
 	background-color: #d2d2d2;
     color: #fff;
     font-size: 15px;
@@ -136,8 +126,13 @@
   margin-left: 15px;
 }
 
+.slide-topo{
+    margin-top: 24px;
+    color: #fff;
+}
+
 .espaco-topo{
-    margin-top: -5px;
+    margin-top: 500px;
     color: #fff;
 }
 

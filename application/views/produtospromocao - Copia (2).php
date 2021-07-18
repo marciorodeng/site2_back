@@ -144,83 +144,85 @@
 													
 													?>		
 															
-														<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 mb-3 text-center">
-															<div class="card-body">
-																<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" width='300'>
-															</div>
-															<div class="card-body">
-																<h5 class="card-title">
-																	<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?>
-																</h5>
-															</div>
-															<div class="card-body">
-																<h5 class="card-title">
-																	<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
-																</h5>
-																<?php if($row_empresa['EComerce'] == 'S'){ ?>
+															<div class="col-lg-3 col-md-6 col-sm-6 mb-3 text-center">
+																
+																<div class="card-body">
+																	<img class="team-img img-responsive" src="<?php echo $idSis_Empresa ?>/produtos/miniatura/<?php echo $read_produtos_derivados_view['Arquivo']; ?>" alt="" width='300'>
+																</div>
+																<div class="card-body">
 																	<h5 class="card-title">
-																		<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																		<?php echo utf8_encode ($read_produtos_derivados_view['Nome_Prod']);?>
 																	</h5>
-																	<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
-																		 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
+																</div>
+																<div class="card-body">
+																	<h5 class="card-title">
+																		<?php echo utf8_encode ($read_produtos_derivados_view['Produtos_Descricao']);?>
 																	</h5>
-																	<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
-																		<h6>
-																			 CashBack: R$ <?php echo number_format($read_produtos_derivados_view['CashBack'],2,",",".");?>
-																		</h6>
+																	<?php if($row_empresa['EComerce'] == 'S'){ ?>
+																		<h5 class="card-title">
+																			<?php echo utf8_encode ($read_produtos_derivados_view['Convdesc']);?>
+																		</h5>
+																		<h5><?php echo utf8_encode ($read_produtos_derivados_view['QtdProdutoIncremento']);?> Unid./
+																			 R$ <?php echo number_format($read_produtos_derivados_view['ValorProduto'],2,",",".");?>
+																		</h5>
+																		<?php if($row_empresa['CashBackAtivo'] == 'S'){ ?>
+																			<h6>
+																				 CashBack: R$ <?php echo number_format($read_produtos_derivados_view['CashBack'],2,",",".");?>
+																			</h6>
+																		<?php } ?>
 																	<?php } ?>
-																<?php } ?>
+																</div>
+																<div class="card-body">
+																	<?php 	if($contar_estoque == "S"){ ?>
+																		<?php 	if($total_estoque < 0){ ?>
+																			<p style="color: #FF0000">Indisponível no Estoque</p>							
+																		<?php } ?>
+																	<?php } ?>	
+																</div>	
+																
 															</div>
-															<div class="card-body">
-																<?php 	if($contar_estoque == "S"){ ?>
-																	<?php 	if($total_estoque < 0){ ?>
-																		<p style="color: #FF0000">Indisponível no Estoque</p>							
-																	<?php } ?>
-																<?php } ?>	
-															</div>
-														</div>
+															
 													<?php
 													
 												}
 											}
 										?>
-										
 										<?php if($row_empresa['EComerce'] == 'S'){ ?>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">	
-												<h4 class="card-title">
-													<?php 
-														if($prazo_prom == 0){
-															echo 'Pronta Entrega';
-														}else{
-															echo 'Prazo de Entrega ' . $prazo_prom . ' Dia(s)';
-														}	
-													?>
-												</h4>					
+											<div class="col-md-12 text-center">	
+												<div class="row">
+													<h3 class="card-title">
+														<?php 
+															if($prazo_prom == 0){
+																echo 'Pronta Entrega';
+															}else{
+																echo 'Prazo de Entrega ' . $prazo_prom . ' Dia(s)';
+															}	
+														?>
+													</h3>
+												</div>							
 											</div>
 										<?php } ?>	
 										<?php if($loja_aberta){ ?>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">	
-												<?php if($row_empresa['EComerce'] == 'S'){ ?>
-													<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
-															<?php if($qtd_estoque_prom == 1){ ?>
-																<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
-															<?php }else{ ?>	
-																<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
-																<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
-																	Aguarde um instante! Estamos processando sua solicitação!
-																</div>
-															<?php } ?>
-													<?php } else { ?>
-														<a href="login_cliente.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adicionar ao Carrinho</a>
-													<?php } ?>	
-												<?php } ?>
-											</div>
+												
+												<div class="col-lg-12">	
+													<?php if($row_empresa['EComerce'] == 'S'){ ?>
+														<?php if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){ ?>
+																<?php if($qtd_estoque_prom == 1){ ?>
+																	<a href="meu_carrinho.php?carrinho=promocao&id=<?php echo $id_promocao;?>" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name),exibirPagar()">Adicionar Promoção ao Carrinho</a>
+																<?php }else{ ?>	
+																	<a href="promocao.php" class="btn btn-warning btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Algums produtos, desta promoção, estão Indisponíveis! Selecione outra promoção</a>
+																	<div class="alert alert-warning aguardar" role="alert" name="aguardar" id="aguardar">
+																		Aguarde um instante! Estamos processando sua solicitação!
+																	</div>
+																<?php } ?>
+														<?php } else { ?>
+															<a href="login_cliente.php" class="btn btn-success btn-block" name="submeter" id="submeter" onclick="DesabilitaBotao(this.name)">Logar P/ Adicionar ao Carrinho</a>
+														<?php } ?>	
+													<?php } ?>
+												</div>
+											
 										<?php } else { ?>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<button class="btn btn-warning btn-block ">
-													Loja Fechada
-												</button>
-											</div>
+											<button class="btn btn-warning btn-block "  >Loja Fechada</button>
 										<?php } ?>
 									
 								
