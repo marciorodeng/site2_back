@@ -12,10 +12,10 @@
 	
 
 	//Ambiente de Testes 
-	$dbname = "app.testes3";	
+	//$dbname = "app.testes3";	
 	
 	//Ambiente de Produção 
-	//$dbname = "app";	
+	$dbname = "app";	
 	
 	//Criar a conexao
 	$conn = mysqli_connect($servidor, $usuario, $senha, $dbname);
