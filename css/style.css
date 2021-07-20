@@ -218,12 +218,7 @@ slide
 }
 
 .navbar-logo  img{
-	margin-left: 30px;
-}
-
-.navbar-foto img{
-	margin-top:6px;
-	margin-left: 30px;
+	margin-left: 15px;
 }
 
 .top-nav-collapse {
@@ -279,6 +274,30 @@ slide
 		font-size: 15px;
 	}
 }
+
+.navbar-foto  {
+  position: relative;
+  float: right;
+  /*float: left;*/
+  padding: 7px 10px;
+  margin-top: 0px;
+  margin-right: 15px;
+  /*margin-left: 30px;*/
+  margin-bottom: 0px;
+  
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0px;
+}
+.navbar-foto :focus {
+  outline: 0;
+}
+@media (min-width: 768px) {
+  .navbar-foto  {
+    /*display: none;*/
+  }
+}
+
 /***************************************
 banner
 ***************************************/
