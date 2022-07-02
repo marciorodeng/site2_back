@@ -1,8 +1,8 @@
 <?php
 	
 ob_start();
-$btnCadUsuario = filter_input(INPUT_POST, 'btnCadUsuario', FILTER_SANITIZE_STRING);
-if($btnCadUsuario){
+$btnCadAssociado = filter_input(INPUT_POST, 'btnCadAssociado', FILTER_SANITIZE_STRING);
+if($btnCadAssociado){
 	
 	
 	$dados_rc = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -14,19 +14,19 @@ if($btnCadUsuario){
 	
 	if(in_array('',$dados)){
 		$erro = true;
-		$_SESSION['msg'] = "Necessário preencher todos os campos";
+		$_SESSION['Site_Back']['msg'] = "Necessário preencher todos os campos";
 	}else{
-		$result_usuario = "SELECT idApp_Cliente FROM App_Cliente WHERE idSis_Empresa='". $dados['idSis_Empresa'] ."' AND idSis_Usuario_5 = '". $dados['idSis_Usuario'] ."'";
+		$result_usuario = "SELECT idApp_Cliente FROM App_Cliente WHERE idSis_Empresa='". $dados['idSis_Empresa'] ."' AND idSis_Associado = '". $dados['idSis_Associado'] ."'";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
 		if(($resultado_usuario) AND ($resultado_usuario->num_rows != 0)){
 			
 			$erro = true;
-			$_SESSION['msg'] = "Este usuário já está cadastrado nesta empresa!";
-			header("Location: cadastro_realizado.php?emp=".$dados['idSis_Empresa']."&usuario=".$dados['idSis_Usuario']."");
+			$_SESSION['Site_Back']['msg'] = "Este Associado já está cadastrado nesta empresa!";
+			header("Location: cadastro_realizado.php?emp=".$dados['idSis_Empresa']."&usuario=".$dados['idSis_Associado']."");
 		} else {
 		
 			$erro = true;
-			$_SESSION['msg'] = "Este usuário ainda não é cliente desta empresa!";
+			$_SESSION['Site_Back']['msg'] = "Este usuário ainda não é cliente desta empresa!";
 		}
 	}
 	/*
@@ -42,17 +42,17 @@ if($btnCadUsuario){
 						)";
 		$resultado_usario = mysqli_query($conn, $result_usuario);
 		if(mysqli_insert_id($conn)){
-			$_SESSION['msgcad'] = "Solicitação realizada com sucesso";
+			$_SESSION['Site_Back']['msgcad'] = "Solicitação realizada com sucesso";
 			
-			unset(	$_SESSION['id_Associado'], 
-					$_SESSION['Nome_Associado'], 
-					$_SESSION['Email_Associado']
+			unset(	$_SESSION['Site_Back']['id_Associado'], 
+					$_SESSION['Site_Back']['Nome_Associado'], 
+					$_SESSION['Site_Back']['Email_Associado']
 					);
 					
 			//header("Location: inicial.php");
 			header("Location: cadastro_realizado.php?emp=".$dados['idSis_Empresa']."&usuario=".$dados['idSis_Usuario']."");
 		}else{
-			$_SESSION['msg'] = "Erro ao realizar a solicitação! Entre em contato com a empresa!";
+			$_SESSION['Site_Back']['msg'] = "Erro ao realizar a solicitação! Entre em contato com a empresa!";
 		}
 	}
 	*/

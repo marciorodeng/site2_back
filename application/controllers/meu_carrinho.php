@@ -1,16 +1,16 @@
 <?php
 	if(isset($_GET['id_Session'])){	
 		$id_Session = addslashes($_GET['id_Session']);
-		if (empty($_SESSION['cart'][$id_Session])) {
-			$_SESSION['cart'][$id_Session] = [];
+		if (empty($_SESSION['Site_Back']['cart'][$id_Session])) {
+			$_SESSION['Site_Back']['cart'][$id_Session] = [];
 		}
-		array_push($_SESSION['cart'][$id_Session], $_POST);
+		array_push($_SESSION['Site_Back']['cart'][$id_Session], $_POST);
 		/*
 		echo "<pre>";
-		   print_r($_SESSION['cart']);
+		   print_r($_SESSION['Site_Back']['cart']);
 		echo "</pre>";
 		
-		foreach ($_SESSION['cart'] as $key => $value) :
+		foreach ($_SESSION['Site_Back']['cart'] as $key => $value) :
 		  // echo "INSERT INTO teste (nome, dinheiro) VALUES (" . $value["name"] . ", " . $value["money"] . ")";
 			
 			echo "<pre>";
@@ -19,7 +19,7 @@
 			
 		endforeach;
 		
-		foreach ($_SESSION['cart'][$id_Session] as $value) :
+		foreach ($_SESSION['Site_Back']['cart'][$id_Session] as $value) :
 		  // echo "INSERT INTO teste (nome, dinheiro) VALUES (" . $value["name"] . ", " . $value["money"] . ")";
 			
 			echo "<pre>";
@@ -32,14 +32,20 @@
 	}
    
    
-	if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){	
-		
-		if(!isset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]])){
-			//$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]] = array();
-			$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]] = [];
+	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){	
+		/*
+		if(!isset($_SESSION['Site_Back']['carrinho'.$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]])){
+			//$_SESSION['Site_Back']['carrinho'.$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]] = array();
+			$_SESSION['Site_Back']['carrinho'.$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]] = [];
+		}
+		*/
+		if(!isset($_SESSION['Site_Back']['carrinho'.$idSis_Empresa])){
+			//$_SESSION['Site_Back']['carrinho'.$idSis_Empresa] = array();
+			$_SESSION['Site_Back']['carrinho'.$idSis_Empresa] = [];
 		}
 	
-		$cliente = $_SESSION['id_Cliente'.$idSis_Empresa];
+	
+		$cliente = $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa];
 	}
 	
 	if(isset($_GET['carrinho']) && isset($_GET['id'])){	
@@ -78,10 +84,10 @@
 					$qtd_incremento 	= $read_produto_view['QtdProdutoIncremento'];// Passo a quantidade, da embalagem,  que vem junto com o produto
 					$valor_prod		= $read_produto_view['ValorProduto'];
 				}
-				if($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor]){
-					$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor] += 1;
+				if($_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor]){
+					$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor] += 1;
 				}else{
-					$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor] = $qtd_produto;
+					$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor] = $qtd_produto;
 				}
 				header("Location: meu_carrinho.php");
 				//header("Location: produtos.php");
@@ -140,10 +146,10 @@
 							$qtd_produto 	= $read_produto_view['QtdProdutoDesconto']; 
 							$qtd_incremento 	= $read_produto_view['QtdProdutoIncremento'];// Passo a quantidade que vem junto com o produto
 						}
-						if($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor]){
-							$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor] += 1;
+						if($_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor]){
+							$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor] += 1;
 						}else{
-							$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_valor] = $qtd_produto;
+							$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_valor] = $qtd_produto;
 						}
 						header("Location: meu_carrinho.php");
 						//header("Location: promocao.php");
@@ -167,13 +173,13 @@
 					
 					if(!empty($quantidade_produto_carrinho) || $quantidade_produto_carrinho <> 0){
 						
-						$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_produto_carrinho] = $quantidade_produto_carrinho;
+						$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_produto_carrinho] = $quantidade_produto_carrinho;
 					
 					}else{
-						unset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_produto_carrinho]);
+						unset($_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_produto_carrinho]);
 					
 					}
-					header("Location: produtos.php"); // Preciso redirecionar para o para os produtos, porque senão a quantidade não é atualizada.
+					header("Location: catalogo.php"); // Preciso redirecionar para o para os produtos, porque senão a quantidade não é atualizada.
 					//header("Location: entrega.php"); // vou pensar numa forma de separar os bot~es, separando as funções.
 				}
 			}
@@ -191,10 +197,10 @@
 					
 					if(!empty($quantidade_produto_carrinho) || $quantidade_produto_carrinho <> 0){
 						
-						$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_produto_carrinho] = $quantidade_produto_carrinho;
+						$_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_produto_carrinho] = $quantidade_produto_carrinho;
 					
 					}else{
-						unset($_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]][$id_produto_carrinho]);
+						unset($_SESSION['Site_Back']['carrinho'.$idSis_Empresa][$id_produto_carrinho]);
 					
 					}
 					//header("Location: produtos.php"); // Preciso redirecionar para o para os produtos, porque senão a quantidade não é atualizada.

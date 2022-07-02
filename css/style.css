@@ -1,11 +1,13 @@
-
 body {
 	font-family: 'Open Sans', sans-serif;
 	line-height: 20px;
 	color: #000000;
-	font-size: 300;
 	font-size: 16px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #eeeeee;
 }
+
 ol, ul {
 	list-style: none;
 }
@@ -134,8 +136,14 @@ slide
     
 	/*margin-bottom: 20px;*/
 }
+#navbar{
+}
+#navbar ul li {
+	margin-left: -5px;
+	margin-right: -5px;
+}
 .navbar-menu{
-    background-color: #444444;
+    background-color: #eeeeee;
     color: #fff;
 	/*height:124px;
     font-size: 15px;*/
@@ -153,15 +161,13 @@ slide
 .navbar {
     border-radius: 0px;
 }
+
 .navbar-default {
-    background-color: #fff;
-    padding: 20px 0;
     transition: all 0.3s;
-}
-.navbar-default {
     background-color: transparent;
     border: 0px;
 }
+
 .navbar {
     border-radius: 0px;
 }
@@ -235,6 +241,8 @@ slide
 {
 	display: block;
 }
+
+/*
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
     color: #fff;
     text-transform: uppercase;
@@ -245,7 +253,7 @@ slide
 	color: #fff;
 	text-transform: uppercase;
 	font-size: 14px;
-	font-weight: 300;
+	font-weight: 300px;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus
 {
@@ -260,6 +268,8 @@ slide
 {
     background-color: rgba(12, 184, 182) !important;
 }
+*/
+
 .navbar-fonte{
 		margin-right: 15px;
 		margin-left: 5px;
@@ -275,12 +285,33 @@ slide
 	}
 }
 
+.busca-fonte1{
+	font-size: 20px;
+}
+
+.busca-fonte2{
+	font-size: 15px;
+}
+
+.busca-fonte3{
+	font-size: 10px;
+}
+
+.navbar-lupa  {
+  position: relative;
+  float: right;
+  padding: 7px 10px;
+  margin-top: 0px;
+  margin-right: 15px;
+  border: transparent;
+}
+
 .navbar-foto  {
   position: relative;
   float: right;
   /*float: left;*/
   padding: 7px 10px;
-  margin-top: 0px;
+  margin-top: -15px;
   margin-right: 15px;
   /*margin-left: 30px;*/
   margin-bottom: 0px;
@@ -349,9 +380,11 @@ banner
 /***************************************
 slide
 ***************************************/
+/*
 #slide{
-	/*margin-bottom: 20px;*/
+	margin-bottom: 20px;
 }
+*/
 /***************************************
 logincliente
 ***************************************/
@@ -359,10 +392,52 @@ logincliente
 	margin-bottom: 20px;
 }
 /***************************************
-index
+loginassociado
 ***************************************/
-#index{
+#loginassociado{
 	margin-bottom: 20px;
+}
+/***************************************
+cadastrarcliente
+***************************************/
+#cadastrarcliente{
+	margin-bottom: 20px;
+}
+/***************************************
+pesquisarcliente
+***************************************/
+#pesquisarcliente{
+	margin-bottom: 20px;
+}
+/***************************************
+loginusuario
+***************************************/
+#loginusuario{
+	margin-bottom: 20px;
+}
+/***************************************
+catalogo
+***************************************/
+#catalogo{
+	margin-bottom: 20px;
+}
+/***************************************
+ecomerce
+***************************************/
+#ecomerce{
+	margin-bottom: 20px;
+}
+.title-h1{
+	margin-top: 10px;
+    font-size: 33px;
+}
+.traco-h1 {
+    height: 10px;
+    width: 100px;
+    background: #ffb737;
+    position: relative;
+    border: 0;
+    margin: -10px 0 10px 0;
 }
 /***************************************
 inicial
@@ -380,6 +455,12 @@ produtos
 produtos derivados
 ***************************************/
 #produtosderivados{
+	margin-bottom: 20px;
+}
+/***************************************
+produto
+***************************************/
+#produto{
 	margin-bottom: 20px;
 }
 /***************************************
@@ -434,6 +515,24 @@ contato
 services
 ***************************************/
 #service{
+	margin-bottom: 20px;
+}
+/***************************************
+compra
+***************************************/
+#compra{
+	margin-bottom: 20px;
+}
+/***************************************
+cadastrar
+***************************************/
+#cadastrar{
+	margin-bottom: 20px;
+}
+/***************************************
+cadastro
+***************************************/
+#cadastro{
 	margin-bottom: 20px;
 }
 .icon i{
@@ -493,10 +592,9 @@ about
 #about{
     background-color: rgba(238, 238, 238, 0.15);
 }
-
 #slide{
-    background-color: rgba(238, 238, 238, 0.15);
-	background-color: #fff;
+    //background-color: rgba(238, 238, 238, 0.15);
+	//background-color: #fff;
 }
 
 .lg-line{
@@ -532,8 +630,28 @@ about
 /***************************************
 doctor team
 ***************************************/
+#doctor-team{
+    background-color: #ebebeb;
+}
+#doctor-team img{
+	border-radius: 15px;
+    width: 100px;
+    height: 100px;
+    margin-top: 15px;
+}
 .thumbnail {
 	border-radius: 0px;
+}
+.thumbnail2 {
+	border-radius: 20px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+	text-align: center;
+}
+.thumbnail3 {
+	border-radius: 20px;
+    background-color: #ebebeb;
 }
 .caption h3{
     padding-bottom: 5px;
@@ -545,7 +663,7 @@ doctor team
 testimonial
 ***************************************/
 #testimonial{
-    background-color: #eee;
+    background-color: #e6e6e6;
 }
 .testi-details {
     background: #fff;
@@ -556,12 +674,14 @@ testimonial
 }
 .testi-info a {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     background-color: #fff;
     border-radius: 50%;
     float: left;
     margin-right: 10px;
+    padding-bottom: 100px;
+    margin-bottom: 15px;
 }
 .testi-info a img{
 	border-radius: 50%;
@@ -574,6 +694,7 @@ testimonial
     margin-top: 8px;
 }
 .testi-info h3 > span {
+    margin-top: 10px;
     display: block;
     line-height: 16px;
     font-weight: 400;
@@ -634,6 +755,9 @@ cta -2
 /***************************************
 contact us
 ***************************************/
+#contact{
+    background-color: #e0e0e0;
+}
 .space {
     margin-top: 40px;
 }
@@ -751,6 +875,11 @@ footer
     color: #0cb8b6;
     text-transform: none;
 }
+
+.slide-topo{
+	margin-top: 24px;
+}
+
 @media (max-width: 219px){
 	.navbar-brand img {
 		width: 100px !important;

@@ -1,15 +1,9 @@
 <section id="contato" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	
+	<div class="container">
+		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<br>
-				<h2 class="ser-title">Fale Conosco</h2>
-				<hr class="botm-line">
-				<!--
-				<a id="mibew-agent-button" href="/mibew/chat?locale=en" target="_blank" onclick="Mibew.Objects.ChatPopups['5e73e3aadb299d07'].open();return false;">
-					<img src="/mibew/b?i=mibew&amp;lang=en" class="img-responsive" border="0" alt="" width="500"/>
-				</a>
-				<br>
-				-->
+				<h1 class="title-h1">Fale Conosco</h1>
+				<hr class="traco-h1">
 			</div>
 			<!--
 			<div class="col-md-12">
@@ -37,7 +31,7 @@
 					<form id="cadastrarUsuario" action=""  method="POST">
 						
 						<div class="form-group">
-							<input type="Nome" name="Nome" class="form-control br-radius-zero" placeholder="Seu nome" data-rule="minlen:4" data-msg="Por favor, no mínimo 4 digitos" />
+						<input type="Nome" name="Nome" class="form-control br-radius-zero" placeholder="Seu nome" data-rule="minlen:4" data-msg="Por favor, no mínimo 4 digitos" />
 							<div class="validation"></div>
 						</div>
 						<div class="form-group">
@@ -53,5 +47,6 @@
 				</div>
 			</div>
 			-->
-		
+		</div>
+	</div>
 </section>

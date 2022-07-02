@@ -1,11 +1,10 @@
-<section id="contact" class="section-padding2">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h2 class="ser-title">Depósito / Transferência</h2>
+<section id="contato" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<br>
+				<h2 class="ser-title">Depósito/ Transf/ Pix</h2>
 				<hr class="botm-line">
 			</div>
-			<div class="col-md-4 col-sm-4">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<h3>Informações da Conta</h3>
 				<h4>
 					<b>Banco : </b>  <?php echo utf8_encode($row_empresa['BancoEmpresa']);?><br>
@@ -17,6 +16,4 @@
 					<b>Pix : </b><?php echo utf8_encode($row_empresa['PixEmpresa']);?>
 				</h4>
 			</div>
-		</div>
-	</div>
 </section>

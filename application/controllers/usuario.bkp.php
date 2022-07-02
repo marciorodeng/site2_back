@@ -27,24 +27,24 @@
 		$count = mysqli_num_rows($resultado_usuario);
 		
 		if($count ==0){
-			unset(	$_SESSION['id_Usuario'.$idSis_Empresa],
-					$_SESSION['Nome_Usuario'.$idSis_Empresa],
-					$_SESSION['Arquivo_Usuario'.$idSis_Empresa]
+			unset(	$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa],
+					$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa],
+					$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]
 					);
-			$_SESSION['id_Usuario'.$idSis_Empresa] = 1;		
+			$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = 1;		
 		}else{		
-			$_SESSION['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
-			$_SESSION['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
-			$_SESSION['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];
+			$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
+			$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
+			$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];
 		}
-	}else if(isset($_SESSION['id_Usuario'.$idSis_Empresa])){
-		$id_usuario_online = $_SESSION['id_Usuario'.$idSis_Empresa];
+	}else if(isset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa])){
+		$id_usuario_online = $_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa];
 	} else{
-		unset(	$_SESSION['id_Usuario'.$idSis_Empresa],
-				$_SESSION['Nome_Usuario'.$idSis_Empresa],
-				$_SESSION['Arquivo_Usuario'.$idSis_Empresa]
+		unset(	$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa],
+				$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa],
+				$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]
 				);		
-		$_SESSION['id_Usuario'.$idSis_Empresa] = 1;		
+		$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = 1;		
 	}
 	
 ?>

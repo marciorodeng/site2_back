@@ -9,7 +9,7 @@
 	
 
 	
-	if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){
-		$cliente = $_SESSION['id_Cliente'.$idSis_Empresa];
+	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){
+		$cliente = $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa];
 	}	
 ?>

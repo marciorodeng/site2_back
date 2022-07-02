@@ -54,7 +54,7 @@ function listarMeiosPag() {
     PagSeguroDirectPayment.getPaymentMethods({
         amount: amount,
         success: function (retorno) {
-            console.log(retorno);
+            //console.log(retorno);
             //Recuperar as bandeiras do cartão de crédito
             $('.meio-pag').append("<div>Cartão de Crédito</div>");
             $.each(retorno.paymentMethods.CREDIT_CARD.options, function (i, obj) {
@@ -167,7 +167,7 @@ $("#formPagamento").on("submit", function (event) {
 	document.getElementById('aguardar').style.display = "";	
 	event.preventDefault();
     var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-    console.log(paymentMethod);
+    //console.log(paymentMethod);
 
     if (paymentMethod == 'creditCard') {
         PagSeguroDirectPayment.createCardToken({
@@ -234,22 +234,22 @@ $("#formPagamento").on("submit", function (event) {
 function recupHashCartao() {
     PagSeguroDirectPayment.onSenderHashReady(function (retorno) {
         if (retorno.status == 'error') {
-            console.log(retorno.message);
+            //console.log(retorno.message);
             return false;
         } else {
             $("#hashCartao").val(retorno.senderHash);
             var dados = $("#formPagamento").serialize();
-            console.log(dados);
+            //console.log(dados);
 
             var endereco = jQuery('.endereco').attr("data-endereco");
-            console.log(endereco);
+            //console.log(endereco);
             $.ajax({
                 method: "POST",
                 url: endereco + "proc_pag.php",
                 data: dados,
                 dataType: 'json',
                 success: function (retorna) {
-                    console.log("Sucesso " + JSON.stringify(retorna));
+                    //console.log("Sucesso " + JSON.stringify(retorna));
                     $("#msg").html('<p style="color: green">Transação realizada com sucesso</p>');
 
 					window.location = 'compra_realizada.php?code=' + retorna['dados']['code'] + '&type=' + retorna['dados']['paymentMethod']['type'];
@@ -266,7 +266,7 @@ function recupHashCartao() {
 					*/
                 },
                 error: function (retorna) {
-					console.log("Erro" + JSON.stringify(retorna));
+					//console.log("Erro" + JSON.stringify(retorna));
 					$("#msg").html('<p style="color: #FF0000">Erro ao realizar a transação</p>')
 					window.location = 'meus_pedidos.php';
                 }

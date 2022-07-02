@@ -2,19 +2,18 @@
 
 $btnLogin = filter_input(INPUT_POST, 'btnLogin', FILTER_SANITIZE_STRING);
 if($btnLogin){
-	$CelularUsuario = filter_input(INPUT_POST, 'CelularUsuario', FILTER_SANITIZE_STRING);
+	$CelularAssociado = filter_input(INPUT_POST, 'CelularAssociado', FILTER_SANITIZE_STRING);
 	$Senha = filter_input(INPUT_POST, 'Senha', FILTER_SANITIZE_STRING);
 	//echo "$usuario - $senha";
-	if((!empty($CelularUsuario)) AND (!empty($Senha))){
+	if((!empty($CelularAssociado)) AND (!empty($Senha))){
 		//Gerar a senha criptografa
 		//echo password_hash($senha, PASSWORD_DEFAULT);
 		//Pesquisar o usuário no BD
 		$result_usuario = "SELECT *
 							FROM 
-								Sis_Usuario 
+								Sis_Associado 
 							WHERE 
-								idSis_Empresa = '5' AND
-								CelularUsuario = '".$CelularUsuario."' AND
+								Associado = '".$CelularAssociado."' AND
 								Senha = '".md5($Senha)."'
 							LIMIT 1";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
@@ -23,20 +22,20 @@ if($btnLogin){
 		$count = mysqli_num_rows($resultado_usuario);
 		
 		if($count ==0){
-			$_SESSION['msg'] = "Login e/ou Senha incorretos!";
+			$_SESSION['Site_Back']['msg'] = "Login e/ou Senha incorretos!";
 			header("Location: login_associado.php");
 		}else{
-			$_SESSION['id_Associado'] = $row_usuario['idSis_Usuario'];
-			$_SESSION['Nome_Associado'] = $row_usuario['Nome'];
-			$_SESSION['Email_Associado'] = $row_usuario['Email'];
+			$_SESSION['Site_Back']['id_Associado'] = $row_usuario['idSis_Associado'];
+			$_SESSION['Site_Back']['Nome_Associado'] = $row_usuario['Nome'];
+			$_SESSION['Site_Back']['Email_Associado'] = $row_usuario['Email'];
 			header("Location: cadastrar_associado.php");
 		}
 		
 	}else{
-		$_SESSION['msg'] = "Login e/ou senha incorretos!";
+		$_SESSION['Site_Back']['msg'] = "Login e/ou senha incorretos!";
 		header("Location: login_associado.php");
 	}
 }else{
-	$_SESSION['msg'] = "Página não encontrada";
+	$_SESSION['Site_Back']['msg'] = "Página não encontrada";
 	header("Location: login_associado.php");
 }

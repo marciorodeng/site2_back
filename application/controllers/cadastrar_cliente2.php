@@ -29,47 +29,59 @@ if($btnCadUsuario){
 	
 	if(in_array('',$dados)){
 		$erro = true;
-		$_SESSION['msg'] = "Necessário preencher todos os campos";
+		$_SESSION['Site_Back']['msg'] = "Necessário preencher todos os campos";
 	}elseif((strlen($dados['senha'])) < 4){
 		$erro = true;
-		$_SESSION['msg'] = "A senha deve ter no minímo 4 caracteres";
+		$_SESSION['Site_Back']['msg'] = "A senha deve ter no minímo 4 caracteres";
 	}elseif($dados['senha'] != $dados['confirmar']){
 		$erro = true;
-		$_SESSION['msg'] = "Confira a senha digitada";
+		$_SESSION['Site_Back']['msg'] = "Confira a senha digitada";
 	}elseif(stristr($dados['senha'], "'")) {
 		$erro = true;
-		$_SESSION['msg'] = "Caracter ( ' ) utilizado na senha é inválido";
+		$_SESSION['Site_Back']['msg'] = "Caracter ( ' ) utilizado na senha é inválido";
 	}elseif (!is_numeric($dados['CelularCliente'])) {
 		$erro = true;
-		$_SESSION['msg'] = "O Celular só pode conter Números";
+		$_SESSION['Site_Back']['msg'] = "O Celular só pode conter Números";
 	}elseif((strlen($dados['CelularCliente'])) != 11){
 		$erro = true;
-		$_SESSION['msg'] = "O Celular deve conter 11 Números";
+		$_SESSION['Site_Back']['msg'] = "O Celular deve conter 11 Números";
 	}else{
 		/*
 			$result_usuario = "SELECT idApp_Cliente FROM App_Cliente WHERE usuario='". $dados['usuario'] ."' AND idSis_Empresa = '" .$idSis_Empresa. "'";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
 		if(($resultado_usuario) AND ($resultado_usuario->num_rows != 0)){
 			$erro = true;
-			$_SESSION['msg'] = "Este usuário já está sendo utilizado";
+			$_SESSION['Site_Back']['msg'] = "Este usuário já está sendo utilizado";
 		}
 		
 		$result_usuario = "SELECT idApp_Cliente FROM App_Cliente WHERE Email='". $dados['Email'] ."'";
 		$resultado_usuario = mysqli_query($conn, $result_usuario);
 		if(($resultado_usuario) AND ($resultado_usuario->num_rows != 0)){
 			$erro = true;
-			$_SESSION['msg'] = "Este e-mail já está cadastrado";
+			$_SESSION['Site_Back']['msg'] = "Este e-mail já está cadastrado";
 		}
 		*/
-		$result_usuario = "SELECT * FROM App_Cliente WHERE CelularCliente='". $dados['CelularCliente'] ."' AND idSis_Empresa = '" .$idSis_Empresa. "'";
-		$resultado_usuario = mysqli_query($conn, $result_usuario);
-		if(($resultado_usuario) AND ($resultado_usuario->num_rows != 0)){
+		$result_cliente = "SELECT * FROM App_Cliente WHERE usuario='". $dados['CelularCliente'] ."' AND idSis_Empresa = '" .$idSis_Empresa. "'";
+		$resultado_cliente = mysqli_query($conn, $result_cliente);
+		if(($resultado_cliente) AND ($resultado_cliente->num_rows != 0)){
 			$erro = true;
-			$_SESSION['msg'] = "Este Telefone já está cadastrado na nossa empresa. Entre em contato conosco e solicite o reenvio da sua Senha";
+			$_SESSION['Site_Back']['msg'] = "Este Telefone já está cadastrado na nossa empresa. Entre em contato conosco e solicite o reenvio da sua Senha";
 		}
 	}
 	
-	
+	if(isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
+		$usuario_vend = $_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa];
+		$nivel_vend = $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa];
+	}else{
+		if(isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
+			$usuario_vend = $_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa];
+			$nivel_vend = $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa];
+		}else{	
+			$usuario_vend = 0;
+			$nivel_vend = 1;
+		}
+	}
+			
 	//var_dump($dados);
 	if(!$erro){
 		//var_dump($dados);
@@ -79,10 +91,12 @@ if($btnCadUsuario){
 		//$dados['senha'] = md5($dados['senha']);
 		$CodInterno = md5(time() . rand());
 		$DataCadastroCliente = date('Y-m-d', time());
-		$result_usuario = "INSERT INTO App_Cliente (idSis_Empresa, idTab_Modulo, idSis_Usuario_5, NomeCliente, CelularCliente, CodInterno, DataCadastroCliente, LocalCadastroCliente, usuario, senha, Codigo) VALUES (
+		$result_usuario = "INSERT INTO App_Cliente (idSis_Empresa, idTab_Modulo, idSis_Usuario, NivelCliente, idSis_Associado, NomeCliente, CelularCliente, CodInterno, DataCadastroCliente, LocalCadastroCliente, usuario, senha, Codigo) VALUES (
 						'" .$idSis_Empresa. "',
 						'1',
-						'" .$dados['idSis_Usuario_5']. "',
+						'" .$usuario_vend. "',
+						'" .$nivel_vend. "',
+						'" .$dados['idSis_Associado']. "',
 						'" .$cliente. "',
 						'" .$dados['CelularCliente']. "',
 						'" .$CodInterno. "',
@@ -94,12 +108,12 @@ if($btnCadUsuario){
 						)";
 		$resultado_usario = mysqli_query($conn, $result_usuario);
 		if(mysqli_insert_id($conn)){
-			unset($_SESSION['Usuario_5'.$idSis_Empresa]); 
-			$_SESSION['msgcad'] = "Cliente cadastrado com sucesso";
+			unset($_SESSION['Site_Back']['Associado'.$idSis_Empresa]); 
+			$_SESSION['Site_Back']['msgcad'] = "Cliente cadastrado com sucesso";
 			header("Location: login_cliente.php");
 		}else{
-			unset($_SESSION['Usuario_5'.$idSis_Empresa]); 
-			$_SESSION['msg'] = "Erro ao cadastrar o Cliente";
+			unset($_SESSION['Site_Back']['Associado'.$idSis_Empresa]); 
+			$_SESSION['Site_Back']['msg'] = "Erro ao cadastrar o Cliente";
 		}
 	}
 	

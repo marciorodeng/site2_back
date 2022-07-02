@@ -1,7 +1,7 @@
 <?php 
-	if(isset($_SESSION['id_Cliente'.$idSis_Empresa])){
+	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){
 		
-		$cliente = $_SESSION['id_Cliente'.$idSis_Empresa];
+		$cliente = $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa];
 		
 		if($_GET['id']){
 			
@@ -36,10 +36,10 @@
 				echo "<script>window.location = 'meus_pedidos.php'</script>";
 			}
 		}else{
-			$_SESSION['msg'] = "Página não encontrada";
+			$_SESSION['Site_Back']['msg'] = "Página não encontrada";
 			header("Location: meus_pedidos.php");
 		}	
 	}else{
-		$_SESSION['msg'] = "Página não encontrada";
+		$_SESSION['Site_Back']['msg'] = "Página não encontrada";
 		header("Location: login_cliente.php");
 	}

@@ -1,7 +1,8 @@
 <?php
 /*
 	// ""Servidor na Nuvem""
-	$servidor = "159.89.138.173";
+	//$servidor = "159.89.138.173";
+	$servidor = "191.252.200.10";
 	$usuario = "usuario";
 	$senha = "20UtpJ15";
 */	

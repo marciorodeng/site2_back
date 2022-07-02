@@ -47,6 +47,19 @@
     font-size: 15px;
 }
 
+.fundo-produto{    
+	
+	background-color: #d2d2d2;
+    color: #fff;
+    font-size: 15px;
+	/*
+	margin-top: -1px;
+	padding-left: 20px;
+	padding-bottom: 5px;
+	*/
+
+}
+
 .fundo-carrinho-bkp{    
 	background-color: #d2d2d2;
     color: #fff;
@@ -125,12 +138,12 @@
   margin-right: 15px;
   margin-left: 15px;
 }
-
+/*
 .slide-topo{
     margin-top: 24px;
     color: #fff;
 }
-
+*/
 .espaco-topo{
     margin-top: 500px;
     color: #fff;

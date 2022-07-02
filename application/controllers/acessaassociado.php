@@ -1,5 +1,5 @@
 <?php
-
+if(isset($row_empresa['AssociadoAtivo']) && $row_empresa['AssociadoAtivo'] == "S"){ 
 	if((isset($_GET['emp'])) && (isset($_GET['usuario']))){
 
 		$emp = addslashes($_GET['emp']);
@@ -8,13 +8,13 @@
 		$result_cliente = "SELECT 
 								TSUO.idSis_Empresa,
 								TSUO.Codigo,
-								TSUO.idSis_Usuario_5,
+								TSUO.idSis_Associado,
 								TSUO.ClienteConsultor
 							FROM 
 								App_Cliente AS TSUO
 							WHERE 
 								'".$idSis_Empresa."' = '".$emp."' AND
-								TSUO.idSis_Usuario_5 = '".$usuario."' AND
+								TSUO.idSis_Associado = '".$usuario."' AND
 								TSUO.ClienteConsultor = 'S'
 							LIMIT 1";
 							//TSUO.Codigo = '".$usuario."' AND//		
@@ -56,24 +56,36 @@
 		exit();		
 		*/
 		if($count_cliente == 0 || $count_usuario == 0 || empty($row_cliente['Codigo']) || empty($row_usuario['Codigo']) || ($row_cliente['Codigo'] != $row_usuario['Codigo'])){
-			//unset($_SESSION['id_Usuario'.$idSis_Empresa], $_SESSION['Nome_Usuario'.$idSis_Empresa], $_SESSION['Arquivo_Usuario'.$idSis_Empresa], $_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]);
-			//$_SESSION['id_Usuario'.$idSis_Empresa] = 1;
-			//header("Location: ../inicial.php");
-			header("Location: ../produtos.php");
-		}else{		
-			unset($_SESSION['id_Usuario'.$idSis_Empresa], $_SESSION['Nome_Usuario'.$idSis_Empresa], $_SESSION['Arquivo_Usuario'.$idSis_Empresa]);
-			$_SESSION['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
-			$_SESSION['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
-			$_SESSION['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];
-			header("Location: ../produtos.php");
+			//Não faço nada
+		}else{
+			unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]);
+			if(!isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
+				if(!isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
+					if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['Site_Back']['id_Associado'.$idSis_Empresa])){
+						if($_SESSION['Site_Back']['id_Associado'.$idSis_Empresa] != $usuario){
+							$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
+							$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
+							$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];
+						}else{
+							//Não faço nada		
+						}
+					}else{
+						//unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]);
+						$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
+						$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa] = $row_usuario['Nome'];
+						$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa] = $row_usuario['Arquivo'];			
+					}
+				}
+			}
 		}
+		header("Location: ../produtos.php");
 		
-	} else{
-
-		//unset($_SESSION['id_Usuario'.$idSis_Empresa],$_SESSION['Nome_Usuario'.$idSis_Empresa],$_SESSION['Arquivo_Usuario'.$idSis_Empresa], $_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]]);		
-		//$_SESSION['id_Usuario'.$idSis_Empresa] = 1;
+	}else{
 		//echo '<script> window.location = "../inicial.php" </script>';
-		//header("Location: ../inicial.php");
 		header("Location: ../produtos.php");
 	}
-	
+		
+}else{
+	//echo '<script> window.location = "../inicial.php" </script>';
+	header("Location: ../produtos.php");
+}	

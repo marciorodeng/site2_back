@@ -1,5 +1,5 @@
 <section id="slide" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 slide-topo">
-	<div class="row">	
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">	
 		<div data-interval="3000"  id="carousel-example-generic2" class="carousel slide" data-ride="carousel">
 			<!-- Indicators -->
 				<ol class="carousel-indicators ajuste-indicadores">
@@ -29,19 +29,17 @@
 					while($row_carousel1 = mysqli_fetch_assoc($resultado_carousel1)){
 						if($controle_ativo1 == 2){ ?>
 							<div class="item active">
-								<!--<img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_carousel1['Slide1']; ?>" alt="">-->
 								<img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_carousel1['Slide1']; ?>" alt="">
 								<div class="carousel-caption d-none d-md-block">
-									<h1><?php echo utf8_encode($row_carousel1['Texto_Slide1']); ?></h1>
+									<h3><?php echo utf8_encode($row_carousel1['Texto_Slide1']); ?></h3>
 								</div>												
 							</div> <?php
 							$controle_ativo1 = 1;
 						}else{ ?>
 							<div class="item">
-								<!--<img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_carousel1['Slide1']; ?>" alt="">-->
 								<img src="<?php echo $idSis_Empresa ?>/documentos/miniatura/<?php echo $row_carousel1['Slide1']; ?>" alt="">
 								<div class="carousel-caption d-none d-md-block">
-									<h1><?php echo utf8_encode($row_carousel1['Texto_Slide1']); ?></h1>
+									<h3><?php echo utf8_encode($row_carousel1['Texto_Slide1']); ?></h3>
 								</div>												
 							</div> <?php
 						}

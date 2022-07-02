@@ -1,18 +1,21 @@
 <?php
-unset(	$_SESSION['carrinho'.$_SESSION['id_Cliente'.$idSis_Empresa]], 
-		$_SESSION['total_produtos'.$_SESSION['id_Cliente'.$idSis_Empresa]],
-		$_SESSION['id_Cliente'.$idSis_Empresa], 
-		$_SESSION['Nome_Cliente'.$idSis_Empresa], 
-		$_SESSION['Email_Cliente'.$idSis_Empresa],
-		$_SESSION['Cep_Cliente'.$idSis_Empresa],
-		$_SESSION['Endereco_Cliente'.$idSis_Empresa],
-		$_SESSION['Numero_Cliente'.$idSis_Empresa],
-		$_SESSION['Complemento_Cliente'.$idSis_Empresa],
-		$_SESSION['Bairro_Cliente'.$idSis_Empresa],
-		$_SESSION['Cidade_Cliente'.$idSis_Empresa],
-		$_SESSION['Estado_Cliente'.$idSis_Empresa]	
+unset(	$_SESSION['Site_Back']['Arquivo_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa], 
+		$_SESSION['Site_Back']['Nome_Cliente'.$idSis_Empresa], 
+		$_SESSION['Site_Back']['Email_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Cep_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Endereco_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Numero_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Complemento_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Bairro_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Cidade_Cliente'.$idSis_Empresa],
+		$_SESSION['Site_Back']['Estado_Cliente'.$idSis_Empresa]	
 		);
 
-//$_SESSION['msg'] = "Deslogado com sucesso";
+$_SESSION['Site_Back']['msg'] = "Deslogado com sucesso";
 //header("Location: index.php");
-header("Location: inicial.php");
+if(isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
+	header("Location: pesquisar_cliente.php");
+}else{
+	header("Location: login_cliente.php");
+}

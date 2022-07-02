@@ -1,16 +1,4 @@
 <?php
-	/*
-	$result_doc = "SELECT * FROM App_Documentos WHERE idSis_Empresa = '".$idSis_Empresa."'  ORDER BY idApp_Documentos ASC";
-	$resultado_documento = mysqli_query($conn, $result_doc);
-	$row_documento = mysqli_fetch_assoc($resultado_documento);
-	
-	$result_empresa = "SELECT * FROM Sis_Empresa WHERE idSis_Empresa = '".$idSis_Empresa."'";
-	$resultado_empresa = mysqli_query($conn, $result_empresa);
-	$row_empresa = mysqli_fetch_assoc($resultado_empresa);
-	*/
-?>
-
-<?php
 
 	$result_doc = "SELECT * FROM App_Documentos WHERE idSis_Empresa = '".$idSis_Empresa."'  ORDER BY idApp_Documentos ASC";
 	$resultado_documento = $pdo->prepare($result_doc);
@@ -40,5 +28,119 @@
 	}else{
 		$loja_aberta = false;
 	}
-?>
 
+	if((isset($_GET['emp'])) && (isset($_GET['usuario']))){
+
+		$emp = addslashes($_GET['emp']);
+		$usuario = addslashes($_GET['usuario']);
+		
+		$result_usuario = "SELECT 
+								TSU.idSis_Usuario,
+								TSU.Codigo,
+								TSU.Nome,
+								TSU.Nivel,
+								TSU.Arquivo,
+								TSU.Email
+							FROM 
+								Sis_Usuario AS TSU
+							WHERE
+								'".$idSis_Empresa."' = '".$emp."' AND
+								TSU.idSis_Empresa = '".$emp."' AND
+								TSU.idSis_Usuario = '".$usuario."' AND
+								Inativo = '0' AND
+								Vendas = 'S' AND 
+								Cad_Orcam = 'S'
+							LIMIT 1";
+		$resultado_usuario = mysqli_query($conn, $result_usuario);
+		$row_usuario = mysqli_fetch_array($resultado_usuario, MYSQLI_ASSOC);
+		//$row_usuario = mysqli_fetch_assoc($resultado_usuario);
+		$count_usuario = mysqli_num_rows($resultado_usuario);
+		
+		if($count_usuario == 0 || empty($row_usuario['Codigo'])){
+			//Não faço nada
+		}else{
+			unset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa], 
+					$_SESSION['Site_Back']['Nome_Vendedor'.$idSis_Empresa],
+					$_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa],  
+					$_SESSION['Site_Back']['Arquivo_Vendedor'.$idSis_Empresa]);
+					
+			unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], 
+					$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], 
+					$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]);
+			
+			if(!isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
+				$_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa] = $row_usuario['idSis_Usuario'];
+				$_SESSION['Site_Back']['Nome_Vendedor'.$idSis_Empresa] = $row_usuario['Nome'];
+				$_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] = $row_usuario['Nivel'];
+				$_SESSION['Site_Back']['Arquivo_Vendedor'.$idSis_Empresa] = $row_usuario['Arquivo'];
+			}
+		}
+	}
+	
+	if(isset($row_empresa['AssociadoAtivo']) && $row_empresa['AssociadoAtivo'] == "S"){ 
+		if((isset($_GET['emp'])) && (isset($_GET['associado']))){
+
+			$emp = addslashes($_GET['emp']);
+			$associado = addslashes($_GET['associado']);
+			
+			$result_cliente = "SELECT 
+									TSUO.idSis_Empresa,
+									TSUO.Codigo,
+									TSUO.idSis_Associado,
+									TSUO.ClienteConsultor
+								FROM 
+									App_Cliente AS TSUO
+								WHERE 
+									'".$idSis_Empresa."' = '".$emp."' AND
+									TSUO.idSis_Associado = '".$associado."' AND
+									TSUO.ClienteConsultor = 'S'
+								LIMIT 1";
+								//TSUO.Codigo = '".$associado."' AND//		
+			$resultado_cliente = mysqli_query($conn, $result_cliente);		
+			$row_cliente = mysqli_fetch_array($resultado_cliente, MYSQLI_ASSOC);
+			$count_cliente = mysqli_num_rows($resultado_cliente);
+			
+			$result_associado = "SELECT 
+									TSU.idSis_Associado,
+									TSU.Codigo,
+									TSU.Nome,
+									TSU.Arquivo,
+									TSU.Email
+								FROM 
+									Sis_Associado AS TSU
+								WHERE 
+									TSU.idSis_Associado = '".$associado."'
+								LIMIT 1";
+			$resultado_associado = mysqli_query($conn, $result_associado);
+			$row_associado = mysqli_fetch_array($resultado_associado, MYSQLI_ASSOC);
+			//$row_associado = mysqli_fetch_assoc($resultado_associado);
+			$count_associado = mysqli_num_rows($resultado_associado);
+			
+			if($count_cliente == 0 || $count_associado == 0 || empty($row_cliente['Codigo']) || empty($row_associado['Codigo']) || ($row_cliente['Codigo'] != $row_associado['Codigo'])){
+				//Não faço nada
+			}else{
+				unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], 
+						$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], 
+						$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]);
+				
+				if(!isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
+					if(!isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
+						if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]) && isset($_SESSION['Site_Back']['id_Associado'.$idSis_Empresa])){
+							if($_SESSION['Site_Back']['id_Associado'.$idSis_Empresa] != $associado){
+								$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = $row_associado['idSis_Associado'];
+								$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa] = $row_associado['Nome'];
+								$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa] = $row_associado['Arquivo'];
+							}else{
+								//Não faço nada		
+							}
+						}else{
+							//unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], $_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa]);
+							$_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa] = $row_associado['idSis_Associado'];
+							$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa] = $row_associado['Nome'];
+							$_SESSION['Site_Back']['Arquivo_Usuario'.$idSis_Empresa] = $row_associado['Arquivo'];			
+						}
+					}
+				}
+			}
+		}
+	}	
