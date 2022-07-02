@@ -1,9 +1,9 @@
 <?php
 	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){
 		$cliente = $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa];
-		}else{
+	}else{
 		unset(	$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa],
-		$_SESSION['Site_Back']['Nome_Cliente'.$idSis_Empresa]
+				$_SESSION['Site_Back']['Nome_Cliente'.$idSis_Empresa]
 		);	
 	}	
 ?>
