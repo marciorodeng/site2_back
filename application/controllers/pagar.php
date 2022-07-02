@@ -2,6 +2,11 @@
 	
 	$id_pedido = addslashes($_GET['id']);	
 	
+	if(isset($row_empresa['EComerce']) && $row_empresa['EComerce'] == "N"){
+		echo "<script>window.location = 'index.php'</script>";
+		exit();
+	}
+
 	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){
 		$cliente = $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa];
 	}else{

@@ -9,7 +9,7 @@
 	$resultado_empresa = $pdo->prepare($result_empresa);
 	$resultado_empresa->execute();
 	$row_empresa = $resultado_empresa->fetch(PDO::FETCH_ASSOC);
-	
+
 	$dia_da_semana = date('N');
 	$horario = date('H:i:s');
 	$result_atend = "SELECT * FROM App_Atendimento WHERE idSis_Empresa = '".$idSis_Empresa."' AND id_Dia = '".$dia_da_semana."' AND Aberto = 'S'";

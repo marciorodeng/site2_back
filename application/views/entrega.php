@@ -1,5 +1,10 @@
-<?php if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){ ?>
-	<?php 
+
+	<?php
+		if(isset($row_empresa['EComerce']) && $row_empresa['EComerce'] == "N"){
+			echo "<script>window.location = 'index.php'</script>";
+			exit();
+		}
+	
 		if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){ 
 			$result = 'SELECT 
 						CashBackCliente,
@@ -34,6 +39,9 @@
 			}
 			$cashtotal_conta 	= str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
 
+		}else{
+			echo "<script>window.location = 'index.php'</script>";
+			exit();
 		} 
 	?>
 	<input type="hidden" id="id_empresa" value="<?php echo $idSis_Empresa;?>">
@@ -683,5 +691,4 @@
 				<?php } ?>
 			</form>	
 		</div>
-	</section>
-<?php } ?>						
+	</section>					

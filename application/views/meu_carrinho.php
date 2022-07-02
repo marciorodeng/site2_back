@@ -1,44 +1,49 @@
-	
-	<?php 
-		if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){ 
-			$result = 'SELECT 
-						CashBackCliente,
-						ValidadeCashBack
-					FROM
-						App_Cliente
-					WHERE
-						idSis_Empresa = ' . $idSis_Empresa . ' AND
-						idApp_Cliente = "' . $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa] . '"
-					LIMIT 1	
-				';
+<?php
 
-			$resultado = mysqli_query($conn, $result);
-			foreach($resultado as $resultado_view){
-				$cashtotal 	= 	$resultado_view['CashBackCliente'];
-				$validade 	=	$resultado_view['ValidadeCashBack'];
-			}
+	if(isset($row_empresa['EComerce']) && $row_empresa['EComerce'] == "N"){
+		echo "<script>window.location = 'index.php'</script>";
+		exit();
+	}
 
-			$validade_explode = explode('-', $validade);
-			$validade_dia = $validade_explode[2];
-			$validade_mes = $validade_explode[1];
-			$validade_ano = $validade_explode[0];
-			
-			$validade_visao 	= $validade_dia . '/' . $validade_mes . '/' . $validade_ano;
-			
-			$data_hoje = date('Y-m-d', time());
+	if(isset($_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa])){ 
+		$result = 'SELECT 
+					CashBackCliente,
+					ValidadeCashBack
+				FROM
+					App_Cliente
+				WHERE
+					idSis_Empresa = ' . $idSis_Empresa . ' AND
+					idApp_Cliente = "' . $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa] . '"
+				LIMIT 1	
+			';
 
-			if(strtotime($validade) >= strtotime($data_hoje)){
-				$cashtotal_visao 	= number_format($cashtotal,2,",",".");
-			}else{
-				$cashtotal_visao 	= '0,00';
-			}
-			$cashtotal_conta 	= str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+		$resultado = mysqli_query($conn, $result);
+		foreach($resultado as $resultado_view){
+			$cashtotal 	= 	$resultado_view['CashBackCliente'];
+			$validade 	=	$resultado_view['ValidadeCashBack'];
+		}
 
-		} 
-	?>
+		$validade_explode = explode('-', $validade);
+		$validade_dia = $validade_explode[2];
+		$validade_mes = $validade_explode[1];
+		$validade_ano = $validade_explode[0];
+		
+		$validade_visao 	= $validade_dia . '/' . $validade_mes . '/' . $validade_ano;
+		
+		$data_hoje = date('Y-m-d', time());
+
+		if(strtotime($validade) >= strtotime($data_hoje)){
+			$cashtotal_visao 	= number_format($cashtotal,2,",",".");
+		}else{
+			$cashtotal_visao 	= '0,00';
+		}
+		$cashtotal_conta 	= str_replace(',', '.', str_replace('.', '', $cashtotal_visao));
+
+	} 
+?>
 	
 <section id="carrinho" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	<?php if($row_empresa['EComerce'] == 'S'){ ?>	
+		
 		<?php 
 		if(isset($id_Session) && isset($_SESSION['Site_Back']['cart'][$id_Session])){	
 			foreach ($_SESSION['Site_Back']['cart'][$id_Session] as $value) :
@@ -367,6 +372,6 @@
 				<br>
 			</div>
 		</div>
-	<?php } ?>			
+			
 </section>
 					
