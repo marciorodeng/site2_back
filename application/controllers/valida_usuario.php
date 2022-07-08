@@ -13,6 +13,8 @@ if($btnLogin){
 								idSis_Usuario,
 								Nome,
 								Nivel,
+								Comissao,
+								QuemCad,
 								Arquivo
 							FROM 
 								Sis_Usuario 
@@ -25,7 +27,6 @@ if($btnLogin){
 								Cad_Orcam = 'S'
 							LIMIT 1";
 		$resultado_usuario_senha = mysqli_query($conn, $result_usuario_senha);
-		$row_usuario_senha = mysqli_fetch_array($resultado_usuario_senha, MYSQLI_ASSOC);
 		
 		$count_usuario_senha = mysqli_num_rows($resultado_usuario_senha);
 		
@@ -36,11 +37,48 @@ if($btnLogin){
 		
 		} else {
 			//Senha Usuario correta? SIM 
+			$row_usuario_senha = mysqli_fetch_array($resultado_usuario_senha, MYSQLI_ASSOC);
+			
 			$_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['idSis_Usuario'];
 			$_SESSION['Site_Back']['Nome_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['Nome'];
 			$_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['Nivel'];
 			$_SESSION['Site_Back']['Arquivo_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['Arquivo'];
 
+			if($row_usuario_senha['Nivel'] != 2){
+				$_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['Comissao'];
+			}else{
+				$result_funcionario = "
+									SELECT 
+										idSis_Usuario,
+										Nome,
+										Nivel,
+										Comissao,
+										QuemCad,
+										Arquivo
+									FROM 
+										Sis_Usuario 
+									WHERE 
+										idSis_Empresa = '" .$idSis_Empresa. "' AND
+										idSis_Usuario = '".$row_usuario_senha['QuemCad']."' AND
+										Inativo = '0' AND
+										Vendas = 'S' AND 
+										Cad_Orcam = 'S'
+									LIMIT 1";
+				$resultado_funcionario = mysqli_query($conn, $result_funcionario);
+				
+				$count_funcionario = mysqli_num_rows($resultado_funcionario);
+				
+				if($count_funcionario == 0){
+					//NÃO Retornou nenhum funcionario
+					$_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa] = $row_usuario_senha['Comissao'];
+				} else {
+					//Retornou funcionario
+					$row_funcionario = mysqli_fetch_array($resultado_funcionario, MYSQLI_ASSOC);
+					
+					$_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa] = $row_funcionario['Comissao'];
+				}
+			}
+				
 			if(isset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa])){
 				unset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa], 
 						$_SESSION['Site_Back']['Nome_Usuario'.$idSis_Empresa], 
@@ -48,13 +86,11 @@ if($btnLogin){
 			}else{
 				//Não faço nada
 			}	
-			//header("Location: produtos_cliente.php");
+			
 			if(isset($_SESSION['Site_Back']['carrinho'.$idSis_Empresa])){
 				header("Location: meu_carrinho.php");			
 			}else{	
 				header("Location: index.php");
-				//header("Location: inicial.php");
-				//header("Location: produtos.php");
 			}
 		}	
 	}else{
