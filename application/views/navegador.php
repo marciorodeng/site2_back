@@ -376,8 +376,8 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<input class="form-control input-produto" type="text" name="Produto" id="Produto" maxlength="255" placeholder="Busca Produto">
-							<input class="form-control input-promocao" type="text" name="Promocao" id="Promocao" maxlength="255" placeholder="Busca Promoção">
+							<input class="form-control input-produto" type="text" autofocus name="Produto" id="Produto" maxlength="255" placeholder="Busca Produto">
+							<input class="form-control input-promocao" type="text" autofocus name="Promocao" id="Promocao" maxlength="255" placeholder="Busca Promoção">
 						</div>
 					</div>	
 				</div>

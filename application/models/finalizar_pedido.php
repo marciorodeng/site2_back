@@ -227,17 +227,17 @@
 		$associado = "0";
 		$usuario_vend = "0";
 		$nivel_vend = "1";
-		$comissao_vend = 0;
+		$comissao_func = 0;
 		if(isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
 			$usuario_vend = $_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa];
 			$nivel_vend = $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa];
-			$comissao_vend = $_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa];
+			$comissao_func = $_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa];
 			$associado = "0";
 		}else{
 			if(isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
 				$usuario_vend = $_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa];
 				$nivel_vend = $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa];
-				$comissao_vend = $_SESSION['Site_Back']['Comissao_Vendedor'.$idSis_Empresa];
+				$comissao_func = $_SESSION['Site_Back']['Comissao_Vendedor'.$idSis_Empresa];
 				$associado = "0";			
 			}else{		
 				if(isset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa])){
@@ -427,16 +427,21 @@
 				$valor_comissao = '0';
 				$total_venda_produto = '0';
 				$valor_comissao_produto = '0';
-				$valor_comissao_produto_vend = '0';
+				$valor_comissao_produto_func = '0';
+				$valor_comissao_produto_assoc = '0';
+				
 				$qtd_produtoorca_produto = '0';
 				$prazo_carrinho_prod = '0';
 				$total_venda_servico = '0';
 				$valor_comissao_servico = '0';
-				$valor_comissao_servico_vend = '0';
+				$valor_comissao_servico_func = '0';
+				$valor_comissao_servico_assoc = '0';
+				
 				$qtd_produtoorca_servico = '0';
 				$prazo_carrinho_serv = '0';
 				$valor_comissao_total = '0';
-				$valor_comissao_total_vend = '0';
+				$valor_comissao_total_func = '0';
+				$valor_comissao_total_assoc = '0';
 				
 				foreach($_SESSION['Site_Back']['carrinho'.$idSis_Empresa] as $id_produto => $qtd_produto){
 
@@ -549,9 +554,9 @@
 							//$qtd_produtoorca += $sub_total_qtd_produto;
 							$sub_total_valor = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'];
 							//$total_venda_produto += $sub_total_produto_carrinho_produto;
-							//$sub_total_comissao = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['Comissao'] / 100;
+							$sub_total_comissao_func = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $comissao_func / 100;
 							$sub_total_comissao = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoVenda'] / 100;
-							$sub_total_servico = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoServico'] / 100;
+							$sub_total_comissao_assoc = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback = $qtd_produto * $read_prsr_carrinho_view['ValorProduto'] * $read_prsr_carrinho_view['ComissaoCashBack'] / 100;
 							$valor_comissao += $sub_total_comissao;
 						}
@@ -567,13 +572,15 @@
 							//$sub_total_comissao = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoVenda'] / 100;
 							
-							$sub_total_comissao_produto_vend = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $comissao_vend / 100;
+							$sub_total_comissao_produto_func = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $comissao_func / 100;
 							
 							$sub_total_servico_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback_produto = $qtd_produto * $read_produto_carrinho_view['ValorProduto'] * $read_produto_carrinho_view['ComissaoCashBack'] / 100;
 							$valor_comissao_produto += $sub_total_comissao_produto;
 							
-							$valor_comissao_produto_vend += $sub_total_comissao_produto_vend;
+							$valor_comissao_produto_func += $sub_total_comissao_produto_func;
+							$valor_comissao_produto_assoc += $sub_total_servico_produto;
+							
 							
 							if($prazo_produto >= $prazo_carrinho_prod){
 								$prazo_carrinho_prod = $prazo_produto;
@@ -596,13 +603,15 @@
 							//$sub_total_comissao = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['Comissao'] / 100;
 							$sub_total_comissao_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoVenda'] / 100;
 							
-							$sub_total_comissao_servico_vend = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $comissao_vend / 100;
+							$sub_total_comissao_servico_func = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $comissao_func / 100;
 							
 							$sub_total_servico_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoServico'] / 100;
 							$sub_total_cashback_servico = $qtd_produto * $read_servico_carrinho_view['ValorProduto'] * $read_servico_carrinho_view['ComissaoCashBack'] / 100;
 							$valor_comissao_servico += $sub_total_comissao_servico;
 						
-							$valor_comissao_servico_vend += $sub_total_comissao_servico_vend;
+							$valor_comissao_servico_func += $sub_total_comissao_servico_func;
+							
+							$valor_comissao_servico_assoc += $sub_total_servico_servico;
 						
 							if($prazo_servico >= $prazo_carrinho_serv){
 								$prazo_carrinho_serv = $prazo_servico;
@@ -615,13 +624,13 @@
 					
 					$insert_itens_pedido_produto = "INSERT INTO App_Produto(idApp_Cliente,idSis_Usuario,idSis_Empresa,idApp_OrcaTrata,idTab_Produto,idTab_Valor_Produto,idTab_Produtos_Produto,
 																	QtdProduto,QtdIncrementoProduto,ValorProduto,PrazoProduto,NomeProduto,ComissaoProduto,ComissaoServicoProduto,ComissaoCashBackProduto,
-																	ValorComissaoVenda,ValorComissaoAssociado,ValorComissaoCashBack,DataValidadeProduto,DataConcluidoProduto,HoraConcluidoProduto,
+																	ValorComissaoVenda,ValorComissaoFuncionario,ValorComissaoAssociado,ValorComissaoCashBack,DataValidadeProduto,DataConcluidoProduto,HoraConcluidoProduto,
 																	ConcluidoProduto,idTab_TipoRD,idTab_Modulo,Prod_Serv_Produto,itens_pedido_valor_total,NivelProduto) 
 															VALUES('".$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]."','".$usuario_vend."','".$idSis_Empresa."','".$id_pedido."',
 																	'".$id_produto."','".$id_produto."','".$id_produto_tab_produto."','".$qtd_produto."','".$qtd_incremento."',
 																	'".$read_prsr_carrinho_view['ValorProduto']."','".$read_prsr_carrinho_view['TempoDeEntrega']."','".$nome_produto."',
 																	'".$read_prsr_carrinho_view['ComissaoVenda']."','".$read_prsr_carrinho_view['ComissaoServico']."',
-																	'".$read_prsr_carrinho_view['ComissaoCashBack']."','".$sub_total_comissao."','".$sub_total_servico."','".$sub_total_cashback."',
+																	'".$read_prsr_carrinho_view['ComissaoCashBack']."','".$sub_total_comissao."','".$sub_total_comissao_func."','".$sub_total_comissao_assoc."','".$sub_total_cashback."',
 																	'".$dia."','".$dataentrega."','".$hora_mais1."','N','2','1','".$prod_serv."','".$sub_total_valor."','".$nivel_vend."')";
 																	
 					$result_insert_itens_pedido_produto = mysqli_query($conn, $insert_itens_pedido_produto);					
@@ -657,7 +666,9 @@
 				$valor_enkontraki = $total_venda_prsr * $comissaoenkontraki / 100;
 				$valor_comissao_total = $valor_comissao_produto + $valor_comissao_servico;
 				
-				$valor_comissao_total_vend = $valor_comissao_produto_vend + $valor_comissao_servico_vend;
+				$valor_comissao_total_func = $valor_comissao_produto_func + $valor_comissao_servico_func;
+				
+				$valor_comissao_total_assoc = $valor_comissao_produto_assoc + $valor_comissao_servico_assoc;
 				
 				//$valor_empresa = $valor_fatura - $valor_comissao_produto - $valor_comissao_servico - $valor_gateway - $valor_enkontraki;
 				$valor_empresa = $valor_fatura - $valor_comissao_total - $valor_gateway - $valor_enkontraki;				
@@ -694,7 +705,9 @@
 									ValorFatura = '".$valor_fatura."',
 									ValorGateway = '".$valor_gateway."',
 									ValorComissao = '".$valor_comissao_total."',
-									ValorComissaoVenda = '".$valor_comissao_total_vend."',
+									ValorComissaoAssoc = '".$valor_comissao_total_assoc."',
+									ComissaoFunc = '".$comissao_func."',
+									ValorComissaoFunc = '".$valor_comissao_total_func."',
 									ValorEnkontraki = '".$valor_enkontraki."',
 									ValorEmpresa = '".$valor_empresa."'
 								WHERE 
