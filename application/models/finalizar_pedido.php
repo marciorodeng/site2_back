@@ -230,25 +230,27 @@
 		$comissao_func = 0;
 		if(isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
 			$usuario_vend = $_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa];
-			$nivel_vend = $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa];
+			if($_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] == 2){
+				$nivel_vend = 2;
+			}else{
+				$nivel_vend = 1;
+			}
 			$comissao_func = $_SESSION['Site_Back']['Comissao_Usuario_vend'.$idSis_Empresa];
-			$associado = "0";
 		}else{
 			if(isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
 				$usuario_vend = $_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa];
-				$nivel_vend = $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa];
-				$comissao_func = $_SESSION['Site_Back']['Comissao_Vendedor'.$idSis_Empresa];
-				$associado = "0";			
+				if($_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] == 2){
+					$nivel_vend = 2;
+				}else{
+					$nivel_vend = 1;
+				}
+				$comissao_func = $_SESSION['Site_Back']['Comissao_Vendedor'.$idSis_Empresa];		
 			}else{		
 				if(isset($_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa])){
 					$associado = $_SESSION['Site_Back']['id_Usuario'.$idSis_Empresa];
-					$usuario_vend = "0";
 				}else{
-					$associado = "0";
 					if(isset($usu_cli) && $usu_cli != 0 ){
 						$usuario_vend = $usu_cli;
-					}else{
-						$usuario_vend = "0";
 					}
 				}
 			}

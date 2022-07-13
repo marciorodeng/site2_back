@@ -257,22 +257,12 @@
 									</a>
 								</li>
 								<li role="separator" class="divider"></li>
-								<?php 
-									if((isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa]) 
-										&& isset($_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa])
-										&& $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] == 2)
-										OR (isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa]) 
-										&& isset($_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa])
-										&& $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] == 2)){ 
-								?>
-								<?php }else{ ?>
 									<li>
 										<a class="dropdown-item" href="">
 											CashBack <span style="color: #D9210B">R$ <?php echo $cashtotal_visao;?></span> / Validade <span style="color: #D9210B"><?php echo $validade_visao;?></span>
 										</a>
 									</li>
 									<li role="separator" class="divider"></li>
-								<?php } ?>
 								<li>
 									<input type="hidden" id="id_Associado" value= "<?php echo $_SESSION['Site_Back']['id_Associado'.$idSis_Empresa]; ?>">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

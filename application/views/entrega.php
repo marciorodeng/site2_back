@@ -479,16 +479,6 @@
 									<div class="col-lg-12 ExibirCashBack ">
 										<div class="row ">	
 											<div class="row ">
-												<?php 
-													if((isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa]) 
-														&& isset($_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa])
-														&& $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] == 2)
-														OR (isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa]) 
-														&& isset($_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa])
-														&& $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] == 2)){ 
-												?>
-													<input type="hidden" name="UsarCupom"  value="N" >
-												<?php } else { ?>
 													<div class="row ">
 														<div class="col-xs-12  col-sm-4  col-md-3 col-lg-3">	
 															<h4 class="">Usar Cupom?</h4>
@@ -504,7 +494,6 @@
 															</div>
 														</div>
 													</div>
-												<?php } ?>
 												<div class="row UsarCupom">	
 													<div class="col-xs-12  col-sm-4  col-md-3 col-lg-3">
 														<label for="Cupom" style="color: #000000">Cupom <span id="CodigoCupom"></span> </label><br>
@@ -524,16 +513,6 @@
 												<h3 class="UsarCupom" id="Hidden_MensagemCupom" ></h3>
 											</div>
 											<div class="row ">
-												<?php 
-													if((isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa]) 
-														&& isset($_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa])
-														&& $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] == 2)
-														OR (isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa]) 
-														&& isset($_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa])
-														&& $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] == 2)){ 
-												?>
-													<input type="hidden" name="UsarCashBack"  value="N" >
-												<?php } else { ?>
 													<div class="row ">
 														<div class="col-xs-12  col-sm-4  col-md-3 col-lg-3">	
 															<h4 class="">Usar CashBack?</h4>
@@ -549,7 +528,6 @@
 															</div>
 														</div>
 													</div>
-												<?php } ?>
 												<div class="row ">
 													<div class="col-xs-12  col-sm-4  col-md-3 col-lg-3 UsarCashBack">
 														<label style="color: #000000">Valor CashBack</label><br>
