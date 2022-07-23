@@ -71,11 +71,19 @@ if($btnCadUsuario){
 	
 	if(isset($_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa])){
 		$usuario_vend = $_SESSION['Site_Back']['id_Usuario_vend'.$idSis_Empresa];
-		$nivel_vend = $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa];
+		if($_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa] == 2){
+			$nivel_vend = $_SESSION['Site_Back']['Nivel_Usuario_vend'.$idSis_Empresa];
+		}else{	
+			$nivel_vend = 1;
+		}
 	}else{
 		if(isset($_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa])){
 			$usuario_vend = $_SESSION['Site_Back']['id_Vendedor'.$idSis_Empresa];
-			$nivel_vend = $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa];
+			if($_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa] == 2){
+				$nivel_vend = $_SESSION['Site_Back']['Nivel_Vendedor'.$idSis_Empresa];
+			}else{	
+				$nivel_vend = 1;
+			}
 		}else{	
 			$usuario_vend = 0;
 			$nivel_vend = 1;
