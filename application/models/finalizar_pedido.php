@@ -375,26 +375,70 @@
 				echo "<script>alert('Ocorreu um erro ao finalizar o pedido')</script>";                
 				echo "<script>window.location = 'meu_carrinho.php'</script>";
 			} else {
-	
-				if(isset($usarcashback) && $usarcashback == "S") {
+				
+				$result_CashBack = 'SELECT 
+							CashBackCliente,
+							ValidadeCashBack,
+							UltimoPedido,
+							id_UltimoPedido
+						FROM
+							App_Cliente
+						WHERE
+							idSis_Empresa = ' . $idSis_Empresa . ' AND
+							idApp_Cliente = "' . $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa] . '"
+						LIMIT 1	
+					';
 
-					$result_CashBack = 'SELECT 
-								CashBackCliente,
-								ValidadeCashBack
-							FROM
-								App_Cliente
-							WHERE
-								idSis_Empresa = ' . $idSis_Empresa . ' AND
-								idApp_Cliente = "' . $_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa] . '"
-							LIMIT 1	
-						';
-
-					$resultado_CashBack = mysqli_query($conn, $result_CashBack);
-					foreach($resultado_CashBack as $resultado_CashBack_view){
-						$cashtotal 	= 	$resultado_CashBack_view['CashBackCliente'];
-						$validade 	=	$resultado_CashBack_view['ValidadeCashBack'];
+				$resultado_CashBack = mysqli_query($conn, $result_CashBack);
+				
+				foreach($resultado_CashBack as $resultado_CashBack_view){
+					$cashtotal 	= 	$resultado_CashBack_view['CashBackCliente'];
+					$validade 	=	$resultado_CashBack_view['ValidadeCashBack'];
+					$dt_ult_pdd_anterior	=	$resultado_CashBack_view['UltimoPedido'];
+					$id_ult_pdd_anterior	=	$resultado_CashBack_view['id_UltimoPedido'];
+				}
+				
+				$alt_ult_pdd = FALSE;
+				
+				if(strtotime($dt_ult_pdd_anterior) < strtotime($dia)){
+					/// muda
+					$alt_ult_pdd = TRUE;
+					$dt_ult_pdd_atual 	= $dia;
+					$id_ult_pdd_atual 	= $id_pedido;
+					
+				}else if(strtotime($dt_ult_pdd_anterior) == strtotime($dia)){
+					
+					if($id_ult_pdd_anterior < $id_pedido){
+						/// muda
+						$alt_ult_pdd = TRUE;
+						$dt_ult_pdd_atual 	= $dia;
+						$id_ult_pdd_atual 	= $id_pedido;
+					}else{
+						///Não muda nada
+						$alt_ult_pdd = FALSE;
 					}
+					
+				}else{
+					///Não muda nada
+					$alt_ult_pdd = FALSE;
+				}				
 
+				if($alt_ult_pdd == TRUE){
+					
+					$update_cliente = " UPDATE 
+											App_Cliente 
+										SET 
+											UltimoPedido 	= '".$dt_ult_pdd_atual."',
+											id_UltimoPedido = '".$id_ult_pdd_atual."'
+										WHERE
+											idSis_Empresa = '" . $idSis_Empresa . "' AND
+											idApp_Cliente = '".$_SESSION['Site_Back']['id_Cliente'.$idSis_Empresa]."'
+									";
+					$result_update_cliente = mysqli_query($conn, $update_cliente);
+				}	
+				
+				if(isset($usarcashback) && $usarcashback == "S") {
+					
 					$validade_explode = explode('-', $validade);
 					$validade_dia = $validade_explode[2];
 					$validade_mes = $validade_explode[1];
